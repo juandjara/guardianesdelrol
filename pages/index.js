@@ -1,65 +1,49 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import { getAggregates } from '../data/aggregates'
+import Layout from '../components/Layout'
+import Button from '../components/Button'
+import ArrowIcon from '../components/ArrowIcon'
+import Link from 'next/link'
 
-export default function Home() {
+export default function Home({ data }) {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
+    <Layout className="max-w-prose mx-auto mt-6 text-center">
+      <h1 className="text-6xl font-bold">Guardianes del Rol</h1>
+      <p className="text-lg leading-relaxed md:leading-loose mt-6 px-4">
+        ¡Bienvenido a Guardianes del Rol! En este portal podr&aacute;s encontrar las partidas de rol publicadas
+        por nuestra asociaci&oacute;n as&iacute; como apuntarte para participar. Tambi&eacute;n podr&aacute;s ver el cat&aacute;logo de juegos
+        que tenemos disponible para retar a un m&aacute;ster a dirigir una aventura.
+      </p>
+      <Link href="/posts">  
+        <a className="hover:no-underline hover:opacity-75">
+          <Button hasIcon="right" className="my-9 mx-auto hover:opacity-100">
+            <span>Ir a las partidas</span>
+            <ArrowIcon height={24} width={24} />
+          </Button>
         </a>
-      </footer>
-    </div>
+      </Link>
+      <p className="text-base mt-6">Hasta ahora hemos disfrutado de:</p>
+      <div className="space-y-4 my-2">
+        <p className="flex items-baseline space-x-4">
+          <strong className="text-right flex-1 text-5xl">{data.posts}</strong>
+          <span className="text-left flex-1 text-base">partidas &uacute;nicas</span>
+        </p>
+        <p className="flex items-baseline space-x-4">
+          <strong className="text-right flex-1 text-5xl">{data.games}</strong>
+          <span className="text-left flex-1 text-base">juegos distintos</span>
+        </p>
+        <p className="flex items-baseline space-x-4">
+          <strong className="text-right flex-1 text-5xl">{data.narrators}</strong>
+          <span className="text-left flex-1 text-base">narradores diferentes</span>
+        </p>
+      </div>
+    </Layout>
   )
+}
+
+export async function getStaticProps () {
+  const data = await getAggregates()
+  return {
+    props: { data },
+    revalidate: 1
+  }
 }

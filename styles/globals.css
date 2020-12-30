@@ -1,3 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --light-red: #c41525;
+  --dark-red: #8b1f27;
+  --gradient: linear-gradient(80deg, var(--light-red) 15%, var(--dark-red) 50%);
+}
+
 html,
 body {
   padding: 0;
@@ -7,10 +17,25 @@ body {
 }
 
 a {
-  color: inherit;
+  @apply text-blue-300;
   text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
 }
 
 * {
   box-sizing: border-box;
+}
+
+.prose-dark-mode strong,
+.prose-dark-mode p,
+.prose-dark-mode h1 {
+  @apply text-white;
 }
