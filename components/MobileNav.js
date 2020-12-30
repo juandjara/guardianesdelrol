@@ -1,7 +1,7 @@
 import { getClassname as getButtonClassname } from './Button'
 import MenuLink from './MenuLink'
-import MenuIcon from './MenuIcon'
-import CloseIcon from './CloseIcon'
+import MenuIcon from './icons/MenuIcon'
+import CloseIcon from './icons/CloseIcon'
 import { Menu, Transition } from '@headlessui/react'
 
 export default function MobileNav () {
