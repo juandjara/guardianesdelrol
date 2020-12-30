@@ -4,7 +4,7 @@ import Image from 'next/image'
 import styles from '../styles/Layout.module.css'
 import NavLink from './NavLink'
 import Button from './Button'
-import MenuIcon from './MenuIcon'
+import MobileNav from './MobileNav'
 
 import SocialIcon from './SocialIcon'
 import IconTwitter from './social-icons/twitter.svg'
@@ -35,10 +35,8 @@ export default function Layout ({ children, title = 'Guardianes del Rol', classN
           <NavLink href="/catalog">Nuestro catalogo</NavLink>
           <NavLink href="/challenge">Reta a un master</NavLink>
         </div>
-        <div className="md:hidden flex-1">
-          <Button outline className="pl-2 pr-2">
-            <MenuIcon width={24} height={24} />
-          </Button>
+        <div className="md:hidden flex-1 relative">
+          <MobileNav />
         </div>
         <Link href="/">
           <a className="hover:opacity-75"><Image src="/img/rol.png" width={75} height={75} /></a>
