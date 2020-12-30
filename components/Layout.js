@@ -6,7 +6,7 @@ import NavLink from './NavLink'
 import Button from './Button'
 import MobileNav from './MobileNav'
 
-import SocialIcon from './SocialIcon'
+import SocialIcon from './social-icons/SocialIcon'
 import IconTwitter from './social-icons/twitter.svg'
 import IconTwitch from './social-icons/twitch.svg'
 import IconMail from './social-icons/mail.svg'
@@ -42,7 +42,13 @@ export default function Layout ({ children, title = 'Guardianes del Rol', classN
           <a className="hover:opacity-75"><Image src="/img/rol.png" width={75} height={75} /></a>
         </Link>
         <div className="flex-1 text-right">
-          <Button outline>Entrar</Button>
+          <Link href="/login">
+            <a className="inline-block hover:no-underline hover:opacity-75">
+              <Button outline className="hover:opacity-100">
+                Entrar
+              </Button>
+            </a>
+          </Link>
         </div>
       </nav>
       <main className={`flex-auto ${className}`}>{children}</main>
