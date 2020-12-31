@@ -1,7 +1,7 @@
-import { getAggregates } from '../data/aggregates'
-import Layout from '../components/Layout'
-import Button from '../components/Button'
-import ArrowIcon from '../components/icons/ArrowIcon'
+import { getAggregates } from '@/data/aggregates'
+import Layout from '@/components/Layout'
+import Button from '@/components/Button'
+import ArrowIcon from '@/components/icons/ArrowIcon'
 import Link from 'next/link'
 
 export default function Home({ data }) {

@@ -1,4 +1,4 @@
-import admin from '../lib/firebaseAdmin'
+import admin from '@/lib/firebaseAdmin'
 
 export async function getAggregates () {
   console.log('computing aggregates...')
