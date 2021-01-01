@@ -1,9 +1,11 @@
-import Layout from '@/components/Layout'
+import { withAuthGuard } from '@/lib/auth'
 
-export default function PostDetails () {
+function PostDetails () {
   return (
-    <Layout>
+    <main className="flex-auto">
       <h1 className="text-6xl font-bold">Post Details</h1>
-    </Layout>
+    </main>
   )
 }
+
+export default withAuthGuard(PostDetails)

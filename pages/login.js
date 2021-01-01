@@ -1,5 +1,4 @@
 import Button from '@/components/Button'
-import Layout from '@/components/Layout'
 import IconGoogle from '@/components/social-icons/google.svg'
 import { useRouter } from 'next/router'
 
@@ -8,7 +7,7 @@ export default function Login () {
   const next = router.query.next
   
   return (
-    <Layout className="mt-4 px-4 text-center">
+    <main className="flex-auto mt-4 px-4 text-center">
       <h1 className="text-6xl font-bold">Iniciar sesi&oacute;n</h1>
       <div className="bg-white text-red-900 rounded-lg mt-8 px-4 py-8 max-w-xl mx-auto flex flex-col">
         {next && (<p className="mb-6">Es necesario iniciar sesión para continuar</p>)}
@@ -30,6 +29,6 @@ export default function Login () {
           <span className="w-40 text-left">Entrar con Google</span>
         </Button>
       </div>
-    </Layout>
+    </main>
   )
 }

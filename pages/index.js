@@ -1,12 +1,11 @@
 import { getAggregates } from '@/data/aggregates'
-import Layout from '@/components/Layout'
 import Button from '@/components/Button'
 import ArrowIcon from '@/components/icons/ArrowIcon'
 import Link from 'next/link'
 
 export default function Home({ data }) {
   return (
-    <Layout className="max-w-prose mx-auto mt-6 text-center">
+    <main className="flex-auto max-w-prose mx-auto mt-6 text-center">
       <h1 className="text-6xl font-bold">Guardianes del Rol</h1>
       <p className="text-lg leading-relaxed md:leading-loose mt-6 px-4">
         ¡Bienvenido a Guardianes del Rol! En este portal podr&aacute;s encontrar las partidas de rol publicadas
@@ -36,12 +35,17 @@ export default function Home({ data }) {
           <span className="text-left flex-1 text-base">narradores diferentes</span>
         </p>
       </div>
-    </Layout>
+    </main>
   )
 }
 
 export async function getStaticProps () {
-  const data = await getAggregates()
+  const isDev = process.env.NODE_ENV === 'development' 
+  const data = !isDev ? await getAggregates() : {
+    posts: 999,
+    narrators: 999,
+    games: 999
+  }
   return {
     props: { data },
     revalidate: 1

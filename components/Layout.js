@@ -51,7 +51,7 @@ export default function Layout ({ children, title = 'Guardianes del Rol', classN
           </Link>
         </div>
       </nav>
-      <main className={`flex-auto ${className}`}>{children}</main>
+      {children}
       <footer className="p-3 flex flex-col md:flex-row md:items-end md:justify-between">
         <div className="">
           <p>powered by <a href="https://nextjs.org">next.js</a></p>
