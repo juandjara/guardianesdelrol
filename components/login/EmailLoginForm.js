@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import Button from '../Button'
 import MailIcon from '../icons/MailIcon'
 
-export default function EmailLoginForm({ onSubmit, onCancel }) {
+export default function EmailLoginForm({ next, onSubmit, onCancel }) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
@@ -17,8 +17,9 @@ export default function EmailLoginForm({ onSubmit, onCancel }) {
 
   async function handleSubmit(ev) {
     ev.preventDefault()
+
     setLoading(true)
-    await onSubmit({ name, email })
+    await onSubmit(email, next)
     setLoading(false)
   }
 

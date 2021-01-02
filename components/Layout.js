@@ -15,7 +15,7 @@ import IconInstagram from './social-icons/instagram.svg'
 
 export default function Layout({ children, title = 'Guardianes del Rol' }) {
   return (
-    <div className="flex flex-col text-white h-screen">
+    <div className="relative flex flex-col text-white h-screen">
       <Head>
         <meta name="theme-color" content="#c0392b" />
         <meta
