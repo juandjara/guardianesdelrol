@@ -7,9 +7,7 @@ module.exports = {
   variants: {
     extend: {
       opacity: ['disabled']
-    },
+    }
   },
-  plugins: [
-    require('@tailwindcss/typography')
-  ],
+  plugins: [require('@tailwindcss/typography')]
 }

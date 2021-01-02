@@ -6,7 +6,8 @@
 require('dotenv').config({ path: `${__dirname}/../.env.local` })
 const admin = require('../lib/firebaseAdmin')
 
-return admin.auth()
+admin
+  .auth()
   .setCustomUserClaims(process.env.FB_UID, { superadmin: true })
   .then(() => {
     console.log('> superadmin ready')

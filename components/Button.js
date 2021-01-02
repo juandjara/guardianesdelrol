@@ -1,17 +1,34 @@
-export function getClassname ({ hasIcon, outline, color, background, border }) {
-  const _color = color || (outline ? 'text-white' : 'text-red-900')
-  const _background = background || (outline ? 'bg-red-900 bg-opacity-50' : 'bg-white')
+export function getClassname({ hasIcon, outline, color, background, border }) {
+  const defaultColor = outline ? 'text-white hover:text-red-900' : 'text-red-900'
+  const _color = color || defaultColor
+
+  const defaultBackground = outline ? 'bg-red-900 hover:bg-white' : 'bg-white hover:bg-red-100'
+  const _background = background || defaultBackground
+
   const _border = border || 'border-current'
-  const layout = hasIcon ? `flex justify-center items-center space-x-2 ${hasIcon === 'right' ? 'pr-3' : 'pl-3'}` : ''
-  const base = 'px-4 py-2 m-2 text-md font-semibold rounded-md border-2'
-  const hover = 'hover:opacity-75'
-  const focus = 'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-transparent'
-  return `${_color} ${_background} ${_border} ${base} ${layout} ${hover} ${focus}`
+  const layout = hasIcon
+    ? `flex justify-center items-center space-x-2 ${hasIcon === 'right' ? 'pr-3' : 'pl-3'}`
+    : 'block'
+  const focus =
+    'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-transparent'
+  const base = 'transition-colors px-4 py-2 m-2 text-md font-semibold rounded-md border-2'
+  return `${_color} ${_background} ${_border} ${layout} ${focus} ${base}`
 }
 
-export default function Button ({ className = '', children, hasIcon, outline, color, background, border, ...props }) {
-  const classes = `${getClassname({ hasIcon, outline, color, background, border })} ${className}`
+export default function Button({
+  className = '',
+  children,
+  hasIcon,
+  outline,
+  color,
+  background,
+  border,
+  ...props
+}) {
+  const classes = `${className} ${getClassname({ hasIcon, outline, color, background, border })}`
   return (
-    <button className={classes} {...props}>{children}</button>
+    <button className={classes} {...props}>
+      {children}
+    </button>
   )
 }

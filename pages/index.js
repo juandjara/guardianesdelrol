@@ -8,13 +8,14 @@ export default function Home({ data }) {
     <main className="flex-auto max-w-prose mx-auto mt-6 text-center">
       <h1 className="text-6xl font-bold">Guardianes del Rol</h1>
       <p className="text-lg leading-relaxed md:leading-loose mt-6 px-4">
-        ¡Bienvenido a Guardianes del Rol! En este portal podr&aacute;s encontrar las partidas de rol publicadas
-        por nuestra asociaci&oacute;n as&iacute; como apuntarte para participar. Tambi&eacute;n podr&aacute;s ver el cat&aacute;logo de juegos
-        que tenemos disponible para retar a un m&aacute;ster a dirigir una aventura.
+        ¡Bienvenido a Guardianes del Rol! En este portal podr&aacute;s encontrar las partidas de rol
+        publicadas por nuestra asociaci&oacute;n as&iacute; como apuntarte para participar.
+        Tambi&eacute;n podr&aacute;s ver el cat&aacute;logo de juegos que tenemos disponible para
+        retar a un m&aacute;ster a dirigir una aventura.
       </p>
-      <Link href="/posts">  
-        <a className="hover:no-underline hover:opacity-75 inline-block text-center my-9">
-          <Button hasIcon="right" className="hover:opacity-100">
+      <Link href="/posts">
+        <a className="hover:no-underline inline-block text-center my-9">
+          <Button hasIcon="right">
             <span>Ir a las partidas</span>
             <ArrowIcon height={24} width={24} />
           </Button>
@@ -39,13 +40,15 @@ export default function Home({ data }) {
   )
 }
 
-export async function getStaticProps () {
-  const isDev = process.env.NODE_ENV === 'development' 
-  const data = !isDev ? await getAggregates() : {
-    posts: 999,
-    narrators: 999,
-    games: 999
-  }
+export async function getStaticProps() {
+  const isDev = process.env.NODE_ENV === 'development'
+  const data = !isDev
+    ? await getAggregates()
+    : {
+        posts: 999,
+        narrators: 999,
+        games: 999
+      }
   return {
     props: { data },
     revalidate: 1

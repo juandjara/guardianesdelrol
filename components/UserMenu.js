@@ -1,14 +1,14 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import Button, { getClassname as getButtonClassname } from './Button'
+import Button from './Button'
 import MenuLink from './MenuLink'
 import { Menu, Transition } from '@headlessui/react'
 import { useAuth } from '@/lib/auth'
 
-export default function UserMenu () {
+export default function UserMenu() {
   const { user, signOut } = useAuth()
 
-  function handleLogout (ev) {
+  function handleLogout(ev) {
     ev.preventDefault()
     signOut()
   }
@@ -17,10 +17,8 @@ export default function UserMenu () {
     return (
       <div className="flex-1 text-right">
         <Link href="/login">
-          <a className="inline-block hover:no-underline hover:opacity-75">
-            <Button outline className="hover:opacity-100">
-              Entrar
-            </Button>
+          <a className="inline-block hover:no-underline">
+            <Button outline>Entrar</Button>
           </a>
         </Link>
       </div>
@@ -44,24 +42,32 @@ export default function UserMenu () {
               leave="transition transform duration-200 ease-out"
               leaveFrom="scale-y-100 opacity-100"
               leaveTo="scale-y-50 opacity-0">
-              <Menu.Items static className="absolute right-2 w-48 rounded-md shadow-lg py-2 bg-white ring-1 ring-black ring-opacity-5">
+              <Menu.Items
+                static
+                className="absolute right-2 w-48 rounded-md shadow-lg py-2 bg-white ring-1 ring-black ring-opacity-5">
                 <div className="text-right mb-2 pt-1 pb-3 px-4 text-gray-900 border-b border-1 border-gray-300">
                   <p className="text-xs text-gray-400">Signed in as</p>
                   <p className="text-sm font-medium truncate">{user.displayName}</p>
                 </div>
                 <Menu.Item>
                   {({ active }) => (
-                    <MenuLink active={active} href="/me">Mi cuenta</MenuLink>
+                    <MenuLink active={active} href="/me">
+                      Mi cuenta
+                    </MenuLink>
                   )}
                 </Menu.Item>
                 <Menu.Item>
                   {({ active }) => (
-                    <MenuLink active={active} href="/userposts">Mis partidas</MenuLink>
+                    <MenuLink active={active} href="/userposts">
+                      Mis partidas
+                    </MenuLink>
                   )}
                 </Menu.Item>
                 <Menu.Item>
                   {({ active }) => (
-                    <MenuLink active={active} href="/" onClick={handleLogout}>Cerrar sesión</MenuLink>
+                    <MenuLink active={active} href="/" onClick={handleLogout}>
+                      Cerrar sesión
+                    </MenuLink>
                   )}
                 </Menu.Item>
               </Menu.Items>

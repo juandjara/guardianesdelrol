@@ -4,11 +4,19 @@ import MenuIcon from './icons/MenuIcon'
 import CloseIcon from './icons/CloseIcon'
 import { Menu, Transition } from '@headlessui/react'
 
-function TransitionMenuIcon ({ as: Component, show }) {
-  return <Component width={24} height={24} className={`absolute top-1/2 left-1/2 -mt-3 -ml-3 transition duration-500 transform ${show ? '' : 'opacity-0 scale-50'}`} />
+function TransitionMenuIcon({ as: Component, show }) {
+  return (
+    <Component
+      width={24}
+      height={24}
+      className={`absolute top-1/2 left-1/2 -mt-3 -ml-3 transition duration-300 transform ${
+        show ? '' : 'opacity-0 scale-50'
+      }`}
+    />
+  )
 }
 
-export default function MobileNav () {
+export default function MobileNav() {
   return (
     <Menu>
       {({ open }) => (
@@ -26,26 +34,34 @@ export default function MobileNav () {
             leave="transition transform duration-200 ease-out"
             leaveFrom="scale-y-100 opacity-100"
             leaveTo="scale-y-50 opacity-0">
-            <Menu.Items static className="absolute left-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5">
+            <Menu.Items
+              static
+              className="absolute left-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5">
               <Menu.Item>
                 {({ active }) => (
-                  <MenuLink active={active} href="/posts">Partidas</MenuLink>
+                  <MenuLink active={active} href="/posts">
+                    Partidas
+                  </MenuLink>
                 )}
               </Menu.Item>
               <Menu.Item>
                 {({ active }) => (
-                  <MenuLink active={active} href="/catalog">Nuestro catalogo</MenuLink>
+                  <MenuLink active={active} href="/catalog">
+                    Nuestro catalogo
+                  </MenuLink>
                 )}
               </Menu.Item>
               <Menu.Item>
                 {({ active }) => (
-                  <MenuLink active={active} href="/challenge">Reta a un master</MenuLink>
+                  <MenuLink active={active} href="/challenge">
+                    Reta a un master
+                  </MenuLink>
                 )}
               </Menu.Item>
             </Menu.Items>
           </Transition>
         </>
       )}
-    </Menu> 
+    </Menu>
   )
 }

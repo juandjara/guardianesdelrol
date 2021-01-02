@@ -1,6 +1,6 @@
 import admin from '@/lib/firebaseAdmin'
 
-export async function getAggregates () {
+export async function getAggregates() {
   console.log('computing aggregates...')
   const db = admin.firestore()
   const postsRef = await db.collection('posts').get()
