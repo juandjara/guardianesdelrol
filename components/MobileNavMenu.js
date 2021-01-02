@@ -21,7 +21,8 @@ export default function MobileNav() {
     <Menu>
       {({ open }) => (
         <>
-          <Menu.Button className={`${getButtonClassname({ outline: true })} relative w-11 h-11`}>
+          <Menu.Button
+            className={`${getButtonClassname({ outline: true })} bg-opacity-50 relative w-11 h-11`}>
             <span className="sr-only">Mobile nav menu</span>
             <TransitionMenuIcon as={CloseIcon} show={open} />
             <TransitionMenuIcon as={MenuIcon} show={!open} />

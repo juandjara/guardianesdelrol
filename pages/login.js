@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react'
 export default function Login() {
   const router = useRouter()
   const next = router.query.next
-  const { user, googleSignIn } = useAuth()
+  const { user, googleSignIn, anonSignIn } = useAuth()
 
   const [formToShow, setFormToShow] = useState(null)
 
@@ -27,7 +27,9 @@ export default function Login() {
     setFormToShow(null)
   }
 
-  function handleAnonLogin() {}
+  function handleAnonLogin(name) {
+    anonSignIn(name)
+  }
 
   return (
     <main className="flex-auto mt-4 px-4 text-center">

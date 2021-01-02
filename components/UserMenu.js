@@ -4,6 +4,7 @@ import Button from './Button'
 import MenuLink from './MenuLink'
 import { Menu, Transition } from '@headlessui/react'
 import { useAuth } from '@/lib/auth'
+import UserIcon from './icons/UserIcon'
 
 export default function UserMenu() {
   const { user, signOut } = useAuth()
@@ -18,7 +19,9 @@ export default function UserMenu() {
       <div className="flex-1 text-right">
         <Link href="/login">
           <a className="inline-block hover:no-underline">
-            <Button outline>Entrar</Button>
+            <Button outline className="bg-opacity-50">
+              Entrar
+            </Button>
           </a>
         </Link>
       </div>
@@ -30,9 +33,13 @@ export default function UserMenu() {
       <Menu>
         {({ open }) => (
           <>
-            <Menu.Button className="m-2 ml-auto block border-2 border-white bg-gray-800 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-transparent">
+            <Menu.Button className="w-10 h-10 m-2 ml-auto block border-2 border-white bg-red-900 bg-opacity-50 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-transparent">
               <span className="sr-only">Open user menu</span>
-              <Image width={40} height={40} className="rounded-full" src={user.photoURL} />
+              {user.photoURL ? (
+                <Image width={40} height={40} className="rounded-full" src={user.photoURL} />
+              ) : (
+                <UserIcon className="mx-auto" width={24} height={24} />
+              )}
             </Menu.Button>
             <Transition
               show={open}
