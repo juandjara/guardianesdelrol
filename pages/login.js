@@ -2,6 +2,7 @@ import Button from '@/components/Button'
 import MailIcon from '@/components/icons/MailIcon'
 import UserIcon from '@/components/icons/UserIcon'
 import AnonLoginForm from '@/components/login/AnonLoginForm'
+import EmailLoginForm from '@/components/login/EmailLoginForm'
 import IconGoogle from '@/components/social-icons/google.svg'
 import { useAuth } from '@/lib/auth'
 import { useRouter } from 'next/router'
@@ -10,7 +11,7 @@ import { useEffect, useState } from 'react'
 export default function Login() {
   const router = useRouter()
   const next = router.query.next
-  const { user, googleSignIn, anonSignIn } = useAuth()
+  const { user, googleSignIn, emailSignIn, anonSignIn } = useAuth()
 
   const [formToShow, setFormToShow] = useState(null)
 
@@ -27,8 +28,12 @@ export default function Login() {
     setFormToShow(null)
   }
 
-  function handleAnonLogin(name) {
-    anonSignIn(name)
+  async function handleAnonLogin(name) {
+    await anonSignIn(name)
+  }
+
+  async function handleMailLogin(email) {
+    await emailSignIn(email, next)
   }
 
   return (
@@ -37,6 +42,9 @@ export default function Login() {
       <div className="bg-white text-gray-700 rounded-lg mt-8 px-4 py-8 max-w-xl mx-auto flex flex-col">
         {formToShow === 'anon' && (
           <AnonLoginForm onSubmit={handleAnonLogin} onCancel={handleCancel} />
+        )}
+        {formToShow === 'email' && (
+          <EmailLoginForm onSubmit={handleMailLogin} onCancel={handleCancel} />
         )}
         {!formToShow && (
           <>
@@ -53,6 +61,7 @@ export default function Login() {
               <span className="w-40 text-left">Entrar con Google</span>
             </Button>
             <Button
+              onClick={() => setFormToShow('email')}
               hasIcon="left"
               color="text-white"
               background="bg-gray-900 hover:bg-gray-700"
