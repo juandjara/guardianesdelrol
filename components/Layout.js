@@ -3,8 +3,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import styles from '../styles/Layout.module.css'
 import NavLink from './NavLink'
-import Button from './Button'
-import MobileNav from './MobileNav'
+import MobileNavMenu from './MobileNavMenu'
+import UserMenu from './UserMenu'
 
 import SocialIcon from './social-icons/SocialIcon'
 import IconTwitter from './social-icons/twitter.svg'
@@ -36,20 +36,12 @@ export default function Layout ({ children, title = 'Guardianes del Rol', classN
           <NavLink href="/challenge">Reta a un master</NavLink>
         </div>
         <div className="md:hidden flex-1 relative">
-          <MobileNav />
+          <MobileNavMenu />
         </div>
         <Link href="/">
           <a className="hover:opacity-75"><Image src="/img/rol.png" width={75} height={75} /></a>
         </Link>
-        <div className="flex-1 text-right">
-          <Link href="/login">
-            <a className="inline-block hover:no-underline hover:opacity-75">
-              <Button outline className="hover:opacity-100">
-                Entrar
-              </Button>
-            </a>
-          </Link>
-        </div>
+        <UserMenu />
       </nav>
       {children}
       <footer className="p-3 flex flex-col md:flex-row md:items-end md:justify-between">

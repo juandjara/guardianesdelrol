@@ -10,7 +10,7 @@ export default function MobileNav () {
       {({ open }) => (
         <>
           <Menu.Button className={`${getButtonClassname({ outline: true })} pl-2 pr-2`}>
-            <span className="sr-only">{open ? 'Close nav menu' : 'Open nav menu'}</span>
+            <span className="sr-only">Mobile nav menu</span>
             {open ? (
               <CloseIcon width={24} height={24} />
             ) : (
@@ -19,12 +19,12 @@ export default function MobileNav () {
           </Menu.Button>
           <Transition
             show={open}
-            enter="transition duration-200 ease-out"
-            enterFrom="transform scale-y-50 opacity-0"
-            enterTo="transform scale-y-100 opacity-100"
-            leave="transition duration-100 ease-out"
-            leaveFrom="transform scale-y-100 opacity-100"
-            leaveTo="transform scale-y-50 opacity-0">
+            enter="transition transform duration-200 ease-out"
+            enterFrom="scale-y-50 opacity-0"
+            enterTo="scale-y-100 opacity-100"
+            leave="transition transform duration-200 ease-out"
+            leaveFrom="scale-y-100 opacity-100"
+            leaveTo="scale-y-50 opacity-0">
             <Menu.Items static className="absolute left-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5">
               <Menu.Item>
                 {({ active }) => (
