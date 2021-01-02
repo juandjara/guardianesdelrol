@@ -8,8 +8,8 @@ export default function NavLink ({ href, children, as }) {
   // props.href will be matched by routes like `/catalog`
   // props.as will be matched by routes like `/posts/1234`
   const active = asPath.indexOf(href) !== -1 || asPath.indexOf(as) !== -1
-  const style = 'text-white text-lg inline-block border-b-2 border-transparent py-2 px-3 hover:no-underline'
-  const extra = active ? 'opacity-75 border-current' : 'hover:opacity-75 hover:border-current'
+  const style = 'my-1 py-1 px-3 inline-block rounded-md border-b-2 border-transparent text-white text-lg  hover:no-underline'
+  const extra = active ? 'bg-red-500 bg-opacity-75' : 'hover:bg-red-500 hover:bg-opacity-75'
 
   return (
     <Link href={href} as={as}>

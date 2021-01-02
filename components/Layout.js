@@ -30,7 +30,7 @@ export default function Layout ({ children, title = 'Guardianes del Rol', classN
         />
       </div>
       <nav className="flex items-start justify-center">
-        <div className="hidden md:flex flex-1 ">
+        <div className="hidden md:flex flex-1 mx-1 space-x-1">
           <NavLink href="/posts">Partidas</NavLink>
           <NavLink href="/catalog">Nuestro catalogo</NavLink>
           <NavLink href="/challenge">Reta a un master</NavLink>

@@ -13,14 +13,14 @@ export default function Home({ data }) {
         que tenemos disponible para retar a un m&aacute;ster a dirigir una aventura.
       </p>
       <Link href="/posts">  
-        <a className="hover:no-underline hover:opacity-75">
-          <Button hasIcon="right" className="my-9 mx-auto hover:opacity-100">
+        <a className="hover:no-underline hover:opacity-75 inline-block text-center my-9">
+          <Button hasIcon="right" className="hover:opacity-100">
             <span>Ir a las partidas</span>
             <ArrowIcon height={24} width={24} />
           </Button>
         </a>
       </Link>
-      <p className="text-base mt-6">Hasta ahora hemos disfrutado de:</p>
+      <p className="text-base">Hasta ahora hemos disfrutado de:</p>
       <div className="space-y-4 my-2">
         <p className="flex items-baseline space-x-4">
           <strong className="text-right flex-1 text-5xl">{data.posts}</strong>
