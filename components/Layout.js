@@ -23,8 +23,8 @@ export default function Layout ({ children, title = 'Guardianes del Rol', classN
       </Head>
       <div className={styles.bgimage}>
         <Image
+          alt="Dados de rol"
           src="/img/dice-bg.jpg"
-          alt="background image"
           layout="fill"
           objectFit="cover"
         />

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import Button, { getClassname as getButtonClassname } from './Button'
 import MenuLink from './MenuLink'
@@ -33,7 +34,7 @@ export default function UserMenu () {
           <>
             <Menu.Button className="m-2 ml-auto block border-2 border-white bg-gray-800 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-transparent">
               <span className="sr-only">Open user menu</span>
-              <img className="h-10 w-10 rounded-full" src={user.photoURL} />
+              <Image width={40} height={40} className="rounded-full" src={user.photoURL} />
             </Menu.Button>
             <Transition
               show={open}
