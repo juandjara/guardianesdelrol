@@ -8,10 +8,11 @@ import MailIcon from '../icons/MailIcon'
 export default function EmailLoginForm({ next, onCancel }) {
   const inputRef = useRef()
   const [name, setName] = useState('')
-  const [email, setEmail] = useState('juanorigami@gmail.com')
+  const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
-  const [mailSent, setMailSent] = useState(true)
-  const { emailSignIn } = useAuth()
+  const [mailSent, setMailSent] = useState(false)
+  const [needsName, setNeedsName] = useState(false)
+  const { emailSignIn, isEmailRegistered } = useAuth()
   const { setAlert } = useAlert()
 
   const emailDomain = email.split('@')[1]
@@ -27,13 +28,27 @@ export default function EmailLoginForm({ next, onCancel }) {
 
     setLoading(true)
     try {
+      const isRegistered = await isEmailRegistered(email)
+      if (!isRegistered && !name) {
+        setNeedsName(true)
+      } else {
+        await sendMail()
+      }
+    } catch (err) {
+      console.error(err)
+      setAlert(err.message)
+    }
+    setLoading(false)
+  }
+
+  async function sendMail() {
+    try {
       await emailSignIn({ email, name, next })
       setMailSent(true)
     } catch (err) {
       console.error(err)
       setAlert(err.message)
     }
-    setLoading(false)
   }
 
   if (mailSent) {
@@ -43,8 +58,8 @@ export default function EmailLoginForm({ next, onCancel }) {
           show={true}
           appear={true}
           enter="transition transform duration-500"
-          enterFrom="-translate-x-32 scale-50 opacity-0"
-          enterTo="-translate-x-0 scale-100 opacity-100">
+          enterFrom="-translate-y-16 scale-150 opacity-0"
+          enterTo="-translate-y-0 scale-100 opacity-100">
           <div className="mx-auto rounded-full w-16 h-16 bg-gray-200 flex items-center justify-center">
             <svg
               height={24}
@@ -86,22 +101,11 @@ export default function EmailLoginForm({ next, onCancel }) {
         <span>Entrar con tu correo</span>
       </p>
       <form onSubmit={handleSubmit} className="mt-2">
-        <label className="text-sm text-gray-500 block mb-1" htmlFor="name">
-          Nombre
-        </label>
-        <input
-          ref={inputRef}
-          id="name"
-          className="w-full h-10 px-3 text-base placeholder-gray-500 border rounded-md focus:outline-none focus:ring-1 focus:ring-red-900 focus:border-red-900"
-          placeholder="Escribe tu nombre"
-          value={name}
-          onChange={ev => setName(ev.target.value)}
-          required
-        />
-        <label className="mt-4 text-sm text-gray-500 block mb-1" htmlFor="email">
+        <label className="text-sm text-gray-500 block mb-1" htmlFor="email">
           E-mail
         </label>
         <input
+          ref={inputRef}
           id="email"
           type="email"
           className="w-full h-10 px-3 text-base placeholder-gray-500 border rounded-md focus:outline-none focus:ring-1 focus:ring-red-900 focus:border-red-900"
@@ -110,6 +114,21 @@ export default function EmailLoginForm({ next, onCancel }) {
           onChange={ev => setEmail(ev.target.value)}
           required
         />
+        {needsName && (
+          <>
+            <label className="mt-4 text-sm text-gray-500 block mb-1" htmlFor="name">
+              Nombre
+            </label>
+            <input
+              id="name"
+              className="w-full h-10 px-3 text-base placeholder-gray-500 border rounded-md focus:outline-none focus:ring-1 focus:ring-red-900 focus:border-red-900"
+              placeholder="Escribe tu nombre"
+              value={name}
+              onChange={ev => setName(ev.target.value)}
+              required
+            />
+          </>
+        )}
         <div className="flex justify-end mt-4 space-x-2">
           <Button
             onClick={onCancel}
