@@ -1,20 +1,30 @@
+import { useAlert } from '@/lib/alerts'
+import { useAuth } from '@/lib/auth'
 import { useEffect, useRef, useState } from 'react'
 import Button from '../Button'
 import UserIcon from '../icons/UserIcon'
 
-export default function AnonLoginForm({ onSubmit, onCancel }) {
-  const [name, setName] = useState('')
+export default function AnonLoginForm({ onCancel }) {
   const inputRef = useRef()
+  const [name, setName] = useState('')
+  const { anonSignIn } = useAuth()
+  const { setAlert } = useAlert()
 
   useEffect(() => {
-    if (inputRef) {
+    if (inputRef.current) {
       inputRef.current.focus()
     }
   }, [])
 
-  function handleSubmit(ev) {
+  async function handleSubmit(ev) {
     ev.preventDefault()
-    onSubmit(name)
+
+    try {
+      await anonSignIn(name)
+    } catch (err) {
+      console.error(err)
+      setAlert(err.message)
+    }
   }
 
   return (

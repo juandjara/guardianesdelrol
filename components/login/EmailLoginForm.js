@@ -1,16 +1,23 @@
+import { useAlert } from '@/lib/alerts'
+import { useAuth } from '@/lib/auth'
+import { Transition } from '@headlessui/react'
 import { useEffect, useRef, useState } from 'react'
 import Button from '../Button'
 import MailIcon from '../icons/MailIcon'
 
-export default function EmailLoginForm({ onSubmit, onCancel }) {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [loading, setLoading] = useState(false)
-  // const [mailSent, setMailSent] = useState(false)
+export default function EmailLoginForm({ next, onCancel }) {
   const inputRef = useRef()
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('juanorigami@gmail.com')
+  const [loading, setLoading] = useState(false)
+  const [mailSent, setMailSent] = useState(true)
+  const { emailSignIn } = useAuth()
+  const { setAlert } = useAlert()
+
+  const emailDomain = email.split('@')[1]
 
   useEffect(() => {
-    if (inputRef) {
+    if (inputRef.current) {
       inputRef.current.focus()
     }
   }, [])
@@ -19,8 +26,57 @@ export default function EmailLoginForm({ onSubmit, onCancel }) {
     ev.preventDefault()
 
     setLoading(true)
-    await onSubmit({ email, name })
+    try {
+      await emailSignIn({ email, name, next })
+      setMailSent(true)
+    } catch (err) {
+      console.error(err)
+      setAlert(err.message)
+    }
     setLoading(false)
+  }
+
+  if (mailSent) {
+    return (
+      <div className="space-y-4 flex flex-col items-center justify-center">
+        <Transition
+          show={true}
+          appear={true}
+          enter="transition transform duration-500"
+          enterFrom="-translate-x-32 scale-50 opacity-0"
+          enterTo="-translate-x-0 scale-100 opacity-100">
+          <div className="mx-auto rounded-full w-16 h-16 bg-gray-200 flex items-center justify-center">
+            <svg
+              height={24}
+              width={24}
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76"
+              />
+            </svg>
+          </div>
+        </Transition>
+        <p className="text-xl font-medium">Tienes un e-mail!</p>
+        <p className="text-base max-w-lg">
+          Comprueba tu bandeja de entrada para encontrar el enlace que te hemos enviado y completar
+          el inicio de sesión.
+        </p>
+        <a className="hover:no-underline" href={`http://${emailDomain}`} rel="noopener">
+          <Button
+            className="shadow-md border-none"
+            color="text-white"
+            background="bg-red-500 hover:bg-red-600">
+            Ir a {emailDomain}
+          </Button>
+        </a>
+      </div>
+    )
   }
 
   return (
