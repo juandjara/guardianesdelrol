@@ -33,10 +33,10 @@ export default function UserMenu() {
       <Menu>
         {({ open }) => (
           <>
-            <Menu.Button className="w-10 h-10 m-2 ml-auto block border-2 border-white bg-red-900 bg-opacity-50 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-transparent">
+            <Menu.Button className="w-11 h-11 m-2 ml-auto block border-2 border-white bg-red-900 bg-opacity-50 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-transparent">
               <span className="sr-only">Open user menu</span>
               {user.photoURL ? (
-                <Image width={40} height={40} className="rounded-full" src={user.photoURL} />
+                <Image width={44} height={44} className="rounded-full" src={user.photoURL} />
               ) : (
                 <UserIcon className="mx-auto" width={24} height={24} />
               )}

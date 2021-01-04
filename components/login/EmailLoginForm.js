@@ -4,6 +4,7 @@ import { Transition } from '@headlessui/react'
 import { useEffect, useRef, useState } from 'react'
 import Button from '../Button'
 import MailIcon from '../icons/MailIcon'
+import Spinner from '../Spinner'
 
 export default function EmailLoginForm({ next, onCancel }) {
   const inputRef = useRef()
@@ -148,9 +149,7 @@ export default function EmailLoginForm({ next, onCancel }) {
             background="bg-red-500 hover:bg-red-600">
             {loading ? (
               <>
-                <div
-                  style={{ borderRightColor: 'transparent' }}
-                  className="w-6 h-6 border-2 border-white rounded-full loader-rotate"></div>
+                <Spinner size={6} color="white" />
                 <span>Continuar</span>
               </>
             ) : (

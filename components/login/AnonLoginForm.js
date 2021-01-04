@@ -28,12 +28,20 @@ export default function AnonLoginForm({ onCancel }) {
   }
 
   return (
-    <div className="text-left -mt-4 -mb-4 space-y-4">
-      <p className="flex items-center text-md font-semibold space-x-2">
-        <UserIcon height={20} width={20} />
-        <span>Entrar como invitado</span>
-      </p>
-      <form onSubmit={handleSubmit} className="mt-2">
+    <div className="text-left -mt-4 -mb-4">
+      <div>
+        <p className="flex items-center text-md font-semibold space-x-2">
+          <UserIcon height={20} width={20} />
+          <span>Entrar como invitado</span>
+        </p>
+        <p className="text-sm text-gray-500 mt-2">
+          <em>
+            <span className="text-red-500">*</span>
+            La información asociada con este usuario será borrada al cerrar sesión
+          </em>
+        </p>
+      </div>
+      <form onSubmit={handleSubmit} className="mt-6">
         <label className="text-sm text-gray-500 block mb-1" htmlFor="name">
           Nombre
         </label>
