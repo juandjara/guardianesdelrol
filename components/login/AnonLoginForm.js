@@ -1,5 +1,6 @@
 import { useAlert } from '@/lib/alerts'
 import { anonSignIn, useAuth } from '@/lib/auth'
+import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import Button from '../Button'
 import UserIcon from '../icons/UserIcon'
@@ -9,6 +10,7 @@ export default function AnonLoginForm({ onCancel }) {
   const [name, setName] = useState('')
   const { setUser } = useAuth()
   const { setAlert } = useAlert()
+  const router = useRouter()
 
   useEffect(() => {
     if (inputRef.current) {
@@ -22,6 +24,7 @@ export default function AnonLoginForm({ onCancel }) {
     try {
       const user = await anonSignIn(name)
       setUser(user)
+      router.replace(router.query.next || '/')
     } catch (err) {
       console.error(err)
       setAlert(err.message)

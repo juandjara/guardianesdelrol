@@ -36,6 +36,7 @@ export default function Login() {
     try {
       const user = await googleSignIn()
       setUser(user)
+      router.replace(next || '/')
     } catch (err) {
       console.error(err)
       setAlert(err.message)
