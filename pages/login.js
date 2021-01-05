@@ -5,17 +5,18 @@ import AnonLoginForm from '@/components/login/AnonLoginForm'
 import EmailLoginForm from '@/components/login/EmailLoginForm'
 import IconGoogle from '@/components/social-icons/google.svg'
 import { useAlert } from '@/lib/alerts'
-import { useAuth } from '@/lib/auth'
+import { googleSignIn, useAuth } from '@/lib/auth'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 export default function Login() {
+  const [formToShow, setFormToShow] = useState(null)
+  const [loading, setLoading] = useState(false)
+
   const router = useRouter()
   const next = router.query.next
-  const { user, googleSignIn } = useAuth()
+  const { user, setUser } = useAuth()
   const { setAlert } = useAlert()
-
-  const [formToShow, setFormToShow] = useState(null)
 
   useEffect(
     function redirectIfLoggedIn() {
@@ -31,12 +32,15 @@ export default function Login() {
   }
 
   async function handleGoogleSignIn() {
+    setLoading(true)
     try {
-      await googleSignIn()
+      const user = await googleSignIn()
+      setUser(user)
     } catch (err) {
       console.error(err)
       setAlert(err.message)
     }
+    setLoading(false)
   }
 
   return (
@@ -51,6 +55,7 @@ export default function Login() {
               <p className="text-red-900 mb-2">Es necesario iniciar sesión para continuar</p>
             )}
             <Button
+              disabled={loading}
               onClick={handleGoogleSignIn}
               hasIcon="left"
               color="text-white"
@@ -60,6 +65,7 @@ export default function Login() {
               <span className="w-40 text-left">Entrar con Google</span>
             </Button>
             <Button
+              disabled={loading}
               onClick={() => setFormToShow('email')}
               hasIcon="left"
               color="text-white"
@@ -69,6 +75,7 @@ export default function Login() {
               <span className="w-40 text-left">Entrar con tu correo</span>
             </Button>
             <Button
+              disabled={loading}
               onClick={() => setFormToShow('anon')}
               hasIcon="left"
               color="text-gray-700"

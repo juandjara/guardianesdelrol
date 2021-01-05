@@ -3,15 +3,18 @@ import Link from 'next/link'
 import Button from './Button'
 import MenuLink from './MenuLink'
 import { Menu, Transition } from '@headlessui/react'
-import { useAuth } from '@/lib/auth'
+import { signOut, useAuth } from '@/lib/auth'
 import UserIcon from './icons/UserIcon'
+import { useRouter } from 'next/router'
 
 export default function UserMenu() {
-  const { user, signOut } = useAuth()
+  const { user } = useAuth()
+  const router = useRouter()
 
-  function handleLogout(ev) {
+  async function handleLogout(ev) {
     ev.preventDefault()
-    signOut()
+    await router.push('/')
+    await signOut()
   }
 
   if (!user) {

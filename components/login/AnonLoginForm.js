@@ -1,5 +1,5 @@
 import { useAlert } from '@/lib/alerts'
-import { useAuth } from '@/lib/auth'
+import { anonSignIn, useAuth } from '@/lib/auth'
 import { useEffect, useRef, useState } from 'react'
 import Button from '../Button'
 import UserIcon from '../icons/UserIcon'
@@ -7,7 +7,7 @@ import UserIcon from '../icons/UserIcon'
 export default function AnonLoginForm({ onCancel }) {
   const inputRef = useRef()
   const [name, setName] = useState('')
-  const { anonSignIn } = useAuth()
+  const { setUser } = useAuth()
   const { setAlert } = useAlert()
 
   useEffect(() => {
@@ -20,7 +20,8 @@ export default function AnonLoginForm({ onCancel }) {
     ev.preventDefault()
 
     try {
-      await anonSignIn(name)
+      const user = await anonSignIn(name)
+      setUser(user)
     } catch (err) {
       console.error(err)
       setAlert(err.message)

@@ -1,10 +1,10 @@
 import { useAlert } from '@/lib/alerts'
-import { useAuth } from '@/lib/auth'
+import { completeEmailSignIn, useAuth } from '@/lib/auth'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
 export default function LoginCallback() {
-  const { completeEmailSignIn } = useAuth()
+  const { setUser } = useAuth()
   const { setAlert } = useAlert()
   const router = useRouter()
 
@@ -13,7 +13,8 @@ export default function LoginCallback() {
       try {
         const name = router.query.displayName
         const next = router.query.next
-        await completeEmailSignIn(name)
+        const user = await completeEmailSignIn(name)
+        setUser(user)
         router.replace(next || '/')
       } catch (err) {
         console.error(err)

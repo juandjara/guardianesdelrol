@@ -1,5 +1,5 @@
 import { useAlert } from '@/lib/alerts'
-import { useAuth } from '@/lib/auth'
+import { emailSignIn, isEmailRegistered } from '@/lib/auth'
 import { Transition } from '@headlessui/react'
 import { useEffect, useRef, useState } from 'react'
 import Button from '../Button'
@@ -13,7 +13,6 @@ export default function EmailLoginForm({ next, onCancel }) {
   const [loading, setLoading] = useState(false)
   const [mailSent, setMailSent] = useState(false)
   const [needsName, setNeedsName] = useState(false)
-  const { emailSignIn, isEmailRegistered } = useAuth()
   const { setAlert } = useAlert()
 
   const emailDomain = email.split('@')[1]
@@ -97,10 +96,15 @@ export default function EmailLoginForm({ next, onCancel }) {
 
   return (
     <div className="text-left -mt-4 -mb-4 space-y-4">
-      <p className="flex items-center text-md font-semibold space-x-2">
-        <MailIcon height={20} width={20} />
-        <span>Entrar con tu correo</span>
-      </p>
+      <div>
+        <p className="flex items-center text-md font-semibold space-x-2">
+          <MailIcon height={20} width={20} />
+          <span>Entrar con tu correo</span>
+        </p>
+        <p className="text-sm text-gray-500 mt-2">
+          Tu correo no ser&aacute; publicado ni visible para otros usuarios
+        </p>
+      </div>
       <form onSubmit={handleSubmit} className="mt-2">
         <label className="text-sm text-gray-500 block mb-1" htmlFor="email">
           E-mail

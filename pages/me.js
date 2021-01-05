@@ -2,7 +2,7 @@ import Button from '@/components/Button'
 import UserIcon from '@/components/icons/UserIcon'
 import Spinner from '@/components/Spinner'
 import { useAlert } from '@/lib/alerts'
-import { useAuth, withAuthGuard } from '@/lib/auth'
+import { signOut, useAuth, withAuthGuard } from '@/lib/auth'
 import Image from 'next/image'
 import { useState } from 'react'
 
@@ -10,16 +10,17 @@ function Me() {
   return (
     <main className="flex-auto mt-4 px-4">
       <h1 className="text-6xl font-bold text-center">Cuenta</h1>
-      <div className="space-y-6 bg-white text-gray-700 rounded-lg mt-8 p-4 max-w-3xl mx-auto">
+      <div className="space-y-6 bg-white text-gray-700 rounded-lg mt-8 p-4 pb-6 max-w-3xl mx-auto">
         <PhotoEdit />
         <NameEdit />
+        <ChallengeEdit />
       </div>
     </main>
   )
 }
 
 function PhotoEdit() {
-  const { user, signOut } = useAuth()
+  const { user } = useAuth()
 
   return (
     <div className="flex-auto">
@@ -61,12 +62,12 @@ function PhotoEdit() {
                 fill="currentColor">
                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
               </svg>
-              <span>Cambiar foto</span>
+              <span>Editar</span>
             </Button>
             <Button
               disabled={!user}
               className="border-none mx-0 my-0 font-none"
-              color="color-gray-700"
+              color="text-red-700"
               background="bg-white hover:underline"
               hasIcon="left">
               <svg
@@ -77,11 +78,11 @@ function PhotoEdit() {
                 fill="currentColor">
                 <path
                   fillRule="evenodd"
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
                   clipRule="evenodd"
                 />
               </svg>
-              <span>Volver a foto por defecto</span>
+              <span>Eliminar</span>
             </Button>
           </div>
         )}
@@ -140,6 +141,51 @@ function NameEdit() {
         </Button>
       </form>
     </div>
+  )
+}
+
+function ChallengeEdit() {
+  const [challenge, setChallenge] = useState(false)
+  // const [loading, setLoading] = useState(false)
+  // const { user } = useAuth()
+
+  function handleSubmit(ev) {
+    ev.preventDefault()
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <p className="text-sm text-gray-500 mb-1">Preferencias</p>
+      <div className="flex items-start">
+        <input
+          id="challenge"
+          name="challenge"
+          type="checkbox"
+          checked={challenge}
+          onChange={ev => setChallenge(ev.target.checked)}
+          className="h-5 w-5 text-blue-500 focus:ring-indigo-500 border-gray-300 rounded"
+        />
+        <label htmlFor="challenge" className="flex-auto ml-2 block text-sm text-gray-900">
+          Disponible para la sección <strong>Reta a un máster</strong>
+        </label>
+        {/* <Button
+          type="submit"
+          disabled={loading || !user}
+          hasIcon={loading ? 'left' : null}
+          className="border-none my-0 mr-0"
+          color="text-white"
+          background="bg-red-500 hover:bg-red-600">
+          {loading ? (
+            <>
+              <Spinner size={5} color="white" />
+              <span>Guardar</span>
+            </>
+          ) : (
+            'Guardar'
+          )}
+        </Button> */}
+      </div>
+    </form>
   )
 }
 
