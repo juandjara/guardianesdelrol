@@ -4,10 +4,12 @@ import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import Button from '../Button'
 import UserIcon from '../icons/UserIcon'
+import Spinner from '../Spinner'
 
 export default function AnonLoginForm({ onCancel }) {
   const inputRef = useRef()
   const [name, setName] = useState('')
+  const [loading, setLoading] = useState(false)
   const { setUser } = useAuth()
   const { setAlert } = useAlert()
   const router = useRouter()
@@ -21,6 +23,7 @@ export default function AnonLoginForm({ onCancel }) {
   async function handleSubmit(ev) {
     ev.preventDefault()
 
+    setLoading(true)
     try {
       const user = await anonSignIn(name)
       setUser(user)
@@ -29,6 +32,7 @@ export default function AnonLoginForm({ onCancel }) {
       console.error(err)
       setAlert(err.message)
     }
+    setLoading(false)
   }
 
   return (
@@ -69,11 +73,20 @@ export default function AnonLoginForm({ onCancel }) {
             Cancelar
           </Button>
           <Button
+            disabled={loading}
+            hasIcon={loading ? 'left' : null}
             type="submit"
             className="mx-0 my-0 shadow-md border-none"
             color="text-white"
             background="bg-red-500 hover:bg-red-600">
-            Continuar
+            {loading ? (
+              <>
+                <Spinner size={6} color="white" />
+                <span>Continuar</span>
+              </>
+            ) : (
+              'Continuar'
+            )}
           </Button>
         </div>
       </form>
