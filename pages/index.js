@@ -41,14 +41,7 @@ export default function Home({ data }) {
 }
 
 export async function getStaticProps() {
-  const isDev = process.env.NODE_ENV === 'development'
-  const data = !isDev
-    ? await getAggregates()
-    : {
-        posts: 999,
-        narrators: 999,
-        games: 999
-      }
+  const data = await getAggregates()
   return {
     props: { data },
     revalidate: 1

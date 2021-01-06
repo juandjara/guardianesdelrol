@@ -4,7 +4,7 @@ import Button from './Button'
 import MenuLink from './MenuLink'
 import { Menu, Transition } from '@headlessui/react'
 import { signOut, useAuth } from '@/lib/auth'
-import UserIcon from './icons/UserIcon'
+import UserCircleIcon from './icons/UserCircleIcon'
 import { useRouter } from 'next/router'
 
 export default function UserMenu() {
@@ -32,7 +32,7 @@ export default function UserMenu() {
   }
 
   return (
-    <div className="flex-1">
+    <div className="flex-1 z-20">
       <Menu>
         {({ open }) => (
           <>
@@ -41,7 +41,7 @@ export default function UserMenu() {
               {user.photoURL ? (
                 <Image width={44} height={44} className="rounded-full" src={user.photoURL} />
               ) : (
-                <UserIcon className="mx-auto" width={24} height={24} />
+                <UserCircleIcon className="mx-auto" width={40} height={40} />
               )}
             </Menu.Button>
             <Transition
@@ -73,6 +73,15 @@ export default function UserMenu() {
                     </MenuLink>
                   )}
                 </Menu.Item>
+                {user.superadmin && (
+                  <Menu.Item>
+                    {({ active }) => (
+                      <MenuLink active={active} href="/users">
+                        Usuarios
+                      </MenuLink>
+                    )}
+                  </Menu.Item>
+                )}
                 <Menu.Item>
                   {({ active }) => (
                     <MenuLink active={active} href="/" onClick={handleLogout}>

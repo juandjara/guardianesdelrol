@@ -48,14 +48,14 @@ export default function MobileNav() {
               <Menu.Item>
                 {({ active }) => (
                   <MenuLink active={active} href="/catalog">
-                    Nuestro catalogo
+                    Cat&aacute;logo
                   </MenuLink>
                 )}
               </Menu.Item>
               <Menu.Item>
                 {({ active }) => (
                   <MenuLink active={active} href="/challenge">
-                    Reta a un master
+                    Reta a un narrador
                   </MenuLink>
                 )}
               </Menu.Item>
