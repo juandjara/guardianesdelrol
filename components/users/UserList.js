@@ -1,42 +1,25 @@
-import { useAlert } from '@/lib/alerts'
-import { getToken, useAuth } from '@/lib/auth'
+import useUsers from '@/lib/useUsers'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
-import useSWR from 'swr'
 import UserListItem from './UserListItem'
 
-async function fetcher(url) {
-  const token = await getToken()
-  const res = await fetch(url, {
-    headers: {
-      authorization: `JWT ${token}`
-    }
-  })
-  return await res.json()
-}
-
-export default function UserList() {
+export default function UserList({ compact, className, style = {} }) {
   const router = useRouter()
   const currentId = router.query.id
-  const { user } = useAuth()
-  const { data: users, error } = useSWR(user ? '/api/users' : null, fetcher)
-  const { setAlert } = useAlert()
+  const { users } = useUsers()
 
   function isSelected({ id }) {
     return id === currentId
   }
 
-  useEffect(() => {
-    if (error) {
-      setAlert(error)
-    }
-  }, [setAlert, error])
+  const rootClasses = compact ? 'sm:rounded-l-lg' : 'container mx-auto sm:rounded-lg'
+  const borderRadius = compact ? 'sm:rounded-tl-lg' : 'sm:rounded-t-lg'
 
   return (
-    <div className="bg-white text-gray-700 rounded-lg mt-8 pb-6 container mx-auto">
-      <header className="rounded-t-lg px-3 md:px-4 border-b border-gray-300 sticky top-0 z-10 flex space-x-2 md:space-x-4 bg-white">
-        <p className="text-sm flex-1">Usuario</p>
-        <p className="text-sm md:block hidden">Ultimo login</p>
+    <div style={style} className={`${className} ${rootClasses} bg-white text-gray-700 pb-6`}>
+      <header
+        className={`${borderRadius} px-3 md:px-4 border-b border-gray-300 sticky top-0 z-10 flex space-x-2 md:space-x-4 bg-white`}>
+        <p className="text-sm flex-1">Usuarios</p>
+        <p className={`text-sm ${compact ? 'hidden' : 'md:block hidden'}`}>Ultimo login</p>
       </header>
       <ul>
         {!users && (
@@ -49,7 +32,7 @@ export default function UserList() {
           </>
         )}
         {(users || []).map(user => (
-          <UserListItem key={user.id} user={user} selected={isSelected(user)} />
+          <UserListItem key={user.id} user={user} compact={compact} selected={isSelected(user)} />
         ))}
       </ul>
     </div>

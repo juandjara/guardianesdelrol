@@ -1,8 +1,8 @@
-import GnomeIcon from '@/components/icons/GnomeIcon'
 import Tag from '@/components/Tag'
 import Skeleton from 'react-loading-skeleton'
-import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useRef } from 'react'
+import Avatar from '../Avatar'
 
 function getTag(user) {
   if (user?.superadmin) {
@@ -24,39 +24,34 @@ function formatDate(n) {
   return `${date} ${hours}:${minutes >= 10 ? minutes : `0${minutes}`}`
 }
 
-export default function UserListItem({ user, selected }) {
+export default function UserListItem({ user, selected, compact }) {
+  const liRef = useRef()
+
+  useEffect(() => {
+    if (selected && liRef.current) {
+      liRef.current.scrollIntoView({ behaviour: 'smooth', block: 'nearest' })
+    }
+  }, [selected])
+
   return (
-    <li>
+    <li ref={selected ? liRef : null}>
       <Link href={`/users/${user?.id || ''}`}>
         <a
           className={`${
             selected ? 'font-semibold bg-gray-100' : ''
           } hover:bg-gray-100 hover:no-underline text-gray-700 py-2 px-3 md:px-4 flex items-center space-x-2 md:space-x-4`}>
-          {user ? (
-            <div
-              className={`${
-                selected ? 'border-red-900' : 'border-red-100'
-              } flex-shrink-0 flex items-center justify-center w-16 h-16 rounded-full border-2`}>
-              {user.photoURL ? (
-                <Image className="rounded-full" src={user.photoURL} width={64} height={64} />
-              ) : (
-                <GnomeIcon width={40} height={40} />
-              )}
-            </div>
-          ) : (
-            <Skeleton width={64} height={64} circle />
-          )}
+          <Avatar user={user} border={selected ? 'border-red-900' : 'border-red-100'} />
           <div className="truncate flex-auto">
             <p className="font-semibold">
               <span>{user ? user.displayName : <Skeleton />} </span>
               {getTag(user)}
             </p>
             <p className="text-sm truncate text-gray-500">{user?.email || <Skeleton />}</p>
-            <p className="text-sm md:hidden block">
+            <p className={`text-sm ${compact ? 'block' : 'md:hidden block'}`}>
               {user ? `ultimo login ${formatDate(user.lastSignInTime)}` : <Skeleton />}
             </p>
           </div>
-          <p className="text-sm text-right md:block hidden">
+          <p className={`pr-1 text-sm text-right ${compact ? 'hidden' : 'md:block hidden'}`}>
             {formatDate(user?.lastSignInTime) || <Skeleton />}
           </p>
         </a>
