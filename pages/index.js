@@ -1,4 +1,3 @@
-import { getAggregates } from '@/data/aggregates'
 import Button from '@/components/Button'
 import ArrowIcon from '@/components/icons/ArrowIcon'
 import Link from 'next/link'
@@ -41,7 +40,11 @@ export default function Home({ data }) {
 }
 
 export async function getStaticProps() {
-  const data = await getAggregates()
+  const data = {
+    narrators: 999,
+    games: 999,
+    posts: 999
+  }
   return {
     props: { data },
     revalidate: 1

@@ -1,4 +1,3 @@
-import useUserDetail from '@/lib/useUserDetail'
 import useUsers from '@/lib/useUsers'
 import { useRouter } from 'next/router'
 import Skeleton from 'react-loading-skeleton'
@@ -7,22 +6,17 @@ import Button from '../Button'
 import EditIcon from '../icons/EditIcon'
 import Tag from '../Tag'
 
-function getTag(user) {
-  if (user?.superadmin) {
-    return <Tag>SUPERADMIN</Tag>
-  }
-  if (user?.admin) {
-    return <Tag>ADMIN</Tag>
-  }
-  return null
-}
-
 export default function UserDetail() {
   const router = useRouter()
   const currentId = router.query.id
   const { users } = useUsers()
   const user = (users || []).find(u => u.id === currentId)
-  const { aggs } = useUserDetail(user?.email)
+  const aggs = {
+    asPlayer: [],
+    asNarrator: [],
+    gamesPlayed: [],
+    gamesNarrated: []
+  }
 
   return (
     <div className="bg-white w-full md:w-3/4 md:rounded-r-lg border-l border-gray-200 text-gray-700 pb-4">
@@ -46,7 +40,7 @@ export default function UserDetail() {
         <div className="truncate flex-auto">
           <p className="font-semibold text-lg">
             <span>{user?.displayName || <Skeleton />} </span>
-            {getTag(user)}
+            {user?.role && <Tag>{user.role}</Tag>}
           </p>
           <p className="text-sm truncate text-gray-500">
             {aggs ? `${aggs.asPlayer.length} partidas` : <Skeleton />}

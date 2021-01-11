@@ -11,7 +11,7 @@ export function getClassname({ hasIcon, outline, color, background, border, disa
     : 'block'
   const focus =
     'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-transparent'
-  const base = 'transition-colors px-4 py-2 m-2 text-md font-semibold rounded-md border-2'
+  const base = 'transition-colors px-4 py-2 m-2 font-semibold rounded-md border-2'
   const _disabled = disabled ? 'opacity-50 pointer-events-none' : ''
   return `${_color} ${_background} ${_border} ${_disabled} ${layout} ${focus} ${base}`
 }

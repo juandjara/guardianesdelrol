@@ -1,18 +1,19 @@
 import Layout from '@/components/Layout'
-import { Alert, AlertProvider } from '@/lib/alerts'
-import { AuthProvider } from '@/lib/auth'
+import Alert from '@/components/Alert'
+import { AlertProvider } from '@/lib/AlertContext'
+import { UserContextProvider } from '@/lib/UserContext'
 import '../styles/globals.css'
 
 function App({ Component, pageProps }) {
   return (
-    <AuthProvider>
-      <AlertProvider>
+    <AlertProvider>
+      <UserContextProvider>
         <Layout>
           <Alert />
           <Component {...pageProps} />
         </Layout>
-      </AlertProvider>
-    </AuthProvider>
+      </UserContextProvider>
+    </AlertProvider>
   )
 }
 

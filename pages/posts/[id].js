@@ -1,11 +1,10 @@
-import { withAuthGuard } from '@/lib/auth'
+import { useAuthGuard } from '@/lib/UserContext'
 
-function PostDetails() {
+export default function PostDetails() {
+  useAuthGuard()
   return (
     <main className="flex-auto">
       <h1 className="text-6xl font-bold">Post Details</h1>
     </main>
   )
 }
-
-export default withAuthGuard(PostDetails)

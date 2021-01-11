@@ -4,16 +4,6 @@ import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 import Avatar from '../Avatar'
 
-function getTag(user) {
-  if (user?.superadmin) {
-    return <Tag>SUPERADMIN</Tag>
-  }
-  if (user?.admin) {
-    return <Tag>ADMIN</Tag>
-  }
-  return null
-}
-
 function formatDate(n) {
   if (!n) {
     return null
@@ -44,7 +34,7 @@ export default function UserListItem({ user, selected, compact }) {
           <div className="truncate flex-auto">
             <p className="font-semibold">
               <span>{user ? user.displayName : <Skeleton />} </span>
-              {getTag(user)}
+              {user?.role && <Tag>{user.role}</Tag>}
             </p>
             <p className="text-sm truncate text-gray-500">{user?.email || <Skeleton />}</p>
             <p className={`text-sm ${compact ? 'block' : 'md:hidden block'}`}>

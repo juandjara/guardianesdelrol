@@ -3,18 +3,19 @@ import Link from 'next/link'
 import Button from './Button'
 import MenuLink from './MenuLink'
 import { Menu, Transition } from '@headlessui/react'
-import { signOut, useAuth } from '@/lib/auth'
 import UserCircleIcon from './icons/UserCircleIcon'
 import { useRouter } from 'next/router'
+import { supabase } from '@/lib/supabase'
+import { useSession } from '../lib/UserContext'
 
 export default function UserMenu() {
-  const { user } = useAuth()
+  const { user } = useSession()
   const router = useRouter()
 
   async function handleLogout(ev) {
     ev.preventDefault()
     await router.push('/')
-    await signOut()
+    await supabase.auth.signOut()
   }
 
   if (!user) {
@@ -55,9 +56,8 @@ export default function UserMenu() {
               <Menu.Items
                 static
                 className="absolute right-2 w-48 rounded-md shadow-lg py-2 bg-white ring-1 ring-black ring-opacity-5">
-                <div className="text-right mb-2 pt-1 pb-3 px-4 text-gray-900 border-b border-1 border-gray-300">
-                  <p className="text-xs text-gray-400">Signed in as</p>
-                  <p className="text-sm font-medium truncate">{user.displayName}</p>
+                <div className="mb-2 pt-1 pb-3 px-4 text-gray-900 border-b border-1 border-gray-300">
+                  <p className="text-sm font-semibold truncate">{user.displayName}</p>
                 </div>
                 <Menu.Item>
                   {({ active }) => (
@@ -73,7 +73,7 @@ export default function UserMenu() {
                     </MenuLink>
                   )}
                 </Menu.Item>
-                {user.superadmin && (
+                {user?.role === 'superadmin' && (
                   <Menu.Item>
                     {({ active }) => (
                       <MenuLink active={active} href="/users">

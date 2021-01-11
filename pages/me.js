@@ -3,26 +3,26 @@ import DeleteIcon from '@/components/icons/DeleteIcon'
 import EditIcon from '@/components/icons/EditIcon'
 import UserIcon from '@/components/icons/UserIcon'
 import Spinner from '@/components/Spinner'
-import { useAlert } from '@/lib/alerts'
-import { signOut, useAuth, withAuthGuard } from '@/lib/auth'
+import { useAuthGuard, useSession } from '@/lib/UserContext'
+import { supabase } from '@/lib/supabase'
 import Image from 'next/image'
 import { useState } from 'react'
 
-function Me() {
+export default function MyAccount() {
+  useAuthGuard()
   return (
     <main className="flex-auto mt-4 px-4">
-      <h1 className="text-6xl font-bold text-center">Cuenta</h1>
+      <h1 className="text-6xl font-bold text-center">Mi Cuenta</h1>
       <div className="space-y-6 bg-white text-gray-700 rounded-lg mt-8 p-4 pb-6 max-w-3xl mx-auto">
         <PhotoEdit />
-        <NameEdit />
-        <ChallengeEdit />
+        <ProfileEdit />
       </div>
     </main>
   )
 }
 
 function PhotoEdit() {
-  const { user } = useAuth()
+  const { user } = useSession()
 
   return (
     <div className="flex-auto">
@@ -42,7 +42,9 @@ function PhotoEdit() {
             </p>
             <p>
               <span>Prueba a</span>{' '}
-              <button onClick={signOut} className="text-blue-400 hover:underline">
+              <button
+                onClick={() => supabase.auth.signOut()}
+                className="text-blue-400 hover:underline">
                 cerrar sesión
               </button>{' '}
               <span>y usar otro metodo de inicio de sesión</span>
@@ -75,38 +77,54 @@ function PhotoEdit() {
   )
 }
 
-function NameEdit() {
-  const [name, setName] = useState('')
+function ProfileEdit() {
+  const [name, setName] = useState(null)
+  const [challenge, setChallenge] = useState(null)
   const [loading, setLoading] = useState(false)
-  const { setAlert } = useAlert()
-  const { user } = useAuth()
+  const { user, updateProfile } = useSession()
 
-  async function handleNameChange(ev) {
+  const nameValue = (name === null ? user?.displayName : name) || ''
+  const checkboxValue = (challenge === null ? user?.challengeable : challenge) || false
+
+  async function handleSubmit(ev) {
     ev.preventDefault()
+
     setLoading(true)
-    try {
-      await user.updateProfile({ displayName: name || user.displayName })
-    } catch (err) {
-      console.error(err)
-      setAlert(err.message)
-    }
+    await updateProfile({
+      id: user?.id,
+      displayName: nameValue,
+      challengeable: checkboxValue
+    })
     setLoading(false)
   }
 
   return (
-    <div className="flex-auto">
-      <label className="mb-1 text-sm text-gray-500 block" htmlFor="name">
-        Nombre
-      </label>
-      <form className="flex" onSubmit={handleNameChange}>
+    <form className="space-y-6" onSubmit={handleSubmit}>
+      <div>
+        <label className="mb-1 text-sm text-gray-500 block" htmlFor="name">
+          Nombre
+        </label>
         <input
           id="name"
           className="w-full h-10 px-3 text-base placeholder-gray-500 border rounded-md focus:outline-none focus:ring-1 focus:ring-red-900 focus:border-red-900"
           placeholder="Escribe tu nombre"
-          value={name || user?.displayName || ''}
+          value={nameValue}
           onChange={ev => setName(ev.target.value)}
           required
         />
+      </div>
+      <div className="flex items-center">
+        <input
+          id="challenge"
+          name="challenge"
+          type="checkbox"
+          checked={checkboxValue}
+          onChange={ev => setChallenge(ev.target.checked)}
+          className="h-5 w-5 text-blue-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 border-gray-300 rounded"
+        />
+        <label htmlFor="challenge" className="flex-auto ml-2 block text-sm text-gray-900">
+          Disponible para la sección <strong>Reta a un máster</strong>
+        </label>
         <Button
           type="submit"
           disabled={loading || !user}
@@ -123,54 +141,7 @@ function NameEdit() {
             'Guardar'
           )}
         </Button>
-      </form>
-    </div>
-  )
-}
-
-function ChallengeEdit() {
-  const [challenge, setChallenge] = useState(false)
-  // const [loading, setLoading] = useState(false)
-  // const { user } = useAuth()
-
-  function handleSubmit(ev) {
-    ev.preventDefault()
-  }
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <p className="text-sm text-gray-500 mb-1">Preferencias</p>
-      <div className="flex items-start">
-        <input
-          id="challenge"
-          name="challenge"
-          type="checkbox"
-          checked={challenge}
-          onChange={ev => setChallenge(ev.target.checked)}
-          className="h-5 w-5 text-blue-500 focus:ring-indigo-500 border-gray-300 rounded"
-        />
-        <label htmlFor="challenge" className="flex-auto ml-2 block text-sm text-gray-900">
-          Disponible para la sección <strong>Reta a un máster</strong>
-        </label>
-        {/* <Button
-          type="submit"
-          disabled={loading || !user}
-          hasIcon={loading ? 'left' : null}
-          className="border-none my-0 mr-0"
-          color="text-white"
-          background="bg-red-500 hover:bg-red-600">
-          {loading ? (
-            <>
-              <Spinner size={5} color="white" />
-              <span>Guardar</span>
-            </>
-          ) : (
-            'Guardar'
-          )}
-        </Button> */}
       </div>
     </form>
   )
 }
-
-export default withAuthGuard(Me)
