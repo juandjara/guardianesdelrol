@@ -9,6 +9,7 @@ import { supabase } from '@/lib/supabase'
 import { useRouter } from 'next/router'
 import MailSentScreen from '@/components/login/MailSentScreen'
 import GoogleLoginButton from '@/components/login/GoogleLoginButton'
+import Label from '@/components/Label'
 
 export default function Login() {
   const inputRef = useRef()
@@ -82,9 +83,7 @@ export default function Login() {
         <div className="divide-y divide-gray-300">
           <form onSubmit={handleSubmit} className="text-left">
             <div>
-              <label className="text-gray-700 block mb-1" htmlFor="email">
-                E-mail
-              </label>
+              <Label name="email" text="E-mail" />
               <input
                 ref={inputRef}
                 id="email"
@@ -98,9 +97,7 @@ export default function Login() {
             </div>
             <div className="mt-6 mb-8">
               <div className="flex justify-between items-end mb-1">
-                <label className="text-gray-500" htmlFor="email">
-                  Contraseña
-                </label>
+                <Label name="password" text="Contraseña" />
                 <a href="/recovery" className="text-sm text-red-600 hover:text-red-700">
                   ¿Olvidaste tu contraseña?
                 </a>

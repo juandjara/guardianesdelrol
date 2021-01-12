@@ -50,7 +50,7 @@ export default function Button({
     small
   })}`
   return (
-    <button className={classes} {...props}>
+    <button disabled={disabled} className={classes} {...props}>
       {children}
     </button>
   )

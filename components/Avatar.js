@@ -6,7 +6,7 @@ export default function Avatar({ user, className, size = 64, border = 'border-re
   const sizeCN = size / 4
   return user ? (
     <div
-      className={`${border} ${className} flex-shrink-0 flex items-center justify-center w-${sizeCN} h-${sizeCN} rounded-full border-2`}>
+      className={`${border} ${className} bg-white flex-shrink-0 flex items-center justify-center w-${sizeCN} h-${sizeCN} rounded-full border-2`}>
       {user.photoURL ? (
         <Image className="rounded-full" src={user.photoURL} width={size} height={size} />
       ) : (

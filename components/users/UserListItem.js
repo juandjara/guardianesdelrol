@@ -28,15 +28,15 @@ export default function UserListItem({ user, selected, compact }) {
       <Link href={`/users/${user?.id || ''}`}>
         <a
           className={`${
-            selected ? 'font-semibold bg-gray-100' : ''
-          } hover:bg-gray-100 hover:no-underline text-gray-700 py-2 px-3 md:px-4 flex items-center space-x-2 md:space-x-4`}>
-          <Avatar user={user} border={selected ? 'border-red-900' : 'border-red-100'} />
-          <div className="truncate flex-auto">
+            selected ? 'bg-gray-100' : ''
+          } hover:bg-gray-100 hover:no-underline text-gray-700 py-2 px-3 md:px-4 flex items-center space-x-3 md:space-x-4`}>
+          <Avatar user={user} border={selected ? 'border-red-900' : 'border-red-500'} />
+          <div className="truncate flex-auto space-y-1">
             <p className="font-semibold">
-              <span>{user ? user.displayName : <Skeleton />} </span>
+              <span>{user ? user.displayName || user.email : <Skeleton />} </span>
               {user?.role && <Tag>{user.role}</Tag>}
             </p>
-            <p className="text-sm truncate text-gray-500">{user?.email || <Skeleton />}</p>
+            <p className="text-sm truncate text-gray-500">{user ? user.bio : <Skeleton />}</p>
             <p className={`text-sm ${compact ? 'block' : 'md:hidden block'}`}>
               {user ? `ultimo login ${formatDate(user.lastSignInTime)}` : <Skeleton />}
             </p>

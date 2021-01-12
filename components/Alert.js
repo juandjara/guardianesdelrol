@@ -1,6 +1,6 @@
 import { useAlert } from '@/lib/AlertContext'
 import { useEffect } from 'react'
-import AlertIcon from './icons/AlertIcon'
+// import AlertIcon from './icons/AlertIcon'
 
 const DEFAULT_DELAY = 5000
 
@@ -24,7 +24,7 @@ export default function Alert() {
     return () => window.clearTimeout(id)
   }, [alert, setAlert])
 
-  const alertText = alert && typeof alert === 'object' ? alert.text : alert
+  const alertText = typeof alert === 'object' ? alert?.text : alert
   const alertType = alert?.type || 'error'
   const color = getAlertColor(alertType)
 
@@ -32,8 +32,8 @@ export default function Alert() {
   return (
     alert && (
       <div
-        className={`absolute top-0 left-1/2 transform -translate-x-1/2 w-3/4 xl:w-2/4 max-w-xl mt-12 p-4 rounded-md bg-${color}-100 text-base flex items-center`}>
-        <AlertIcon className={`text-${color}-700 w-5 h-5 mr-3`} />
+        className={`fixed top-0 left-1/2 transform -translate-x-1/2 w-3/4 xl:w-2/4 max-w-xl mt-6 p-4 rounded-md bg-${color}-100 text-base flex items-center`}>
+        {/* <AlertIcon className={`text-${color}-700 w-5 h-5 mr-3`} /> */}
         <span className="sr-only">{alertType}:</span>
         <span className={`text-${color}-700`}>{alertText}</span>
       </div>
