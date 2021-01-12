@@ -73,15 +73,6 @@ export default function UserMenu() {
                     </MenuLink>
                   )}
                 </Menu.Item>
-                {user?.role === 'superadmin' && (
-                  <Menu.Item>
-                    {({ active }) => (
-                      <MenuLink active={active} href="/users">
-                        Usuarios
-                      </MenuLink>
-                    )}
-                  </Menu.Item>
-                )}
                 <Menu.Item>
                   {({ active }) => (
                     <MenuLink active={active} href="/" onClick={handleLogout}>
@@ -89,6 +80,27 @@ export default function UserMenu() {
                     </MenuLink>
                   )}
                 </Menu.Item>
+                {user?.role === 'superadmin' && (
+                  <>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <MenuLink
+                          className="border-t border-gray-200"
+                          active={active}
+                          href="/users">
+                          Usuarios
+                        </MenuLink>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <MenuLink active={active} href="/users">
+                          Imagenes
+                        </MenuLink>
+                      )}
+                    </Menu.Item>
+                  </>
+                )}
               </Menu.Items>
             </Transition>
           </>
