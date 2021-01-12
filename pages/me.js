@@ -1,4 +1,4 @@
-import { useAuthGuard } from '@/lib/UserContext'
+import { useAuthGuard } from '@/lib/useAuthGuard'
 import PhotoEdit from '@/components/profile/PhotoEdit'
 import ProfileEdit from '@/components/profile/ProfileEdit'
 import CredentialsEdit from '@/components/profile/CredentialsEdit'

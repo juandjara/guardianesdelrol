@@ -33,13 +33,10 @@ export default function UserListItem({ user, selected, compact }) {
           <Avatar user={user} border={selected ? 'border-red-900' : 'border-red-500'} />
           <div className="truncate flex-auto space-y-1">
             <p className="font-semibold">
-              <span>{user ? user.displayName || user.email : <Skeleton />} </span>
+              <span>{user ? user.displayName || 'Aventurero sin nombre' : <Skeleton />} </span>
               {user?.role && <Tag>{user.role}</Tag>}
             </p>
             <p className="text-sm truncate text-gray-500">{user ? user.bio : <Skeleton />}</p>
-            <p className={`text-sm ${compact ? 'block' : 'md:hidden block'}`}>
-              {user ? `ultimo login ${formatDate(user.lastSignInTime)}` : <Skeleton />}
-            </p>
           </div>
           <p className={`pr-1 text-sm text-right ${compact ? 'hidden' : 'md:block hidden'}`}>
             {formatDate(user?.lastSignInTime) || <Skeleton />}

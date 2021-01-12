@@ -1,4 +1,4 @@
-import { useAuthGuard } from '@/lib/UserContext'
+import { useAuthGuard } from '@/lib/useAuthGuard'
 
 export default function PostDetails() {
   useAuthGuard()

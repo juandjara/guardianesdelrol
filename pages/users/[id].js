@@ -1,7 +1,9 @@
 import UserDetail from '@/components/users/UserDetail'
 import UserList from '@/components/users/UserList'
+import useAuthGuard from '@/lib/useAuthGuard'
 
 export default function UserDetails({ data }) {
+  useAuthGuard()
   return (
     <div className="flex-auto my-4">
       <div className="flex container mx-auto rounded-t-lg">
