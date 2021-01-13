@@ -6,13 +6,15 @@ export default function UserDetails({ data }) {
   useAuthGuard()
   return (
     <div className="flex-auto my-4">
-      <div className="flex container mx-auto rounded-t-lg">
-        <aside
-          className="overflow-auto w-full max-w-sm hidden md:block"
-          style={{ maxHeight: 'calc(100vh - 120px)' }}>
+      <div
+        className="flex justify-items-stretch container mx-auto rounded-t-lg"
+        style={{ maxHeight: 'calc(100vh - 120px)' }}>
+        <aside className="overflow-auto w-full max-w-sm hidden md:block">
           <UserList compact />
         </aside>
-        <UserDetail aggregates={data} />
+        <main className="overflow-auto w-full md:w-3/4">
+          <UserDetail aggregates={data} />
+        </main>
       </div>
     </div>
   )

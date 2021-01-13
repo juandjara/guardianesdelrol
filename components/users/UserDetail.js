@@ -6,7 +6,7 @@ import Avatar from '../Avatar'
 import Button from '../Button'
 import CloseIcon from '../icons/CloseIcon'
 import EditIcon from '../icons/EditIcon'
-import Tag from '../Tag'
+import RoleTags from '../RoleTags'
 
 export default function UserDetail() {
   const router = useRouter()
@@ -21,13 +21,9 @@ export default function UserDetail() {
   }
 
   return (
-    <div className="bg-white w-full md:w-3/4 md:rounded-r-lg border-l border-gray-200 text-gray-700 pb-4">
-      <header className="space-x-4 flex items-center py-2 px-4 border-b border-gray-200">
-        <Link href="/users">
-          <button className="rounded-full p-2 bg-gray-50 hover:bg-gray-100">
-            <CloseIcon height={20} width={20} />
-          </button>
-        </Link>
+    <div className="bg-white md:rounded-r-lg border-l border-gray-200 text-gray-700 pb-4">
+      {/* <header className="bg-white sticky top-0 space-x-4 flex items-center py-2 px-4 border-b border-gray-200">
+        
         <div className="truncate flex-auto">
           <h1 className="font-semibold text-lg">
             {user ? user.displayName || 'Aventurero sin nombre' : <Skeleton />}
@@ -36,9 +32,14 @@ export default function UserDetail() {
             {aggs ? `${aggs.asPlayer.length} partidas` : <Skeleton />}
           </p>
         </div>
-      </header>
-      <section className="mx-4">
-        <div className="-mx-4 h-36 w-auto pattern-bg"></div>
+      </header> */}
+      <section className="mx-4 relative">
+        <Link href="/users">
+          <button className="absolute top-2 -left-2 rounded-full p-2 bg-opacity-20 text-white bg-gray-50 hover:bg-opacity-50">
+            <CloseIcon height={20} width={20} />
+          </button>
+        </Link>
+        <div className="-mx-4 h-36 rounded-tr-lg w-auto pattern-bg"></div>
         <div className="relative md:flex items-center">
           <div className="-mt-12">
             <Avatar border="border-gray-100" size={96} user={user} />
@@ -46,24 +47,25 @@ export default function UserDetail() {
           <div className="mt-2 md:ml-2">
             <p className="font-semibold text-lg">
               <span>{user ? user.displayName || 'Aventurero sin nombre' : <Skeleton />} </span>
-              {user?.role && <Tag>{user.role}</Tag>}
+              <RoleTags user={user} />
             </p>
-            <p className="mb-2 text-sm truncate text-gray-500">
-              {user ? user.email : <Skeleton />}
-            </p>
-            <p className="text-base">{user ? user.bio : <Skeleton />}</p>
+            <p className="mt-2 text-base">{user ? user.bio : <Skeleton />}</p>
           </div>
-          <Button
-            small
-            hasIcon="left"
-            className="mx-0"
-            color="text-blue-500 w-auto hover:text-white"
-            background="absolute md:top-0 top-12 right-0 bg-white hover:bg-blue-500 hover:border-blue-500 hover:shadow-md">
-            <EditIcon width={20} height={20} />
-            <span>Editar</span>
-          </Button>
+          <Link href={`/settings?id=${user?.id}`}>
+            <a className="absolute md:top-0 top-12 right-0">
+              <Button
+                small
+                hasIcon="left"
+                className="mx-0"
+                color="text-blue-500 w-auto hover:text-white"
+                background="bg-white hover:bg-blue-500 hover:border-blue-500 hover:shadow-md">
+                <EditIcon width={20} height={20} />
+                <span>Editar</span>
+              </Button>
+            </a>
+          </Link>
         </div>
-        <div>
+        <div className="mt-8">
           <p>{aggs ? aggs.gamesPlayed.slice(0, 3).concat('...').join(', ') : <Skeleton />}</p>
           <br />
           <p className="text-base mb-2">

@@ -1,15 +1,16 @@
-import { useSession } from '@/lib/UserContext'
+import { useAlert } from '@/lib/AlertContext'
+import { updateProfile } from '@/lib/authService'
 import { useState } from 'react'
 import Button from '../Button'
 import Label from '../Label'
 import Spinner from '../Spinner'
 
-export default function ProfileEdit() {
+export default function ProfileEdit({ user, setUser }) {
   const [name, setName] = useState(null)
   const [bio, setBio] = useState(null)
   const [challenge, setChallenge] = useState(null)
   const [loading, setLoading] = useState(false)
-  const { user, updateProfile } = useSession()
+  const { setAlert } = useAlert()
 
   const nameValue = (name === null ? user?.displayName : name) || ''
   const bioValue = (bio === null ? user?.bio : bio) || ''
@@ -19,12 +20,19 @@ export default function ProfileEdit() {
     ev.preventDefault()
 
     setLoading(true)
-    await updateProfile({
+    const { error, data } = await updateProfile({
       id: user?.id,
       displayName: nameValue,
       challengeable: checkboxValue,
       bio: bioValue
     })
+    if (error) {
+      console.error(error)
+      setAlert(error.message)
+    } else {
+      setUser(oldProfile => ({ ...oldProfile, ...data }))
+      setAlert({ type: 'success', text: 'Perfil actualizado correctamente' })
+    }
     setLoading(false)
   }
 
@@ -42,7 +50,8 @@ export default function ProfileEdit() {
         </div>
         <input
           id="name"
-          className="md:w-1/2 w-full h-10 px-3 text-base placeholder-gray-500 border rounded-md focus:outline-none focus:ring-1 focus:ring-red-900 focus:border-red-900"
+          type="text"
+          className="md:w-1/2 w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-900 focus:border-red-900"
           placeholder="Escribe tu nombre"
           maxLength={NAME_MAXLENGTH}
           value={nameValue}

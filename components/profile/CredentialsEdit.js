@@ -8,7 +8,8 @@ import Spinner from '../Spinner'
 
 export default function CredentialsEdit() {
   const { user } = useSession()
-  const [email, setEmail] = useState(null)
+  const email = ''
+  // const [email, setEmail] = useState(null)
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -53,7 +54,8 @@ export default function CredentialsEdit() {
         Informaci&oacute;n de inicio de sesi&oacute;n
       </p>
       <form onSubmit={handlePasswordSubmit}>
-        <div className="mb-4">
+        {/* TODO: comprobar que el cambio de email funciona */}
+        {/* <div className="mb-4">
           <Label name="email" text="Email" />
           <input
             id="email"
@@ -64,7 +66,7 @@ export default function CredentialsEdit() {
             onChange={ev => setEmail(ev.target.value)}
             required
           />
-        </div>
+        </div> */}
         <div className="mb-4 md:flex md:items-end md:space-x-2 space-y-4">
           <div className="w-full">
             <Label name="current_password" text="Contraseña actual" />
@@ -72,7 +74,7 @@ export default function CredentialsEdit() {
               id="current_password"
               type="password"
               autoComplete="current-password"
-              className="w-full h-10 px-3 text-base placeholder-gray-500 border rounded-md focus:outline-none focus:ring-1 focus:ring-red-900 focus:border-red-900"
+              className="w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-900 focus:border-red-900"
               placeholder="****"
               value={currentPassword}
               onChange={ev => setCurrentPassword(ev.target.value)}
@@ -84,7 +86,7 @@ export default function CredentialsEdit() {
               id="new_password"
               type="password"
               autoComplete="new-password"
-              className="w-full h-10 px-3 text-base placeholder-gray-500 border rounded-md focus:outline-none focus:ring-1 focus:ring-red-900 focus:border-red-900"
+              className="w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-900 focus:border-red-900"
               placeholder="****"
               value={newPassword}
               onChange={ev => setNewPassword(ev.target.value)}

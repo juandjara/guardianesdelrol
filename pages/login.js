@@ -43,7 +43,7 @@ export default function Login() {
         if (next) {
           router.replace(next)
         } else {
-          router.push('/me?type=signin')
+          router.push('/settings?type=signin')
         }
       } else {
         setMailSent(true)

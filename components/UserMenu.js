@@ -3,14 +3,16 @@ import Link from 'next/link'
 import Button from './Button'
 import MenuLink from './MenuLink'
 import { Menu, Transition } from '@headlessui/react'
-import UserCircleIcon from './icons/UserCircleIcon'
 import { useRouter } from 'next/router'
 import { supabase } from '@/lib/supabase'
 import { useSession } from '../lib/UserContext'
+import useGravatar from '@/lib/useGravatar'
 
 export default function UserMenu() {
   const { user } = useSession()
   const router = useRouter()
+  const avatarSize = 44
+  const gravatarURL = useGravatar({ email: user?.email, size: avatarSize })
 
   async function handleLogout(ev) {
     ev.preventDefault()
@@ -39,11 +41,12 @@ export default function UserMenu() {
           <>
             <Menu.Button className="w-11 h-11 m-2 ml-auto block border-2 border-white bg-red-900 bg-opacity-50 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-transparent">
               <span className="sr-only">Open user menu</span>
-              {user.photoURL ? (
-                <Image width={44} height={44} className="rounded-full" src={user.photoURL} />
-              ) : (
-                <UserCircleIcon className="mx-auto" width={40} height={40} />
-              )}
+              <Image
+                width={avatarSize}
+                height={avatarSize}
+                className="rounded-full"
+                src={user.photoURL || gravatarURL}
+              />
             </Menu.Button>
             <Transition
               show={open}
@@ -82,7 +85,7 @@ export default function UserMenu() {
                 )}
                 <Menu.Item>
                   {({ active }) => (
-                    <MenuLink active={active} href="/me">
+                    <MenuLink active={active} href="/settings">
                       Mi cuenta
                     </MenuLink>
                   )}

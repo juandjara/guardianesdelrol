@@ -1,6 +1,6 @@
 module.exports = {
   images: {
-    domains: ['lh3.googleusercontent.com', 'firebasestorage.googleapis.com']
+    domains: ['www.gravatar.com', 'lh3.googleusercontent.com', 'firebasestorage.googleapis.com']
   },
   webpack(cfg) {
     cfg.module.rules.push({

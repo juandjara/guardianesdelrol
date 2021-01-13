@@ -1,8 +1,8 @@
-import Tag from '@/components/Tag'
 import Skeleton from 'react-loading-skeleton'
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 import Avatar from '../Avatar'
+import RoleTags from '../RoleTags'
 
 function formatDate(n) {
   if (!n) {
@@ -34,7 +34,7 @@ export default function UserListItem({ user, selected, compact }) {
           <div className="truncate flex-auto space-y-1">
             <p className="font-semibold">
               <span>{user ? user.displayName || 'Aventurero sin nombre' : <Skeleton />} </span>
-              {user?.role && <Tag>{user.role}</Tag>}
+              <RoleTags user={user} />
             </p>
             <p className="text-sm truncate text-gray-500">{user ? user.bio : <Skeleton />}</p>
           </div>

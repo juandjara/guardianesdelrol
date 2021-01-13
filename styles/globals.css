@@ -40,6 +40,20 @@ ul {
   @apply text-white;
 }
 
+@keyframes alert {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.animation-alert {
+  animation: alert 2.5s ease-out forwards;
+  animation-delay: 2.5s;
+}
+
 /* taken from here: https://www.heropatterns.com/ */
 .pattern-bg {
   background-color: #b91c1c;
