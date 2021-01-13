@@ -21,7 +21,7 @@ export default function UserDetail() {
   }
 
   return (
-    <div className="bg-white md:rounded-r-lg border-l border-gray-200 text-gray-700 pb-4">
+    <div className="bg-white md:rounded-r-lg md:border-l border-gray-200 text-gray-700 pb-4">
       {/* <header className="bg-white sticky top-0 space-x-4 flex items-center py-2 px-4 border-b border-gray-200">
         
         <div className="truncate flex-auto">
