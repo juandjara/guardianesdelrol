@@ -55,10 +55,10 @@ export default function CredentialsEdit({ user }) {
         <div className="mb-4">
           <Label name="email" text="Email" />
           <input
-            readOnly
+            disabled
             id="email"
             type="email"
-            className="w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
+            className="text-gray-500 bg-gray-100 w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
             placeholder="Escribe tu correo"
             value={emailValue}
             onChange={ev => setEmail(ev.target.value)}
