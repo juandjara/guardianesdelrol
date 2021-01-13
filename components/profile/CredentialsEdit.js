@@ -1,15 +1,12 @@
 import { useAlert } from '@/lib/AlertContext'
 import { supabase } from '@/lib/supabase'
-import { useSession } from '@/lib/UserContext'
 import { useState } from 'react'
 import Button from '../Button'
 import Label from '../Label'
 import Spinner from '../Spinner'
 
-export default function CredentialsEdit() {
-  const { user } = useSession()
-  const email = ''
-  // const [email, setEmail] = useState(null)
+export default function CredentialsEdit({ user }) {
+  const [email, setEmail] = useState(null)
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -30,11 +27,11 @@ export default function CredentialsEdit() {
 
     setError(null)
     setLoading(true)
-    const { error } = await verifyCredentials(user.email, currentPassword)
+    const { error, data } = await verifyCredentials(user.email, currentPassword)
     if (error) {
       setError(error)
     } else {
-      const { error } = await supabase.auth.update({
+      const { error } = await supabase.auth.api.updateUser(data.access_token, {
         email: emailValue || undefined,
         password: newPassword || undefined
       })
@@ -55,9 +52,10 @@ export default function CredentialsEdit() {
       </p>
       <form onSubmit={handlePasswordSubmit}>
         {/* TODO: comprobar que el cambio de email funciona */}
-        {/* <div className="mb-4">
+        <div className="mb-4">
           <Label name="email" text="Email" />
           <input
+            readOnly
             id="email"
             type="email"
             className="w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
@@ -66,7 +64,7 @@ export default function CredentialsEdit() {
             onChange={ev => setEmail(ev.target.value)}
             required
           />
-        </div> */}
+        </div>
         <div className="mb-4 md:flex md:items-end md:space-x-2 space-y-4">
           <div className="w-full">
             <Label name="current_password" text="Contraseña actual" />

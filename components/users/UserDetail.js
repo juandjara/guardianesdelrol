@@ -49,7 +49,7 @@ export default function UserDetail() {
               <span>{user ? user.displayName || 'Aventurero sin nombre' : <Skeleton />} </span>
               <RoleTags user={user} />
             </p>
-            <p className="mt-2 text-base">{user ? user.bio : <Skeleton />}</p>
+            <p className="mt-1 text-sm text-gray-600">{user ? user.bio : <Skeleton />}</p>
           </div>
           <Link href={`/settings?id=${user?.id}`}>
             <a className="absolute md:top-0 top-12 right-0">
