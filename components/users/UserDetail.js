@@ -35,7 +35,10 @@ export default function UserDetail() {
       </header> */}
       <section className="mx-4 relative">
         <Link href="/users">
-          <button className="absolute top-2 -left-2 rounded-full p-2 bg-opacity-20 text-white bg-gray-50 hover:bg-opacity-50">
+          <button
+            title="Cerrar"
+            aria-label="Cerrar"
+            className="absolute top-2 -left-2 rounded-full p-2 bg-opacity-20 text-white bg-gray-50 hover:bg-opacity-50 focus:outline-none focus:ring focus:ring-offset-0 focus:ring-blue-500 focus:ring-offset-transparent">
             <CloseIcon height={20} width={20} />
           </button>
         </Link>

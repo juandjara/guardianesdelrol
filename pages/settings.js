@@ -48,8 +48,10 @@ export default function MyAccount() {
       <h1 className="text-6xl font-bold text-center">Mi Cuenta</h1>
       <div className="relative bg-white text-gray-700 rounded-lg mt-8 p-4 max-w-3xl mx-auto">
         <button
+          title="Volver"
+          aria-label="Volver"
           onClick={() => router.back()}
-          className="absolute -top-20 left-2 rounded-full p-2 bg-opacity-20 text-white bg-gray-50 hover:bg-opacity-50">
+          className="absolute -top-20 left-2 rounded-full p-2 bg-opacity-20 text-white bg-gray-50 hover:bg-opacity-50 focus:outline-none focus:ring focus:ring-offset-0 focus:ring-blue-500 focus:ring-offset-transparent">
           <svg
             height={20}
             width={20}
