@@ -62,27 +62,6 @@ export default function UserMenu() {
                 <div className="mb-2 pt-1 pb-3 px-4 text-gray-900 border-b border-1 border-gray-300">
                   <p className="text-sm font-semibold truncate">{user.displayName}</p>
                 </div>
-                {user?.role === 'superadmin' && (
-                  <>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <MenuLink active={active} href="/users">
-                          Usuarios
-                        </MenuLink>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <MenuLink
-                          className="border-b border-gray-200"
-                          active={active}
-                          href="/users">
-                          Imagenes
-                        </MenuLink>
-                      )}
-                    </Menu.Item>
-                  </>
-                )}
                 <Menu.Item>
                   {({ active }) => (
                     <MenuLink active={active} href="/settings">
