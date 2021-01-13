@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { supabase } from '@/lib/supabase'
 import { useSession } from '../lib/UserContext'
 import useGravatar from '@/lib/useGravatar'
+import RoleTags from './RoleTags'
 
 export default function UserMenu() {
   const { user } = useSession()
@@ -61,6 +62,7 @@ export default function UserMenu() {
                 className="absolute right-2 w-48 rounded-md shadow-lg py-2 bg-white ring-1 ring-black ring-opacity-5">
                 <div className="mb-2 pt-1 pb-3 px-4 text-gray-900 border-b border-1 border-gray-300">
                   <p className="text-sm font-semibold truncate">{user.displayName}</p>
+                  <RoleTags user={user} />
                 </div>
                 <Menu.Item>
                   {({ active }) => (
