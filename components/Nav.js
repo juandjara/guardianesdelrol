@@ -43,7 +43,7 @@ export default function Nav() {
           </NavLink>
         ))}
       </div>
-      <div className="md:hidden flex-1 relative">
+      <div className="md:hidden flex-1 z-20 relative">
         <Menu>
           {({ open }) => (
             <>
@@ -65,7 +65,7 @@ export default function Nav() {
                 leaveTo="scale-y-50 opacity-0">
                 <Menu.Items
                   static
-                  className="z-20 absolute left-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5">
+                  className="absolute left-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5">
                   {filteredLinks.map(l => (
                     <Menu.Item key={l.href}>
                       {({ active }) => (
