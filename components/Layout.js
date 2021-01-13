@@ -2,8 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
 import styles from '../styles/Layout.module.css'
-import NavLink from './NavLink'
-import MobileNavMenu from './MobileNavMenu'
+import Nav from './Nav'
 import UserMenu from './UserMenu'
 
 import SocialIcon from './social-icons/SocialIcon'
@@ -28,14 +27,7 @@ export default function Layout({ children, title = 'Guardianes del Rol' }) {
         <Image alt="Dados de rol" src="/img/dice-bg.jpg" layout="fill" objectFit="cover" />
       </div>
       <nav className="flex items-start justify-center">
-        <div className="hidden md:flex flex-1 mx-1 space-x-1">
-          <NavLink href="/posts">Partidas</NavLink>
-          <NavLink href="/catalog">Cat&aacute;logo</NavLink>
-          <NavLink href="/challenge">Reta a un narrador</NavLink>
-        </div>
-        <div className="md:hidden flex-1 relative">
-          <MobileNavMenu />
-        </div>
+        <Nav />
         <Link href="/">
           <a className="hover:opacity-75">
             <Image src="/img/rol.png" width={75} height={75} />
