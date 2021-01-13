@@ -83,7 +83,7 @@ export default function ProfileEdit({ user, setUser }) {
           type="checkbox"
           checked={checkboxValue}
           onChange={ev => setChallenge(ev.target.checked)}
-          className="h-5 w-5 text-indigo-500 focus:outline-none focus:ring-offset-1 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 border-gray-300 rounded"
+          className="h-5 w-5 text-blue-500 focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 border-gray-300 rounded"
         />
         <Label
           name="challenge"
