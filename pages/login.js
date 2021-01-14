@@ -10,6 +10,8 @@ import { useRouter } from 'next/router'
 import MailSentScreen from '@/components/login/MailSentScreen'
 import GoogleLoginButton from '@/components/login/GoogleLoginButton'
 import Label from '@/components/Label'
+import { useSession } from '@/lib/UserContext'
+import { useQueryParams } from '@/lib/useQueryParams'
 
 export default function Login() {
   const inputRef = useRef()
@@ -18,20 +20,32 @@ export default function Login() {
 
   const [loading, setLoading] = useState(false)
   const [mailSent, setMailSent] = useState(false)
-  const { setAlert } = useAlert()
+
   const router = useRouter()
-  const next = router.query.next
+  const query = useQueryParams()
+  const next = query.get('next')
+  const session = useSession()
+  const { setAlert } = useAlert()
 
   useEffect(() => {
-    if (next) {
-      setAlert('Es necesario iniciar sesión para continuar')
+    if (session) {
+      if (next) {
+        router.replace(next)
+      } else {
+        router.push('/settings')
+      }
+    } else {
+      if (next) {
+        setAlert('Es necesario iniciar sesión para continuar')
+      }
+      if (inputRef.current) {
+        inputRef.current.focus()
+      }
     }
-    if (inputRef.current) {
-      inputRef.current.focus()
-    }
-  }, [next, setAlert])
+  }, [session, next, router, setAlert])
 
   async function handleSubmit(ev) {
+    console.info('SUBMIT LOGIN')
     ev.preventDefault()
     setLoading(true)
     const { error } = await supabase.auth.signIn({ email, password })
@@ -39,13 +53,7 @@ export default function Login() {
       console.error(error)
       setAlert(error.message)
     } else {
-      if (password) {
-        if (next) {
-          router.replace(next)
-        } else {
-          router.push('/settings')
-        }
-      } else {
+      if (!password) {
         setMailSent(true)
       }
     }
