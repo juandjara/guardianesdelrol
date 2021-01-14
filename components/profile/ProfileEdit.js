@@ -1,15 +1,20 @@
 import { useAlert } from '@/lib/AlertContext'
 import { updateProfile } from '@/lib/authService'
+import useProfile from '@/lib/useProfile'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { mutate } from 'swr'
 import Button from '../Button'
 import Label from '../Label'
 import Spinner from '../Spinner'
 
-export default function ProfileEdit({ user, setUser }) {
+export default function ProfileEdit() {
   const [name, setName] = useState(null)
   const [bio, setBio] = useState(null)
   const [challenge, setChallenge] = useState(null)
-  const [loading, setLoading] = useState(false)
+
+  const router = useRouter()
+  const { user, loading } = useProfile(router.query.id)
   const { setAlert } = useAlert()
 
   const nameValue = (name === null ? user?.displayName : name) || ''
@@ -18,22 +23,21 @@ export default function ProfileEdit({ user, setUser }) {
 
   async function handleSubmit(ev) {
     ev.preventDefault()
-
-    setLoading(true)
-    const { error, data } = await updateProfile({
-      id: user?.id,
-      displayName: nameValue,
-      challengeable: checkboxValue,
-      bio: bioValue
-    })
-    if (error) {
+    try {
+      await mutate(`profile/${user.id}`, async user => {
+        const data = await updateProfile({
+          id: user.id,
+          displayName: nameValue,
+          challengeable: checkboxValue,
+          bio: bioValue
+        })
+        return { ...user, ...data }
+      })
+      setAlert({ type: 'success', text: 'Perfil actualizado correctamente' })
+    } catch (error) {
       console.error(error)
       setAlert(error.message)
-    } else {
-      setUser(oldProfile => ({ ...oldProfile, ...data }))
-      setAlert({ type: 'success', text: 'Perfil actualizado correctamente' })
     }
-    setLoading(false)
   }
 
   const NAME_MAXLENGTH = 50

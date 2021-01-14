@@ -5,12 +5,12 @@ import MenuLink from './MenuLink'
 import { Menu, Transition } from '@headlessui/react'
 import { useRouter } from 'next/router'
 import { supabase } from '@/lib/supabase'
-import { useSession } from '../lib/UserContext'
 import useGravatar from '@/lib/useGravatar'
 import RoleTags from './RoleTags'
+import useProfile from '@/lib/useProfile'
 
 export default function UserMenu() {
-  const { user } = useSession()
+  const { user } = useProfile()
   const router = useRouter()
   const avatarSize = 44
   const gravatarURL = useGravatar({ email: user?.email, size: avatarSize })

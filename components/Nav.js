@@ -4,7 +4,7 @@ import MenuIcon from './icons/MenuIcon'
 import CloseIcon from './icons/CloseIcon'
 import { Menu, Transition } from '@headlessui/react'
 import NavLink from './NavLink'
-import { useSession } from '@/lib/UserContext'
+import useProfile from '@/lib/useProfile'
 
 function TransitionMenuIcon({ as: Component, show }) {
   return (
@@ -27,7 +27,7 @@ const links = [
 ]
 
 export default function Nav() {
-  const { user } = useSession()
+  const { user } = useProfile()
   const filteredLinks = links.filter(link => {
     if (!link.role) {
       return true

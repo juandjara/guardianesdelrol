@@ -1,45 +1,55 @@
 import { useAlert } from '@/lib/AlertContext'
 import { supabase } from '@/lib/supabase'
+import useProfile from '@/lib/useProfile'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import Button from '../Button'
 import Label from '../Label'
 import Spinner from '../Spinner'
 
-export default function CredentialsEdit({ user }) {
+export default function CredentialsEdit() {
   const [email, setEmail] = useState(null)
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(false)
+
+  const router = useRouter()
+  const { user } = useProfile(router.query.id)
   const { setAlert } = useAlert()
 
   const emailValue = (email === null ? user?.email : email) || ''
 
   async function verifyCredentials(email, password) {
-    if (!password) {
-      return { error: null }
+    const { data, error } = await supabase.auth.api.signInWithEmail(email, password)
+    if (error) {
+      throw error
+    } else {
+      return data
     }
-    return await supabase.auth.api.signInWithEmail(email, password)
+  }
+
+  async function updateCredentials(password) {
+    const { data, error } = await supabase.auth.api.updateUser(data.access_token, { password })
+    if (error) {
+      throw error
+    } else {
+      return data
+    }
   }
 
   async function handlePasswordSubmit(ev) {
     ev.preventDefault()
 
-    setError(null)
+    setError(false)
     setLoading(true)
-    const { error, data } = await verifyCredentials(user.email, currentPassword)
-    if (error) {
-      setError(error)
-    } else {
-      const { error } = await supabase.auth.api.updateUser(data.access_token, {
-        email: emailValue || undefined,
-        password: newPassword || undefined
-      })
-      if (error) {
-        setError(error)
-      } else {
-        setAlert({ type: 'success', text: 'Credenciales actualizadas correctamente' })
-      }
+    try {
+      await verifyCredentials(user.email, currentPassword)
+      await updateCredentials(newPassword)
+      setAlert({ type: 'success', text: 'Credenciales actualizadas correctamente' })
+    } catch (error) {
+      console.error(error)
+      setError(true)
     }
     setLoading(false)
   }
@@ -51,7 +61,6 @@ export default function CredentialsEdit({ user }) {
         Informaci&oacute;n de inicio de sesi&oacute;n
       </p>
       <form onSubmit={handlePasswordSubmit}>
-        {/* TODO: comprobar que el cambio de email funciona */}
         <div className="mb-4">
           <Label name="email" text="Email" />
           <input

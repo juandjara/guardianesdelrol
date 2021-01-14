@@ -2,46 +2,12 @@ import useAuthGuard from '@/lib/useAuthGuard'
 import PhotoEdit from '@/components/profile/PhotoEdit'
 import ProfileEdit from '@/components/profile/ProfileEdit'
 import CredentialsEdit from '@/components/profile/CredentialsEdit'
-import { useSession } from '@/lib/UserContext'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { fetchProfile } from '@/lib/authService'
-import { useAlert } from '@/lib/AlertContext'
 import RoleEdit from '@/components/profile/RoleEdit'
+import { useRouter } from 'next/router'
 
-export default function MyAccount() {
+export default function Settings() {
   useAuthGuard()
-
-  const { setAlert } = useAlert()
-  const { user: currentUser, setProfile: setCurrentUser } = useSession()
-  const currentId = currentUser?.id
   const router = useRouter()
-  const urlId = router.query.id
-  const [urlUser, setUrlUser] = useState(null)
-
-  const hasDifferentProfile = currentId && urlId && currentId !== urlId
-
-  async function fetchURLProfile() {
-    const { data, error } = await fetchProfile(urlId)
-    if (error) {
-      console.error(error)
-      setAlert(error.message)
-    } else {
-      setUrlUser(data)
-    }
-  }
-
-  useEffect(() => {
-    if (hasDifferentProfile) {
-      fetchURLProfile()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasDifferentProfile])
-
-  const user = hasDifferentProfile ? urlUser : currentUser
-  const setUser = hasDifferentProfile ? setUrlUser : setCurrentUser
-
-  const showRoleEdit = currentUser?.role === 'superadmin' && hasDifferentProfile
 
   return (
     <main className="flex-auto mt-4 px-4">
@@ -71,17 +37,13 @@ export default function MyAccount() {
         <p className="mt-1 mb-6 text-sm text-gray-600">
           Informaci&oacute;n p&uacute;blica visible para otros usuarios
         </p>
-        <PhotoEdit user={user} />
-        <ProfileEdit user={user} setUser={setUser} />
+        <PhotoEdit />
+        <ProfileEdit />
       </div>
       <div className="bg-white text-gray-700 rounded-lg mt-8 p-4 max-w-3xl mx-auto">
-        <CredentialsEdit user={user} />
+        <CredentialsEdit />
       </div>
-      {showRoleEdit && (
-        <div className="bg-white text-gray-700 rounded-lg mt-8 p-4 max-w-3xl mx-auto">
-          <RoleEdit user={user} setUser={setUser} />
-        </div>
-      )}
+      <RoleEdit />
     </main>
   )
 }

@@ -3,32 +3,42 @@ import Button from '@/components/Button'
 import Spinner from '@/components/Spinner'
 import { updatePermissions } from '@/lib/authService'
 import { useAlert } from '@/lib/AlertContext'
+import { useRouter } from 'next/router'
+import useProfile from '@/lib/useProfile'
+import { mutate } from 'swr'
 
-export default function RoleEdit({ user, setUser }) {
+export default function RoleEdit() {
+  const router = useRouter()
+  const { user, loading } = useProfile(router.query.id)
+  const { user: loggedUser } = useProfile()
+  const { setAlert } = useAlert()
+
   const [role, setRole] = useState(null)
   const roleValue = (role === null ? user?.role : role) || 'normal'
-  const [loading, setLoading] = useState(false)
-  const { setAlert } = useAlert()
 
   async function handleSubmit(ev) {
     ev.preventDefault()
-    setLoading(true)
-    const { error } = await updatePermissions({
-      id: user?.id,
-      role: roleValue
-    })
-    if (error) {
+    try {
+      await mutate(`profile/${user.id}`, async user => {
+        await updatePermissions({
+          id: user.id,
+          role: roleValue
+        })
+        return { ...user, role: roleValue }
+      })
+      setAlert({ type: 'success', text: 'Permisos actualizados correctamente' })
+    } catch (error) {
       console.error(error)
       setAlert(error.message)
-    } else {
-      setUser(user => ({ ...user, role: roleValue }))
-      setAlert({ type: 'success', text: 'Permisos actualizados correctamente' })
     }
-    setLoading(false)
+  }
+
+  if (loggedUser?.role !== 'superadmin') {
+    return null
   }
 
   return (
-    <section>
+    <div className="bg-white text-gray-700 rounded-lg mt-8 p-4 max-w-3xl mx-auto">
       <h2 className="text-xl font-medium mb-2">Permisos</h2>
       <form onSubmit={handleSubmit} className="md:flex space-y-2 items-start justify-between">
         <div className="flex space-x-6">
@@ -83,6 +93,6 @@ export default function RoleEdit({ user, setUser }) {
           )}
         </Button>
       </form>
-    </section>
+    </div>
   )
 }

@@ -1,9 +1,14 @@
 import { supabase } from '@/lib/supabase'
+import useProfile from '@/lib/useProfile'
+import { useRouter } from 'next/router'
 import Avatar from '../Avatar'
 import Button from '../Button'
 import EditIcon from '../icons/EditIcon'
 
-export default function PhotoEdit({ user }) {
+export default function PhotoEdit() {
+  const router = useRouter()
+  const { user } = useProfile(router.query.id)
+
   return (
     <div className="mb-4">
       <p className="text-sm text-gray-700 font-medium mb-2">Avatar</p>
