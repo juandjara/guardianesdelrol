@@ -60,7 +60,7 @@ export default function PhotoEdit() {
                   clipRule="evenodd"
                 />
               </svg>
-              <span>Descartar</span>
+              <span>Volver al gravatar</span>
             </Button>
           </div>
         )}

@@ -11,8 +11,8 @@ export default function Avatar({ user, className, size = 64, border = 'border-gr
       className={`${border} ${className} bg-white flex-shrink-0 flex items-center justify-center w-${sizeCN} h-${sizeCN} rounded-full border-2`}>
       <Image
         className="rounded-full"
-        loader={user.photoURL ? imageKitLoader : undefined}
-        src={user.photoURL ? `/avatar/${user.id}` : gravatarURL}
+        loader={user.useGravatar ? undefined : imageKitLoader}
+        src={user.useGravatar ? gravatarURL : `/avatar/${user.id}`}
         width={size}
         height={size}
       />

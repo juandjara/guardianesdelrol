@@ -47,8 +47,8 @@ export default function UserMenu() {
                 width={avatarSize}
                 height={avatarSize}
                 className="rounded-full"
-                loader={user.photoURL ? imageKitLoader : undefined}
-                src={user.photoURL ? `/avatar/${user.id}` : gravatarURL}
+                loader={user.useGravatar ? undefined : imageKitLoader}
+                src={user.useGravatar ? gravatarURL : `/avatar/${user.id}`}
               />
             </Menu.Button>
             <Transition
