@@ -8,6 +8,7 @@ import { supabase } from '@/lib/supabase'
 import useGravatar from '@/lib/useGravatar'
 import RoleTags from './RoleTags'
 import useProfile from '@/lib/useProfile'
+import imageKitLoader from '@/lib/imageKitLoader'
 
 export default function UserMenu() {
   const { user } = useProfile()
@@ -46,7 +47,8 @@ export default function UserMenu() {
                 width={avatarSize}
                 height={avatarSize}
                 className="rounded-full"
-                src={user.photoURL || gravatarURL}
+                loader={user.photoURL ? imageKitLoader : undefined}
+                src={user.photoURL ? `/avatar/${user.id}` : gravatarURL}
               />
             </Menu.Button>
             <Transition

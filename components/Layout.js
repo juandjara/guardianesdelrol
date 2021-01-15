@@ -24,7 +24,7 @@ export default function Layout({ children, title = 'Guardianes del Rol' }) {
         <title>{title}</title>
       </Head>
       <div className={styles.bgimage}>
-        <Image alt="Dados de rol" src="/img/dice-bg.jpg" layout="fill" objectFit="cover" />
+        <Image src="/img/dice-bg.jpg" priority layout="fill" objectFit="cover" />
       </div>
       <nav className="flex items-start justify-center">
         <Nav />

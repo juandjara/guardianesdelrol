@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Skeleton from 'react-loading-skeleton'
 import useGravatar from '@/lib/useGravatar'
+import imageKitLoader from '@/lib/imageKitLoader'
 
 export default function Avatar({ user, className, size = 64, border = 'border-gray-100' }) {
   const sizeCN = size / 4
@@ -10,7 +11,8 @@ export default function Avatar({ user, className, size = 64, border = 'border-gr
       className={`${border} ${className} bg-white flex-shrink-0 flex items-center justify-center w-${sizeCN} h-${sizeCN} rounded-full border-2`}>
       <Image
         className="rounded-full"
-        src={user.photoURL || gravatarURL}
+        loader={user.photoURL ? imageKitLoader : undefined}
+        src={user.photoURL ? `/avatar/${user.id}` : gravatarURL}
         width={size}
         height={size}
       />
