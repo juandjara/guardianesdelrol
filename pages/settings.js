@@ -1,5 +1,4 @@
 import useAuthGuard from '@/lib/useAuthGuard'
-import PhotoEdit from '@/components/profile/PhotoEdit'
 import ProfileEdit from '@/components/profile/ProfileEdit'
 import CredentialsEdit from '@/components/profile/CredentialsEdit'
 import RoleEdit from '@/components/profile/RoleEdit'
@@ -37,7 +36,6 @@ export default function Settings() {
         <p className="mt-1 mb-6 text-sm text-gray-600">
           Informaci&oacute;n p&uacute;blica visible para otros usuarios
         </p>
-        <PhotoEdit />
         <ProfileEdit />
       </div>
       <div className="bg-white text-gray-700 rounded-lg mt-8 p-4 max-w-3xl mx-auto">

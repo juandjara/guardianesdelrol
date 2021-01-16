@@ -12,7 +12,7 @@ function getImgOptionValue(imgOption, user) {
   return user ? user.avatarType : 'gravatar'
 }
 
-export default function PhotoEdit() {
+export default function PhotoEdit({ onChange }) {
   const inputRef = useRef()
   const router = useRouter()
   const { user } = useProfile(router.query.id)
@@ -30,8 +30,13 @@ export default function PhotoEdit() {
     const file = ev.target.files[0]
     const reader = new FileReader()
     reader.onload = function handleImgLoad(ev) {
-      setPreviewURL(ev.target.result)
+      const url = ev.target.result
+      setPreviewURL(url)
       setImgOption('custom')
+      onChange({
+        type: 'custom',
+        url
+      })
     }
     reader.readAsDataURL(file)
   }
@@ -39,6 +44,9 @@ export default function PhotoEdit() {
   function setGravatar() {
     setPreviewURL(null)
     setImgOption('gravatar')
+    onChange({
+      type: 'gravatar'
+    })
   }
 
   return (
@@ -58,6 +66,7 @@ export default function PhotoEdit() {
             small
             disabled={!user}
             onClick={toggleFile}
+            type="button"
             className="my-0 pr-1 pl-1 rounded-full"
             color="text-blue-500"
             background="bg-white hover:shadow-md"

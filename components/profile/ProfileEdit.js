@@ -1,17 +1,21 @@
 import { useAlert } from '@/lib/AlertContext'
 import { updateProfile } from '@/lib/authService'
+import { supabase } from '@/lib/supabase'
 import useProfile from '@/lib/useProfile'
+import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { mutate } from 'swr'
 import Button from '../Button'
 import Label from '../Label'
 import Spinner from '../Spinner'
+import PhotoEdit from './PhotoEdit'
 
 export default function ProfileEdit() {
   const [name, setName] = useState(null)
   const [bio, setBio] = useState(null)
   const [challenge, setChallenge] = useState(null)
+  const [avatar, setAvatar] = useState(null)
 
   const router = useRouter()
   const { user, loading } = useProfile(router.query.id)
@@ -21,12 +25,26 @@ export default function ProfileEdit() {
   const bioValue = (bio === null ? user?.bio : bio) || ''
   const checkboxValue = (challenge === null ? user?.challengeable : challenge) || false
 
+  async function handleAvatarUpload() {
+    const session = supabase.auth.session()
+    const formData = new FormData()
+    formData.set('file', avatar.url)
+    formData.set('token', session.access_token)
+    const response = await axios.post('/api/uploadAvatar', formData)
+    console.log(response.data)
+  }
+
   async function handleSubmit(ev) {
     ev.preventDefault()
     try {
+      if (avatar?.type === 'custom') {
+        await handleAvatarUpload()
+      }
       await mutate(`profile/${user.id}`, async user => {
+        const avatarType = avatar?.type || user.avatarType
         const data = await updateProfile({
           id: user.id,
+          avatarType,
           displayName: nameValue,
           challengeable: checkboxValue,
           bio: bioValue
@@ -45,6 +63,7 @@ export default function ProfileEdit() {
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
+      <PhotoEdit onChange={setAvatar} />
       <div>
         <div className="mb-1 w-full md:w-1/2 flex items-center justify-between">
           <Label name="name" text="Nombre" />
