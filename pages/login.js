@@ -80,6 +80,8 @@ export default function Login() {
 
   const buttonText = password.length ? 'Entrar' : 'Enviar enlace único'
   const Icon = password.length ? LockIcon : MailIcon
+
+  // TODO display this info for mobile devices too
   const iconTitle = password.length
     ? ''
     : 'Un enlace único es un enlace que se envia a tu dirección de correo para que puedas entrar sin necesidad de recordar una contraseña'

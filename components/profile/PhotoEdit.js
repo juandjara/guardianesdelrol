@@ -1,69 +1,103 @@
-import { supabase } from '@/lib/supabase'
 import useProfile from '@/lib/useProfile'
 import { useRouter } from 'next/router'
+import { useRef, useState } from 'react'
 import Avatar from '../Avatar'
 import Button from '../Button'
 import EditIcon from '../icons/EditIcon'
 
+function getImgOptionValue(imgOption, user) {
+  if (imgOption) {
+    return imgOption
+  }
+  return user ? user.avatarType : 'gravatar'
+}
+
 export default function PhotoEdit() {
+  const inputRef = useRef()
   const router = useRouter()
   const { user } = useProfile(router.query.id)
+  const [imgOption, setImgOption] = useState(null)
+  const imgOptionValue = getImgOptionValue(imgOption, user)
+  const [previewURL, setPreviewURL] = useState(null)
+
+  function toggleFile() {
+    if (inputRef.current) {
+      inputRef.current.click()
+    }
+  }
+
+  function handleFile(ev) {
+    const file = ev.target.files[0]
+    const reader = new FileReader()
+    reader.onload = function handleImgLoad(ev) {
+      setPreviewURL(ev.target.result)
+      setImgOption('custom')
+    }
+    reader.readAsDataURL(file)
+  }
+
+  function setGravatar() {
+    setPreviewURL(null)
+    setImgOption('gravatar')
+  }
 
   return (
-    <div className="mb-4">
+    <div className="mb-6">
       <p className="text-sm text-gray-700 font-medium mb-2">Avatar</p>
-      <div className="flex items-center">
-        <Avatar size={80} user={user} />
-        {user?.isAnonymous ? (
-          <div className="text-sm ml-2">
-            <p className="mt-2 text-gray-700 mb-1">
-              Un usuario invitado no puede editar su foto de perfil.
-            </p>
-            <p>
-              <span>Prueba a</span>{' '}
-              <button
-                onClick={() => supabase.auth.signOut()}
-                className="text-blue-400 hover:underline">
-                cerrar sesión
-              </button>{' '}
-              <span>y usar otro metodo de inicio de sesión</span>
-            </p>
-          </div>
-        ) : (
-          <div className="flex items-center">
-            <Button
-              small
-              disabled={!user}
-              className="mx-0 ml-3"
-              color="text-blue-500"
-              background="bg-white hover:shadow-md"
-              hasIcon="left">
-              <EditIcon height={20} width={20} />
-              <span>Editar</span>
-            </Button>
-            <Button
-              small
-              disabled={!user}
-              className="mx-0 ml-3"
-              color="text-gray-700"
-              background="bg-white hover:shadow-md"
-              hasIcon="left">
-              <svg
-                height={20}
-                width={20}
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor">
-                <path
-                  fillRule="evenodd"
-                  d="M7.707 3.293a1 1 0 010 1.414L5.414 7H11a7 7 0 017 7v2a1 1 0 11-2 0v-2a5 5 0 00-5-5H5.414l2.293 2.293a1 1 0 11-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span>Volver al gravatar</span>
-            </Button>
-          </div>
-        )}
+      <div className="flex items-center relative">
+        <Avatar className="mr-6" size={80} user={user} preview={previewURL} />
+        <div className="flex items-center absolute -top-1 left-14">
+          <input
+            id="profile_picture"
+            className="hidden"
+            type="file"
+            onChange={handleFile}
+            ref={inputRef}
+          />
+          <Button
+            small
+            disabled={!user}
+            onClick={toggleFile}
+            className="my-0 pr-1 pl-1 rounded-full"
+            color="text-blue-500"
+            background="bg-white hover:shadow-md"
+            hasIcon="left">
+            <EditIcon height={20} width={20} />
+          </Button>
+        </div>
+        <div>
+          <label className="flex items-center mt-3">
+            <input
+              type="radio"
+              name="avatar_type"
+              value="custom"
+              checked={imgOptionValue === 'custom'}
+              onChange={ev => setImgOption(ev.target.value)}
+              className="h-5 w-5 text-blue-500"
+            />
+            <span className="ml-2 text-gray-700">Personalizado</span>
+          </label>
+          <label className="flex items-center mt-3">
+            <input
+              type="radio"
+              name="avatar_type"
+              value="gravatar"
+              checked={imgOptionValue === 'gravatar'}
+              onChange={() => setGravatar()}
+              className="h-5 w-5 text-blue-500"
+            />
+            <div className="ml-2 text-gray-700">
+              <span>Gravatar</span>
+              <a
+                className="text-xs ml-2 text-blue-500"
+                href="https://es.gravatar.com"
+                target="_blank"
+                rel="noreferrer noopener">
+                ¿grava-qu&eacute;?
+              </a>
+            </div>
+          </label>
+        </div>
       </div>
     </div>
   )

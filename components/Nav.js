@@ -20,7 +20,6 @@ function TransitionMenuIcon({ as: Component, show }) {
 
 const links = [
   { role: 'superadmin', href: '/users', text: 'Usuarios' },
-  { role: 'superadmin', href: '/images', text: 'Imágenes' },
   { href: '/posts', text: 'Partidas' },
   { href: '/catalog', text: 'Catálogo' },
   { href: '/challenge', text: 'Reta a un narrador' }

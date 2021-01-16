@@ -40,9 +40,9 @@ export default function RoleEdit() {
   return (
     <div className="bg-white text-gray-700 rounded-lg mt-8 p-4 max-w-3xl mx-auto">
       <h2 className="text-xl font-medium mb-2">Permisos</h2>
-      <form onSubmit={handleSubmit} className="md:flex space-y-2 items-start justify-between">
-        <div className="flex space-x-6">
-          <label className="inline-flex items-center mt-3">
+      <form onSubmit={handleSubmit} className="md:flex space-y-2 items-end justify-between">
+        <div className="space-y-4">
+          <label className="flex items-center mt-3">
             <input
               type="radio"
               name="role"
@@ -53,7 +53,7 @@ export default function RoleEdit() {
             />
             <span className="ml-2 text-gray-700">Normal</span>
           </label>
-          <label className="inline-flex items-center mt-3">
+          <label className="flex items-center mt-3">
             <input
               type="radio"
               name="role"
@@ -64,7 +64,7 @@ export default function RoleEdit() {
             />
             <span className="ml-2 text-gray-700">Admin</span>
           </label>
-          <label className="inline-flex items-center mt-3">
+          <label className="flex items-center mt-3">
             <input
               type="radio"
               name="role"
