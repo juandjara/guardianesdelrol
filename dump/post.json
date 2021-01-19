@@ -350,7 +350,7 @@
     "totalSeats": 4,
     "mainImageUrl": "https://firebasestorage.googleapis.com/v0/b/guardianes-2018.appspot.com/o/1537101893374_246x0w-jpg?alt=media&token=234bed5f-013b-4c1f-921b-ae0e7fa2ec94",
     "title": "Asciende o paga las consecuencias",
-    "slug": "asciende-o-paga-las-consecuencias-partida-de-mago-la-ascension",
+    "slug": "asciende-o-paga-las-consecuencias",
     "players": [
       {
         "email": "juanorigami@gmail.com",
@@ -649,10 +649,6 @@
       {
         "displayName": "Aurora",
         "email": "andanna_ab@hotmail.es"
-      },
-      {
-        "email": "null@anon.com",
-        "displayName": null
       },
       {
         "email": "yatonin@gmail.com",
@@ -1192,7 +1188,7 @@
     "_id": "DflsYekFR6KZhnIfXXgC"
   },
   {
-    "mainImageUrl": "https://firebasestorage.googleapis.com/v0/b/guardianes-2018.appspot.com/o/1539027075276_maxresdefault-jpg?alt=media&token=0b2914ed-4b1e-4ff2-9c0f-981dc164a90a",
+    "mainImageUrl": "https://firebasestorage.googleapis.com/v0/b/guardianes-2018.appspot.com/o/1539027075276_fraggedempire-jpg?alt=media&token=0b2914ed-4b1e-4ff2-9c0f-981dc164a90a",
     "id": "DzQGAeMIzuuDSyFJav3m",
     "players": [
       {
@@ -1402,32 +1398,6 @@
     "title": "El infierno son los demás",
     "hour": "18:00",
     "_id": "GjxFXf0jpxFxeX1l2QJH"
-  },
-  {
-    "mainImageUrl": null,
-    "slug": "test",
-    "date": "2020-09-01",
-    "narrator": {
-      "displayName": null,
-      "email": "devpgsv@gmail.com",
-      "photoURL": null
-    },
-    "title": "Test",
-    "totalSeats": 9,
-    "game": "Test",
-    "section": "guardianes_rol",
-    "place": "Test",
-    "hour": "",
-    "players": [
-      {
-        "email": "devpgsv@gmail.com",
-        "displayName": null
-      }
-    ],
-    "fullSeats": 3,
-    "description": "{\"ops\":[]}",
-    "id": "XP2mop47Yy3u8zgi1PLb",
-    "_id": "GtfVXIVskOwh2KGkxTjB"
   },
   {
     "description": "{\"ops\":[{\"insert\":\"Meter las narices en lo oculto sin conocimiento de causa ni protección equivale a coger algo bonito del suelo: podrías pillar algo malo. Eso mismo debe estar pensando la pobre Polly O'Farrell mientras siente que algo le está robando el tiempo, literalmente, desde aquel fallido (en apariencia) ritual de invocación. Buscaba poder, pero solo consiguió convertirse en el huésped de algo ignoto. Desesperada, mientras su biorritmo se aletarga, O'Farrell acude a vuestro culto para proponeros un trabajito: conseguir un objeto que podría ayudarla a entender qué le está pasando y, con suerte, ponerle remedio. Pero el tiempo de Polly se acaba. El parásito que se alimenta de ella se hace más fuerte y amenaza con provocar una plaga de consecuencias fatales para vosotros y para toda la raza humana.\\n\"}]}",
@@ -3722,10 +3692,6 @@
       {
         "displayName": "Satan",
         "email": "rufinoph@hotmail.es"
-      },
-      {
-        "email": "null@anon.com",
-        "displayName": null
       }
     ],
     "slug": "aventuras-en-coronavilla",
@@ -3748,7 +3714,7 @@
       "displayName": "Kroaler",
       "photoURL": null
     },
-    "mainImageUrl": "https://firebasestorage.googleapis.com/v0/b/guardianes-2018.appspot.com/o/1542144467083_maxresdefault-jpg?alt=media&token=360c319d-8c44-427e-a05c-d86caf4962e7",
+    "mainImageUrl": "https://firebasestorage.googleapis.com/v0/b/guardianes-2018.appspot.com/o/1542144467083_goblinslayer-jpg?alt=media&token=360c319d-8c44-427e-a05c-d86caf4962e7",
     "fullSeats": 3,
     "_id": "fgmiMPoaTu71U1VLwz7N"
   },
@@ -3968,7 +3934,7 @@
   {
     "fullSeats": 6,
     "id": "hFbYJDRoo7YPq7rOeOus",
-    "mainImageUrl": "https://firebasestorage.googleapis.com/v0/b/guardianes-2018.appspot.com/o/1557352318316_maxresdefault-jpg?alt=media&token=4be274d9-44f4-416f-9390-c56194c690a8",
+    "mainImageUrl": "https://firebasestorage.googleapis.com/v0/b/guardianes-2018.appspot.com/o/1557352318316_fundidoenblanco-jpg?alt=media&token=4be274d9-44f4-416f-9390-c56194c690a8",
     "date": "2019-05-19",
     "slug": "la-casa-de-los-white",
     "place": "Casa de la Juventud Mairena del Aljarafe",
@@ -4936,7 +4902,7 @@
         "email": "nene_alexfa@hotmail.com"
       }
     ],
-    "slug": "the-witcher-los-cuervos-estan-dormidos",
+    "slug": "los-cuervos-estan-dormidos",
     "fullSeats": 3,
     "date": "2018-09-18",
     "totalSeats": 3,
@@ -5203,26 +5169,6 @@
     "fullSeats": 4,
     "place": "star-bar",
     "_id": "wlozdfI67wRWhzCDQpOh"
-  },
-  {
-    "game": "",
-    "date": "",
-    "totalSeats": 0,
-    "id": "hooL7pfESaLRcD58cXG8",
-    "title": "test",
-    "narrator": {
-      "photoURL": "https://firebasestorage.googleapis.com/v0/b/guardianes-2018.appspot.com/o/profiles%2F1537140297233_avatar-jpeg?alt=media&token=ae6ae0da-e5d0-4093-9dea-971b3f44ddfc",
-      "email": "juanorigami@gmail.com",
-      "displayName": "Juan"
-    },
-    "slug": "test",
-    "place": "",
-    "fullSeats": 0,
-    "mainImageUrl": null,
-    "hour": "",
-    "description": "{\"ops\":[]}",
-    "players": [],
-    "_id": "wqSMBcy55dU5IhMFQdpD"
   },
   {
     "game": "Mago 20 aniversario",
@@ -5557,13 +5503,17 @@
     "title": "Nueva York Sangrienta: Carnicería en Chinatown",
     "description": "{\"ops\":[{\"insert\":\"Alguien ha destrozado un club de la Casa González en territorio anarquista.\\n\\nEl símbolo anarquista está por todo el club pero los vampiros libres nunca habían llegado tan lejos.\\n\\nCinco cainitas se disponen a preservar la Mascarada y castigar a los culpables y un tabernero de Queens necesita aclarar las cosas.\\n\"}]}",
     "totalSeats": 6,
+    "fullSeats": 6,
+    "date": "2019-01-17",
+    "game": "Vampiro: La Mascarada 5E",
+    "_id": "zy3fbCkTkZAQxooYjWFh",
+    "hour": "19:00",
+    "slug": "nueva-york-sangrienta-carniceria-en-chinatown",
     "narrator": {
       "email": "dumveestinson@gmail.com",
       "photoURL": "https://firebasestorage.googleapis.com/v0/b/guardianes-2018.appspot.com/o/profiles%2F1536580883829_img-20170718-215218-236-jpg?alt=media&token=dede922d-005f-4191-abdb-3641fa93a22f",
       "displayName": "Rusia"
     },
-    "hour": "19:00",
-    "slug": "nueva-york-sangrienta-carniceria-en-chinatown",
     "players": [
       {
         "email": "random1@random.com",
@@ -5589,10 +5539,6 @@
         "email": "random6@random.com",
         "displayName": "Luki"
       }
-    ],
-    "fullSeats": 6,
-    "date": "2019-01-17",
-    "game": "Vampiro: La Mascarada 5E",
-    "_id": "zy3fbCkTkZAQxooYjWFh"
+    ]
   }
 ]
