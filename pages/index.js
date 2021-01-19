@@ -6,7 +6,7 @@ export default function Home({ data }) {
   return (
     <main className="flex-auto max-w-prose mx-auto mt-6 text-center">
       <h1 className="text-6xl font-bold">Guardianes del Rol</h1>
-      <p className="text-lg leading-relaxed md:leading-loose mt-6 px-4">
+      <p className="text-lg leading-normal md:leading-relaxed mt-6 px-4">
         ¡Bienvenido a Guardianes del Rol! En este portal podr&aacute;s encontrar las partidas de rol
         publicadas por nuestra asociaci&oacute;n as&iacute; como apuntarte para participar.
         Tambi&eacute;n podr&aacute;s ver el cat&aacute;logo de juegos que tenemos disponible para
