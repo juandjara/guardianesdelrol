@@ -1,5 +1,6 @@
 import Button from '@/components/Button'
 import ArrowIcon from '@/components/icons/ArrowIcon'
+import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
 
 export default function Home({ data }) {
@@ -31,7 +32,7 @@ export default function Home({ data }) {
           <span className="text-left flex-1 text-base">juegos distintos</span>
         </p>
         <p className="flex items-baseline space-x-4">
-          <strong className="text-right flex-1 text-5xl">{data.narrators}</strong>
+          <strong className="text-right flex-1 text-5xl">{data.dms}</strong>
           <span className="text-left flex-1 text-base">narradores diferentes</span>
         </p>
       </div>
@@ -40,11 +41,11 @@ export default function Home({ data }) {
 }
 
 export async function getStaticProps() {
-  const data = {
-    narrators: 999,
-    games: 999,
-    posts: 999
+  const { data, error } = await supabase.rpc('get_landing_aggs')
+  if (error) {
+    console.error(error)
   }
+
   return {
     props: { data },
     revalidate: 1
