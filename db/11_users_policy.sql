@@ -8,4 +8,4 @@ CREATE POLICY users_policy
   ON public.users
   AS PERMISSIVE
   FOR ALL
-  USING (auth.uid() = id OR is_superadmin(auth.uid()));
+  USING (auth.uid() = id OR auth.role() == 'superadmin');

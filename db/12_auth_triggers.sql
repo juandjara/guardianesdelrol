@@ -3,10 +3,15 @@
 CREATE OR REPLACE function public.handle_new_user() 
 returns trigger as $$
 begin
-  insert into public.users (id, email, display_name)
-  values (new.id, new.email, '')
+  insert into public.users (id, email, display_name, role)
+  values (
+    NEW.id,
+    NEW.email,
+    (regexp_split_to_array(NEW.email, '@'))[1],
+    NEW.role
+  )
   on CONFLICT do NOTHING;
-  return new;
+  return NEW;
 end;
 $$ language plpgsql security definer;
 
@@ -23,7 +28,8 @@ RETURNS TRIGGER AS $$
 BEGIN
   update public.users 
   set last_sign_in_at = NEW.last_sign_in_at,
-      email = NEW.email
+      email = NEW.email,
+      role = NEW.role
   where id = NEW.id;
   return NEW;
 END;
