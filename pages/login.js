@@ -98,7 +98,7 @@ export default function Login() {
           <div className="my-8">
             <div className="flex justify-between items-end mb-1">
               <Label margin="mb-0" name="password" text="Contraseña" />
-              <a href="/recovery" className="text-sm text-blue-500">
+              <a href="/recovery?form=email" className="text-sm text-blue-500">
                 Olvid&eacute; mi contraseña
               </a>
             </div>

@@ -29,8 +29,8 @@ export default function CredentialsEdit() {
     }
   }
 
-  async function updateCredentials(password) {
-    const { data, error } = await supabase.auth.api.updateUser(data.access_token, { password })
+  async function updateCredentials(session, password) {
+    const { data, error } = await supabase.auth.api.updateUser(session.access_token, { password })
     if (error) {
       throw error
     } else {
@@ -44,8 +44,8 @@ export default function CredentialsEdit() {
     setError(false)
     setLoading(true)
     try {
-      await verifyCredentials(user.email, currentPassword)
-      await updateCredentials(newPassword)
+      const session = await verifyCredentials(user.email, currentPassword)
+      await updateCredentials(session, newPassword)
       setAlert({ type: 'success', text: 'Credenciales actualizadas correctamente' })
     } catch (error) {
       console.error(error)
