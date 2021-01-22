@@ -1,8 +1,20 @@
 import { Transition } from '@headlessui/react'
-import Button from '../Button'
+import Button from '@/components/Button'
+import { useRouter } from 'next/router'
 
-export default function MailSentScreen({ email }) {
-  const emailDomain = email.split('@')[1]
+export default function MailSentScreen() {
+  const router = useRouter()
+  const emailDomain = router.query.to
+  const action = router.query.action
+
+  let actionLabel = ''
+  if (action === 'login') {
+    actionLabel = 'completar el inicio de sesión'
+  }
+  if (action === 'recovery') {
+    actionLabel = 'recuperar tu contraseña'
+  }
+
   return (
     <main className="flex-auto mt-4 px-4 text-center">
       <h1 className="text-6xl font-bold">Iniciar sesi&oacute;n</h1>
@@ -33,8 +45,8 @@ export default function MailSentScreen({ email }) {
           </Transition>
           <p className="text-xl font-medium">Tienes un e-mail!</p>
           <p className="text-base max-w-lg">
-            Comprueba tu bandeja de entrada para encontrar el enlace que te hemos enviado y
-            completar el inicio de sesión.
+            Comprueba tu bandeja de entrada para encontrar el enlace que te hemos enviado y{' '}
+            {actionLabel}.
           </p>
           <a className="hover:no-underline" href={`http://${emailDomain}`} rel="noopener">
             <Button

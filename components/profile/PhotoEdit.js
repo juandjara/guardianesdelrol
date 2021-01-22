@@ -64,6 +64,8 @@ export default function PhotoEdit({ onChange }) {
           />
           <Button
             small
+            title="Subir nueva foto de perfil"
+            aria-label="Subir nueva foto de perfil"
             disabled={!user}
             onClick={toggleFile}
             type="button"

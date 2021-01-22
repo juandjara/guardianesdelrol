@@ -25,7 +25,7 @@ export default function UserMenu() {
   if (!user) {
     return (
       <div className="flex-1 text-right">
-        <Link href="/settings">
+        <Link href="/login">
           <a className="inline-block hover:no-underline">
             <Button outline className="bg-opacity-50">
               Entrar

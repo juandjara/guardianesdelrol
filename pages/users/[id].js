@@ -2,7 +2,7 @@ import UserDetail from '@/components/users/UserDetail'
 import UserList from '@/components/users/UserList'
 import useAuthGuard from '@/lib/useAuthGuard'
 
-export default function UserDetails({ data }) {
+export default function UserDetails() {
   useAuthGuard()
   return (
     <div className="flex-auto my-4">
@@ -13,7 +13,7 @@ export default function UserDetails({ data }) {
           <UserList compact />
         </aside>
         <main className="overflow-auto w-full md:w-3/4">
-          <UserDetail aggregates={data} />
+          <UserDetail />
         </main>
       </div>
     </div>
