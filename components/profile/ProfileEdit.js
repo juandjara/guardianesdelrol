@@ -64,8 +64,8 @@ export default function ProfileEdit() {
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
       <PhotoEdit onChange={setAvatar} />
-      <div>
-        <div className="mb-1 w-full md:w-1/2 flex items-center justify-between">
+      <div className="max-w-md">
+        <div className="mb-1 w-full flex items-center justify-between">
           <Label name="name" text="Nombre" />
           <p className="text-xs text-gray-500">
             {nameValue.length} / {NAME_MAXLENGTH}
@@ -74,7 +74,7 @@ export default function ProfileEdit() {
         <input
           id="name"
           type="text"
-          className="md:w-1/2 w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-900 focus:border-red-900"
+          className="w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-900 focus:border-red-900"
           placeholder="Escribe tu nombre"
           maxLength={NAME_MAXLENGTH}
           value={nameValue}
@@ -82,7 +82,7 @@ export default function ProfileEdit() {
           required
         />
       </div>
-      <div>
+      <div className="max-w-md">
         <div className="mb-1 flex items-center justify-between">
           <Label name="bio" text="Bio" />
           <p className="text-xs text-gray-500">

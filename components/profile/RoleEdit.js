@@ -38,7 +38,7 @@ export default function RoleEdit() {
   }
 
   return (
-    <div className="bg-white text-gray-700 rounded-lg mt-8 p-4 max-w-3xl mx-auto">
+    <>
       <h2 className="text-xl font-medium mb-2">Permisos</h2>
       <form onSubmit={handleSubmit} className="md:flex space-y-2 items-end justify-between">
         <div className="space-y-4">
@@ -93,6 +93,6 @@ export default function RoleEdit() {
           )}
         </Button>
       </form>
-    </div>
+    </>
   )
 }

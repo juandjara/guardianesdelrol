@@ -8,6 +8,7 @@ import MailIcon from '@/components/icons/MailIcon'
 import LockIcon from '@/components/icons/LockIcon'
 import { useRouter } from 'next/router'
 import translateErrorMessage from '@/lib/translateErrorMessage'
+import BackIcon from '@/components/icons/BackIcon'
 
 function EmailForm() {
   const inputRef = useRef()
@@ -143,20 +144,7 @@ export default function RecoveryPassword() {
           aria-label="Volver"
           onClick={() => router.back()}
           className="rounded-full p-2 bg-opacity-20 text-white bg-gray-50 hover:bg-opacity-50 focus:outline-none focus:ring focus:ring-offset-0 focus:ring-blue-500 focus:ring-offset-transparent">
-          <svg
-            height={20}
-            width={20}
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M10 19l-7-7m0 0l7-7m-7 7h18"
-            />
-          </svg>
+          <BackIcon width={20} height={20} />
         </button>
         <h1 className="text-2xl font-bold">Recuperar contraseña</h1>
       </header>

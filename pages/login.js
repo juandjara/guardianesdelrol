@@ -67,10 +67,18 @@ export default function Login() {
   }
 
   return (
-    <main className="flex-auto mt-4 px-4">
-      <h1 className="max-w-md mx-auto text-2xl font-bold">Iniciar sesi&oacute;n</h1>
-      <div className="bg-white text-gray-700 rounded-lg mt-2 px-5 pt-6 pb-4 max-w-md mx-auto">
-        <form onSubmit={handleSubmit} className="flex flex-col text-left">
+    <main className="flex flex-col items-center justify-center flex-auto mt-4 px-4">
+      <h1 className="w-full text-xl font-bold self-start max-w-4xl mx-auto mb-1 px-4">
+        Iniciar sesi&oacute;n
+      </h1>
+      <div className="flex justify-between bg-white text-gray-700 rounded-lg max-w-4xl mx-auto mb-8 px-5 py-4">
+        <div className="hidden md:flex mr-8 flex-col justify-between">
+          <p className="text-lg text-gray-500 font-semibold uppercase tracking-wide">
+            Hola! Bienvenido de nuevo
+          </p>
+          <img alt="waving hand" className="opacity-75" src="/img/illustration_hello.png" />
+        </div>
+        <form onSubmit={handleSubmit} className="flex flex-col text-left max-w-md">
           <div>
             <Label name="email" text="E-mail" />
             <input
