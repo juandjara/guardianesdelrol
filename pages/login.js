@@ -11,6 +11,7 @@ import Label from '@/components/Label'
 import { useSession } from '@/lib/UserContext'
 import { useQueryParams } from '@/lib/useQueryParams'
 import Link from 'next/link'
+import translateErrorMessage from '@/lib/translateErrorMessage'
 
 export default function Login() {
   const inputRef = useRef()
@@ -50,11 +51,7 @@ export default function Login() {
     const { error } = await supabase.auth.signIn({ email, password })
     if (error) {
       console.error(error)
-      const defaultMessage = 'No user found with that email, or password invalid.'
-      if (error.message === defaultMessage) {
-        error.message = 'No hay ningun usuario para ese email, o la contraseña es incorrecta'
-      }
-      setAlert(error.message)
+      setAlert(translateErrorMessage(error.message))
     } else {
       if (!password) {
         router.push({
@@ -68,14 +65,6 @@ export default function Login() {
     }
     setLoading(false)
   }
-
-  const buttonText = password.length ? 'Entrar' : 'Enviar enlace único'
-  const Icon = password.length ? LockIcon : MailIcon
-
-  // TODO display this info for mobile devices too
-  const iconTitle = password.length
-    ? ''
-    : 'Un enlace único es un enlace que se envia a tu dirección de correo para que puedas entrar sin necesidad de recordar una contraseña'
 
   return (
     <main className="flex-auto mt-4 px-4">
@@ -98,9 +87,9 @@ export default function Login() {
           <div className="my-8">
             <div className="flex justify-between items-end mb-1">
               <Label margin="mb-0" name="password" text="Contraseña" />
-              <a href="/recovery?form=email" className="text-sm text-blue-500">
-                Olvid&eacute; mi contraseña
-              </a>
+              <Link href="/recovery?form=email" className="text-sm text-blue-500">
+                <a className="text-sm text-blue-500">Olvid&eacute; mi contraseña</a>
+              </Link>
             </div>
             <input
               id="password"
@@ -111,29 +100,43 @@ export default function Login() {
               onChange={ev => setPassword(ev.target.value)}
             />
           </div>
-          <div className="flex-1"></div>
           <div className="space-y-4">
+            <Button
+              disabled={loading || !email || !password}
+              hasIcon="left"
+              type="submit"
+              className="w-full my-0 mx-0 hover:shadow-md border-red-500 hover:border-red-600"
+              color="text-white"
+              background="bg-red-500 hover:bg-red-600">
+              {loading ? <Spinner size={6} color="white" /> : <LockIcon width={20} height={20} />}
+              <span>Entrar con tu contraseña</span>
+            </Button>
             <Button
               disabled={loading || !email}
               hasIcon="left"
               type="submit"
-              title={iconTitle}
-              className="w-full my-0 mx-0 hover:shadow-md border-red-500 hover:border-red-600"
+              className="w-full my-0 mx-0 hover:shadow-md border-blue-500 hover:border-blue-600"
               color="text-white"
-              background="bg-red-500 hover:bg-red-600">
-              {loading ? <Spinner size={6} color="white" /> : <Icon width={20} height={20} />}
-              <span>{buttonText}</span>
+              background="bg-blue-500 hover:bg-blue-600">
+              {loading ? <Spinner size={6} color="white" /> : <MailIcon width={20} height={20} />}
+              <span>Enviar enlace &uacute;nico*</span>
             </Button>
             <GoogleLoginButton />
           </div>
           <p className="mt-6 text-sm space-x-1">
-            <span>¿Nuevo en esta plataforma?</span>
+            <span>¿Nuevo en la plataforma?</span>
             <span role="img" aria-label="dedo apuntando">
               👉
             </span>
             <Link href="/signup">
               <a className="text-blue-500">Crear cuenta</a>
             </Link>
+          </p>
+          <p className="mt-4 text-xs">
+            <em>
+              * Un enlace único es un enlace que se envia a tu dirección de correo para que puedas
+              entrar sin necesidad de recordar una contraseña.
+            </em>
           </p>
         </form>
       </div>

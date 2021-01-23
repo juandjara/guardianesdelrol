@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react'
 import LockIcon from '@/components/icons/LockIcon'
 import { useRouter } from 'next/router'
 import { useSession } from '@/lib/UserContext'
+import translateErrorMessage from '@/lib/translateErrorMessage'
 
 export default function SignUp() {
   const inputRef = useRef()
@@ -37,11 +38,7 @@ export default function SignUp() {
     const { error } = await supabase.auth.signUp({ email, password })
     if (error) {
       console.error(error)
-      const defaultMessage = 'A user with this email address has already been registered'
-      if (error.message === defaultMessage) {
-        error.message = 'Ya existe un usuario con este email'
-      }
-      setAlert(error.message)
+      setAlert(translateErrorMessage(error.message))
     }
     setLoading(false)
   }

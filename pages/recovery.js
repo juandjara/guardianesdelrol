@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react'
 import MailIcon from '@/components/icons/MailIcon'
 import LockIcon from '@/components/icons/LockIcon'
 import { useRouter } from 'next/router'
+import translateErrorMessage from '@/lib/translateErrorMessage'
 
 function EmailForm() {
   const inputRef = useRef()
@@ -91,7 +92,7 @@ function PasswordForm() {
     setLoading(true)
     const { error } = await supabase.auth.api.updateUser(token, { password })
     if (error) {
-      setAlert(error.message)
+      setAlert(translateErrorMessage(error.message))
     } else {
       setAlert({ type: 'success', text: 'Contraseña actualizada correctamente' })
       router.push('/settings')
