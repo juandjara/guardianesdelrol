@@ -81,7 +81,7 @@ export default function CredentialsEdit() {
               id="current_password"
               type="password"
               autoComplete="current-password"
-              className="w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-900 focus:border-red-900"
+              className="w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
               placeholder="****"
               value={currentPassword}
               onChange={ev => setCurrentPassword(ev.target.value)}
@@ -93,7 +93,7 @@ export default function CredentialsEdit() {
               id="new_password"
               type="password"
               autoComplete="new-password"
-              className="w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-900 focus:border-red-900"
+              className="w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
               placeholder="****"
               value={newPassword}
               onChange={ev => setNewPassword(ev.target.value)}

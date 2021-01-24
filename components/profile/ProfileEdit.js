@@ -74,7 +74,7 @@ export default function ProfileEdit() {
         <input
           id="name"
           type="text"
-          className="w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-900 focus:border-red-900"
+          className="w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
           placeholder="Escribe tu nombre"
           maxLength={NAME_MAXLENGTH}
           value={nameValue}
@@ -95,7 +95,7 @@ export default function ProfileEdit() {
           value={bioValue}
           maxLength={BIO_MAXLENGTH}
           onChange={ev => setBio(ev.target.value)}
-          className="shadow-sm block w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-900 focus:border-red-900"
+          className="shadow-sm block w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
         />
         <p className="text-sm text-gray-500 mt-1">Breve descripci&oacute;n de tu perfil</p>
       </div>
