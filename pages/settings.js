@@ -10,7 +10,7 @@ export default function Settings() {
   const router = useRouter()
 
   return (
-    <main className="flex-auto mt-4 px-4">
+    <main className="flex-auto mt-4 px-3">
       <header className="max-w-3xl mx-auto flex items-center space-x-4">
         <button
           title="Volver"

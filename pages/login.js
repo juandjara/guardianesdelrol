@@ -12,6 +12,7 @@ import { useSession } from '@/lib/UserContext'
 import { useQueryParams } from '@/lib/useQueryParams'
 import Link from 'next/link'
 import translateErrorMessage from '@/lib/translateErrorMessage'
+import Image from 'next/image'
 
 export default function Login() {
   const inputRef = useRef()
@@ -67,18 +68,22 @@ export default function Login() {
   }
 
   return (
-    <main className="flex flex-col items-center justify-center flex-auto mt-4 px-4">
-      <h1 className="w-full text-xl font-bold self-start max-w-4xl mx-auto mb-1 px-4">
-        Iniciar sesi&oacute;n
-      </h1>
-      <div className="flex justify-between bg-white text-gray-700 rounded-lg max-w-4xl mx-auto mb-8 px-5 py-4">
-        <div className="hidden md:flex mr-8 flex-col justify-between">
-          <p className="text-lg text-gray-500 font-semibold uppercase tracking-wide">
-            Hola! Bienvenido de nuevo
-          </p>
-          <img alt="waving hand" className="opacity-75" src="/img/illustration_hello.png" />
+    <main className="flex flex-col items-center justify-center flex-auto my-4 px-3">
+      <div className="flex h-full justify-between bg-white text-gray-700 rounded-lg">
+        <div className="bg-gray-100 rounded-l-lg px-4 hidden md:flex flex-col justify-center">
+          <Image
+            width="346"
+            height="400"
+            alt="mano que dice hola"
+            className="opacity-75"
+            priority
+            src="/img/illustration_hello.png"
+          />
         </div>
-        <form onSubmit={handleSubmit} className="flex flex-col text-left max-w-md">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col text-left max-w-md md:px-6 px-4 py-4">
+          <h1 className="text-lg mb-6">Iniciar sesi&oacute;n</h1>
           <div>
             <Label name="email" text="E-mail" />
             <input
@@ -131,7 +136,7 @@ export default function Login() {
             </Button>
             <GoogleLoginButton />
           </div>
-          <p className="mt-6 text-sm space-x-1">
+          <p className="flex-auto mt-4 text-sm space-x-1">
             <span>¿Nuevo en la plataforma?</span>
             <span role="img" aria-label="dedo apuntando">
               👉
@@ -140,7 +145,7 @@ export default function Login() {
               <a className="text-blue-500">Crear cuenta</a>
             </Link>
           </p>
-          <p className="mt-4 text-xs">
+          <p className="mt-6 mb-2 text-xs">
             <em>
               * Un enlace único es un enlace que se envia a tu dirección de correo para que puedas
               entrar sin necesidad de recordar una contraseña.

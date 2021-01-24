@@ -32,7 +32,7 @@ export default function GoogleLoginButton({ onLoggedIn = () => {} }) {
       background="bg-white hover:shadow-md"
       border="border-gray-200 hover:border-gray-300">
       {loading ? <Spinner size={6} color="white" /> : <IconGoogle width={20} height={20} />}
-      <span className="w-40 text-left">Entrar con Google</span>
+      <span>Entrar con Google</span>
     </Button>
   )
 }

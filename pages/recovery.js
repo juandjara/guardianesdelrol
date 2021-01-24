@@ -137,7 +137,7 @@ export default function RecoveryPassword() {
   const form = router.query.form
 
   return (
-    <main className="flex-auto mt-4 px-4">
+    <main className="flex-auto mt-4 px-3">
       <header className="max-w-md mx-auto flex items-center space-x-4">
         <button
           title="Volver"
