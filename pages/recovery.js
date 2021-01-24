@@ -9,8 +9,9 @@ import LockIcon from '@/components/icons/LockIcon'
 import { useRouter } from 'next/router'
 import translateErrorMessage from '@/lib/translateErrorMessage'
 import BackIcon from '@/components/icons/BackIcon'
+import Image from 'next/image'
 
-function EmailForm() {
+function EmailForm({ header, className, style }) {
   const inputRef = useRef()
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
@@ -29,7 +30,8 @@ function EmailForm() {
     setLoading(true)
     const { error } = await supabase.auth.api.resetPasswordForEmail(email)
     if (error) {
-      setAlert(error)
+      console.error(error)
+      setAlert(translateErrorMessage(error.message))
     } else {
       router.push({
         pathname: 'mailSent',
@@ -43,9 +45,8 @@ function EmailForm() {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-white text-gray-700 rounded-lg mt-4 p-5 max-w-md mx-auto">
+    <form onSubmit={handleSubmit} className={className} style={style}>
+      {header}
       <div className="mb-6">
         <Label name="email" text="E-mail" />
         <input
@@ -69,11 +70,15 @@ function EmailForm() {
         {loading ? <Spinner size={6} color="white" /> : <MailIcon width={20} height={20} />}
         <span>Enviar correo de recuperaci&oacute;n</span>
       </Button>
+      <p className="text-sm mt-2">
+        Enviaremos un correo a tu direcci&oacute;n con un enlace &uacute;nico para que puedas
+        cambiar tu contraseña
+      </p>
     </form>
   )
 }
 
-function PasswordForm() {
+function PasswordForm({ header, className, style }) {
   const inputRef = useRef()
   const router = useRouter()
   const hash = router.asPath.split('#')[1]
@@ -93,6 +98,7 @@ function PasswordForm() {
     setLoading(true)
     const { error } = await supabase.auth.api.updateUser(token, { password })
     if (error) {
+      console.error(error)
       setAlert(translateErrorMessage(error.message))
     } else {
       setAlert({ type: 'success', text: 'Contraseña actualizada correctamente' })
@@ -102,9 +108,8 @@ function PasswordForm() {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-white text-gray-700 rounded-lg mt-4 p-5 max-w-md mx-auto">
+    <form onSubmit={handleSubmit} className={className} style={style}>
+      {header}
       <div className="mb-6">
         <Label name="password" text="Nueva contraseña" />
         <input
@@ -136,20 +141,42 @@ export default function RecoveryPassword() {
   const router = useRouter()
   const form = router.query.form
 
-  return (
-    <main className="flex-auto mt-4 px-3">
-      <header className="max-w-md mx-auto flex items-center space-x-4">
+  const header =
+    form === 'email' ? (
+      <header className="flex items-center mb-6">
         <button
+          type="button"
           title="Volver"
           aria-label="Volver"
           onClick={() => router.back()}
-          className="rounded-full p-2 bg-opacity-20 text-white bg-gray-50 hover:bg-opacity-50 focus:outline-none focus:ring focus:ring-offset-0 focus:ring-blue-500 focus:ring-offset-transparent">
+          className="rounded-full p-2 bg-opacity-20 text-gray-600 bg-gray-200 hover:bg-opacity-50 focus:outline-none focus:ring focus:ring-offset-0 focus:ring-blue-500 focus:ring-offset-transparent">
           <BackIcon width={20} height={20} />
         </button>
-        <h1 className="text-2xl font-bold">Recuperar contraseña</h1>
+        <h1 className="text-lg pl-2">Recuperar contraseña</h1>
       </header>
-      {form === 'email' && <EmailForm />}
-      {form === 'pass' && <PasswordForm />}
+    ) : (
+      <h1 className="text-lg mb-6">Recuperar contraseña</h1>
+    )
+  const formCN = 'mb-4 flex flex-col justify-center text-left md:px-6 px-4 py-4'
+  const formStyle = { width: '28rem', maxWidth: 'calc(100vw - 24px)' } // width from max-w-md
+
+  return (
+    <main className="flex flex-col items-center justify-center flex-auto my-4 px-3">
+      <div className="flex md:h-full justify-between bg-white text-gray-700 rounded-lg">
+        <div className="bg-gray-100 rounded-l-lg px-4 hidden md:flex flex-col justify-center">
+          <Image
+            width={346}
+            height={400}
+            title="Ojo! Cuidado, la seguridad es tema serio"
+            alt="dibujo sobre seguridad. Ojo! Cuidado, la seguridad es tema serio"
+            className="opacity-75"
+            priority
+            src="/img/illustration_security.png"
+          />
+        </div>
+        {form === 'email' && <EmailForm style={formStyle} className={formCN} header={header} />}
+        {form === 'pass' && <PasswordForm style={formStyle} className={formCN} header={header} />}
+      </div>
     </main>
   )
 }

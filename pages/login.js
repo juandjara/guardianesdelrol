@@ -74,7 +74,8 @@ export default function Login() {
           <Image
             width="346"
             height="400"
-            alt="mano que dice hola"
+            title="Hola! Me alegro de verte"
+            alt="mano que dice Hola! Me alegro de verte"
             className="opacity-75"
             priority
             src="/img/illustration_hello.png"

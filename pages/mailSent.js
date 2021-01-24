@@ -1,6 +1,7 @@
 import { Transition } from '@headlessui/react'
 import Button from '@/components/Button'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 
 export default function MailSentScreen() {
   const router = useRouter()
@@ -16,17 +17,26 @@ export default function MailSentScreen() {
   }
 
   return (
-    <main className="flex-auto mt-4 px-4 text-center">
-      <h1 className="text-6xl font-bold">Iniciar sesi&oacute;n</h1>
-      <div className="bg-white text-gray-700 rounded-lg mt-8 px-4 py-8 max-w-xl mx-auto flex flex-col">
-        <div className="space-y-4 flex flex-col items-center justify-center">
+    <main className="flex flex-col items-center justify-center flex-auto my-4 px-3">
+      <div className="flex md:h-full justify-between bg-white text-gray-700 rounded-lg">
+        <div className="bg-gray-100 rounded-l-lg px-4 hidden md:flex flex-col justify-center">
+          <Image
+            width={346}
+            height={400}
+            alt="dibujo de bandeja de entrada"
+            className="opacity-75"
+            priority
+            src="/img/illustration_email.png"
+          />
+        </div>
+        <div className="max-w-md flex flex-col justify-center text-left md:px-6 px-4 py-4">
           <Transition
             show={true}
             appear={true}
             enter="transition transform duration-500"
-            enterFrom="-translate-y-16 scale-150 opacity-0"
-            enterTo="-translate-y-0 scale-100 opacity-100">
-            <div className="mx-auto rounded-full w-16 h-16 bg-gray-200 flex items-center justify-center">
+            enterFrom="-translate-y-16 opacity-0"
+            enterTo="-translate-y-0 opacity-100">
+            <div className="rounded-full w-16 h-16 bg-gray-200 flex items-center justify-center">
               <svg
                 height={24}
                 width={24}
@@ -43,14 +53,14 @@ export default function MailSentScreen() {
               </svg>
             </div>
           </Transition>
-          <p className="text-xl font-medium">Tienes un e-mail!</p>
-          <p className="text-base max-w-lg">
+          <p className="my-4 text-xl font-medium">Tienes un e-mail!</p>
+          <p className="mb-4 text-base">
             Comprueba tu bandeja de entrada para encontrar el enlace que te hemos enviado y{' '}
             {actionLabel}.
           </p>
           <a className="hover:no-underline" href={`http://${emailDomain}`} rel="noopener">
             <Button
-              className="shadow-md border-none"
+              className="mx-0 shadow-md border-none"
               color="text-white"
               background="bg-red-500 hover:bg-red-700">
               Ir a {emailDomain}

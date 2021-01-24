@@ -47,19 +47,13 @@ export default function SignUp() {
 
   return (
     <main className="flex flex-col items-center justify-center flex-auto my-4 px-3">
-      <div className="relative flex md:h-full justify-between bg-white text-gray-700 rounded-lg">
-        <button
-          title="Volver"
-          aria-label="Volver"
-          onClick={() => router.back()}
-          className="absolute top-2 left-2 rounded-full p-2 bg-opacity-20 text-gray-600 bg-gray-200 hover:bg-opacity-50 focus:outline-none focus:ring focus:ring-offset-0 focus:ring-blue-500 focus:ring-offset-transparent">
-          <BackIcon width={20} height={20} />
-        </button>
+      <div className="flex md:h-full justify-between bg-white text-gray-700 rounded-lg">
         <div className="bg-gray-100 rounded-l-lg px-4 hidden md:flex flex-col justify-center">
           <Image
-            width="346"
-            height="400"
-            alt="mano que dice hola"
+            width={346}
+            height={400}
+            title="Hola! Me alegro de verte"
+            alt="mano que dice Hola! Me alegro de verte"
             className="opacity-75"
             priority
             src="/img/illustration_hello.png"
@@ -68,8 +62,18 @@ export default function SignUp() {
         <form
           onSubmit={handleSubmit}
           style={{ width: '28rem', maxWidth: 'calc(100vw - 24px)' }} // width from max-w-md
-          className="flex flex-col justify-center text-left md:px-6 px-4 pb-4 pt-3 md:pt-4">
-          <h1 className="pl-10 md:pl-0 text-lg mb-6">Crear cuenta</h1>
+          className="flex flex-col justify-center text-left md:px-6 px-4 py-4">
+          <header className="flex items-center mb-6">
+            <button
+              title="Volver"
+              aria-label="Volver"
+              type="button"
+              onClick={() => router.back()}
+              className="rounded-full p-2 bg-opacity-20 text-gray-600 bg-gray-200 hover:bg-opacity-50 focus:outline-none focus:ring focus:ring-offset-0 focus:ring-blue-500 focus:ring-offset-transparent">
+              <BackIcon width={20} height={20} />
+            </button>
+            <h1 className="text-lg pl-2">Crear cuenta</h1>
+          </header>
           <div>
             <Label name="email" text="E-mail" />
             <input
