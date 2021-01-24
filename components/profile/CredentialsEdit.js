@@ -55,13 +55,13 @@ export default function CredentialsEdit() {
   }
 
   return (
-    <div>
+    <>
       <h2 className="text-xl font-medium">Credenciales</h2>
       <p className="mt-1 mb-6 text-sm text-gray-600">
         Informaci&oacute;n de inicio de sesi&oacute;n
       </p>
-      <form onSubmit={handlePasswordSubmit}>
-        <div className="mb-4">
+      <form className="space-y-6" onSubmit={handlePasswordSubmit}>
+        <div className="max-w-sm">
           <Label name="email" text="Email" />
           <input
             disabled
@@ -74,7 +74,7 @@ export default function CredentialsEdit() {
             required
           />
         </div>
-        <div className="mb-4 md:flex md:items-end md:space-x-2 space-y-4">
+        <div className="max-w-lg md:flex md:items-end md:space-x-2 space-y-4">
           <div className="w-full">
             <Label name="current_password" text="Contraseña actual" />
             <input
@@ -118,6 +118,6 @@ export default function CredentialsEdit() {
         </Button>
       </form>
       {error && <p className="text-red-500 text-xs mt-1">La contraseña actual no es correcta</p>}
-    </div>
+    </>
   )
 }

@@ -62,9 +62,9 @@ export default function ProfileEdit() {
   const BIO_MAXLENGTH = 250
 
   return (
-    <form className="space-y-4" onSubmit={handleSubmit}>
+    <form className="space-y-6 flex-auto" onSubmit={handleSubmit}>
       <PhotoEdit onChange={setAvatar} />
-      <div className="max-w-md">
+      <div className="max-w-sm">
         <div className="mb-1 w-full flex items-center justify-between">
           <Label name="name" text="Nombre" />
           <p className="text-xs text-gray-500">
@@ -82,7 +82,7 @@ export default function ProfileEdit() {
           required
         />
       </div>
-      <div className="max-w-md">
+      <div className="max-w-lg">
         <div className="mb-1 flex items-center justify-between">
           <Label name="bio" text="Bio" />
           <p className="text-xs text-gray-500">
@@ -110,7 +110,7 @@ export default function ProfileEdit() {
         />
         <Label
           name="challenge"
-          margin="ml-1"
+          margin="ml-2"
           text={
             <span>
               Disponible para la sección <strong>Reta a un narrador</strong>

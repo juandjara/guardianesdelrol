@@ -11,7 +11,7 @@ export default function Settings() {
 
   return (
     <main className="flex-auto mt-4 px-3">
-      <header className="max-w-3xl mx-auto flex items-center space-x-4">
+      <header className="max-w-screen-md mx-auto flex items-center space-x-4">
         <button
           title="Volver"
           aria-label="Volver"
@@ -21,17 +21,19 @@ export default function Settings() {
         </button>
         <h1 className="text-2xl font-bold">Mi cuenta</h1>
       </header>
-      <div className="bg-white text-gray-700 rounded-lg mt-4 p-4 max-w-3xl mx-auto">
-        <h2 className="text-lg font-medium leading-6 text-gray-900">Perfil p&uacute;blico</h2>
-        <p className="mt-1 mb-6 text-sm text-gray-600">
-          Informaci&oacute;n p&uacute;blica visible para otros usuarios
-        </p>
+      <div className="bg-white text-gray-700 rounded-lg mt-4 p-4 max-w-screen-md mx-auto">
+        <header>
+          <h2 className="text-lg font-medium leading-6 text-gray-900">Perfil p&uacute;blico</h2>
+          <p className="mt-1 mb-6 text-sm text-gray-600">
+            Informaci&oacute;n p&uacute;blica visible para otros usuarios
+          </p>
+        </header>
         <ProfileEdit />
       </div>
-      <div className="bg-white text-gray-700 rounded-lg mt-8 p-4 max-w-3xl mx-auto">
+      <div className="bg-white text-gray-700 rounded-lg mt-8 p-4 max-w-screen-md mx-auto">
         <CredentialsEdit />
       </div>
-      <div className="bg-white text-gray-700 rounded-lg mt-8 p-4 max-w-3xl mx-auto">
+      <div className="bg-white text-gray-700 rounded-lg mt-8 p-4 max-w-screen-md mx-auto">
         <RoleEdit />
       </div>
     </main>
