@@ -94,14 +94,14 @@ export default function CredentialsEdit() {
         <div className="max-w-lg md:flex md:items-start md:space-x-2 space-y-4">
           <div className="w-full mt-4">
             <Label name="current_password" text="Contraseña actual" />
-            <input
+            <PasswordInput
               id="current_password"
-              type="password"
               autoComplete="current-password"
-              className="w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
               placeholder="****"
+              showMeter={false}
               value={currentPassword}
-              onChange={ev => setCurrentPassword(ev.target.value)}
+              onChange={setCurrentPassword}
+              required
             />
           </div>
           <div className="w-full">
@@ -111,9 +111,9 @@ export default function CredentialsEdit() {
               autoComplete="new-password"
               placeholder="****"
               value={newPassword}
-              required
               onChange={setNewPassword}
               onValidityChange={setPasswordValid}
+              required
             />
           </div>
         </div>

@@ -120,6 +120,7 @@ function PasswordForm({ header, className, style }) {
           inputRef={inputRef}
           id="password"
           placeholder="Escribe tu contraseña nueva"
+          autoComplete="new-password"
           value={password}
           onChange={setPassword}
           onValidityChange={setPasswordValid}

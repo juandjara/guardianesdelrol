@@ -13,6 +13,7 @@ import { useQueryParams } from '@/lib/useQueryParams'
 import Link from 'next/link'
 import translateErrorMessage from '@/lib/translateErrorMessage'
 import Image from 'next/image'
+import PasswordInput from '@/components/PasswordInput'
 
 export default function Login() {
   const inputRef = useRef()
@@ -105,13 +106,13 @@ export default function Login() {
                 <a className="text-sm text-blue-500">Olvid&eacute; mi contraseña</a>
               </Link>
             </div>
-            <input
+            <PasswordInput
               id="password"
-              type="password"
-              className="w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
               placeholder="Escribe tu contraseña"
+              autoComplete="current-password"
               value={password}
-              onChange={ev => setPassword(ev.target.value)}
+              onChange={setPassword}
+              showMeter={false}
             />
           </div>
           <div className="space-y-4">

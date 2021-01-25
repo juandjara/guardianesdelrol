@@ -7,6 +7,7 @@ export default function PasswordInput({
   value = '',
   onChange = () => {},
   onValidityChange = () => {},
+  showMeter = true,
   ...props
 }) {
   const [score, setScore] = useState(0)
@@ -60,17 +61,21 @@ export default function PasswordInput({
           <Icon width={24} height={24} />
         </button>
       </div>
-      <div className="flex mt-2 space-x-2">
-        {[1, 2, 3, 4, 5].map(n => (
-          <div key={n} className="w-1/5">
-            <div className={`h-2 rounded-lg transition-colors ${stepBackground(n)}`}></div>
+      {showMeter && (
+        <>
+          <div className="flex mt-2 space-x-2">
+            {[1, 2, 3, 4, 5].map(n => (
+              <div key={n} className="w-1/5">
+                <div className={`h-2 rounded-lg transition-colors ${stepBackground(n)}`}></div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      {value && (
-        <p className="text-xs text-gray-400 mt-1">
-          Fuerza {score}: {scoreNames[score - 1]}
-        </p>
+          {value && (
+            <p className="text-xs text-gray-400 mt-1">
+              Fuerza {score}: {scoreNames[score - 1]}
+            </p>
+          )}
+        </>
       )}
     </>
   )
