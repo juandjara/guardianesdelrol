@@ -1,20 +1,23 @@
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { useEffect, useRef, useState } from 'react'
+import { useAlert } from '@/lib/AlertContext'
+import { supabase } from '@/lib/supabase'
+import { useSession } from '@/lib/UserContext'
+import translateErrorMessage from '@/lib/translateErrorMessage'
 import Button from '@/components/Button'
 import Label from '@/components/Label'
 import Spinner from '@/components/Spinner'
-import { useAlert } from '@/lib/AlertContext'
-import { supabase } from '@/lib/supabase'
-import { useEffect, useRef, useState } from 'react'
 import LockIcon from '@/components/icons/LockIcon'
-import { useRouter } from 'next/router'
-import { useSession } from '@/lib/UserContext'
-import translateErrorMessage from '@/lib/translateErrorMessage'
 import BackIcon from '@/components/icons/BackIcon'
-import Image from 'next/image'
+import PasswordInput from '@/components/PasswordInput'
+import WeakPasswordWarning from '@/components/WeakPasswordWarning'
 
 export default function SignUp() {
   const inputRef = useRef()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [passwordValid, setPasswordValid] = useState(true)
   const [loading, setLoading] = useState(false)
 
   const router = useRouter()
@@ -89,18 +92,17 @@ export default function SignUp() {
           </div>
           <div className="my-8">
             <Label name="password" text="Contraseña" />
-            <input
+            <PasswordInput
               id="password"
-              type="password"
               required
-              className="w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
               placeholder="Escribe tu contraseña"
               value={password}
-              onChange={ev => setPassword(ev.target.value)}
+              onChange={setPassword}
+              onValidityChange={setPasswordValid}
             />
           </div>
           <Button
-            disabled={loading || !email || !password}
+            disabled={loading || !email || !password || !passwordValid}
             hasIcon="left"
             type="submit"
             className="w-full my-0 mx-0 hover:shadow-md border-red-500 hover:border-red-600"
@@ -109,6 +111,7 @@ export default function SignUp() {
             {loading ? <Spinner size={6} color="white" /> : <LockIcon width={20} height={20} />}
             <span>Crear cuenta</span>
           </Button>
+          {!passwordValid && <WeakPasswordWarning margin="mt-4" />}
         </form>
       </div>
     </main>

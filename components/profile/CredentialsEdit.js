@@ -1,16 +1,19 @@
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { useAlert } from '@/lib/AlertContext'
 import { supabase } from '@/lib/supabase'
 import useProfile from '@/lib/useProfile'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
-import Button from '../Button'
-import Label from '../Label'
-import Spinner from '../Spinner'
+import Button from '@/components/Button'
+import Label from '@/components/Label'
+import PasswordInput from '@/components/PasswordInput'
+import Spinner from '@/components/Spinner'
+import WeakPasswordWarning from '@/components/WeakPasswordWarning'
 
 export default function CredentialsEdit() {
   const [email, setEmail] = useState(null)
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
+  const [passwordValid, setPasswordValid] = useState(true)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
 
@@ -54,6 +57,20 @@ export default function CredentialsEdit() {
     setLoading(false)
   }
 
+  useEffect(() => {
+    let id = null
+    if (error) {
+      id = setTimeout(() => {
+        setError(false)
+      }, 3000)
+    }
+    return () => {
+      if (id) {
+        clearTimeout(id)
+      }
+    }
+  }, [error])
+
   return (
     <>
       <h2 className="text-xl font-medium">Credenciales</h2>
@@ -74,8 +91,8 @@ export default function CredentialsEdit() {
             required
           />
         </div>
-        <div className="max-w-lg md:flex md:items-end md:space-x-2 space-y-4">
-          <div className="w-full">
+        <div className="max-w-lg md:flex md:items-start md:space-x-2 space-y-4">
+          <div className="w-full mt-4">
             <Label name="current_password" text="Contraseña actual" />
             <input
               id="current_password"
@@ -89,35 +106,42 @@ export default function CredentialsEdit() {
           </div>
           <div className="w-full">
             <Label name="new_password" text="Contraseña nueva" />
-            <input
+            <PasswordInput
               id="new_password"
-              type="password"
               autoComplete="new-password"
-              className="w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
               placeholder="****"
               value={newPassword}
-              onChange={ev => setNewPassword(ev.target.value)}
+              required
+              onChange={setNewPassword}
+              onValidityChange={setPasswordValid}
             />
           </div>
         </div>
-        <Button
-          type="submit"
-          disabled={loading}
-          hasIcon={loading ? 'left' : null}
-          className="block ml-auto border-none my-0 mx-0"
-          color="text-white"
-          background="bg-red-500 hover:bg-red-600 hover:shadow-md">
-          {loading ? (
-            <>
-              <Spinner size={5} color="white" />
-              <span>Guardar</span>
-            </>
-          ) : (
-            'Guardar'
-          )}
-        </Button>
+        <div className="flex items-center justify-between">
+          <div>
+            {error && (
+              <p className="text-red-700 text-xs mt-1 mr-2">La contraseña actual no es correcta</p>
+            )}
+            {!passwordValid && <WeakPasswordWarning />}
+          </div>
+          <Button
+            type="submit"
+            disabled={loading || !newPassword || !passwordValid}
+            hasIcon={loading ? 'left' : null}
+            className="block ml-auto border-none my-0 mx-0"
+            color="text-white"
+            background="bg-red-500 hover:bg-red-600 hover:shadow-md">
+            {loading ? (
+              <>
+                <Spinner size={5} color="white" />
+                <span>Guardar</span>
+              </>
+            ) : (
+              'Guardar'
+            )}
+          </Button>
+        </div>
       </form>
-      {error && <p className="text-red-500 text-xs mt-1">La contraseña actual no es correcta</p>}
     </>
   )
 }

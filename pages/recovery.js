@@ -10,6 +10,8 @@ import { useRouter } from 'next/router'
 import translateErrorMessage from '@/lib/translateErrorMessage'
 import BackIcon from '@/components/icons/BackIcon'
 import Image from 'next/image'
+import PasswordInput from '@/components/PasswordInput'
+import WeakPasswordWarning from '@/components/WeakPasswordWarning'
 
 function EmailForm({ header, className, style }) {
   const inputRef = useRef()
@@ -30,6 +32,7 @@ function EmailForm({ header, className, style }) {
     setLoading(true)
     const { error } = await supabase.auth.api.resetPasswordForEmail(email)
     if (error) {
+      // TODO: fix security concern, do not tell if email exists or not
       console.error(error)
       setAlert(translateErrorMessage(error.message))
     } else {
@@ -84,6 +87,7 @@ function PasswordForm({ header, className, style }) {
   const hash = router.asPath.split('#')[1]
   const token = new URLSearchParams(hash).get('t')
   const [password, setPassword] = useState('')
+  const [passwordValid, setPasswordValid] = useState(true)
   const [loading, setLoading] = useState(false)
   const { setAlert } = useAlert()
 
@@ -112,19 +116,18 @@ function PasswordForm({ header, className, style }) {
       {header}
       <div className="mb-6">
         <Label name="password" text="Nueva contraseña" />
-        <input
-          ref={inputRef}
+        <PasswordInput
+          inputRef={inputRef}
           id="password"
-          type="password"
-          className="w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
           placeholder="Escribe tu contraseña nueva"
           value={password}
-          onChange={ev => setPassword(ev.target.value)}
+          onChange={setPassword}
+          onValidityChange={setPasswordValid}
           required
         />
       </div>
       <Button
-        disabled={loading || !password}
+        disabled={loading || !password || !passwordValid}
         hasIcon="left"
         type="submit"
         className="w-full my-0 mx-0 hover:shadow-md border-red-500 hover:border-red-600"
@@ -133,6 +136,7 @@ function PasswordForm({ header, className, style }) {
         {loading ? <Spinner size={6} color="white" /> : <LockIcon width={20} height={20} />}
         <span>Cambiar contraseña</span>
       </Button>
+      {!passwordValid && <WeakPasswordWarning margin="mt-4" />}
     </form>
   )
 }
