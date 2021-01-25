@@ -78,7 +78,7 @@ export default function CredentialsEdit() {
         Informaci&oacute;n de inicio de sesi&oacute;n
       </p>
       <form className="space-y-6" onSubmit={handlePasswordSubmit}>
-        <div className="max-w-sm">
+        <div className="md:w-1/2">
           <Label name="email" text="Email" />
           <input
             disabled
@@ -91,7 +91,7 @@ export default function CredentialsEdit() {
             required
           />
         </div>
-        <div className="max-w-lg md:flex md:items-start md:space-x-2 space-y-4">
+        <div className="md:flex md:items-start md:space-x-2 space-y-4">
           <div className="w-full mt-4">
             <Label name="current_password" text="Contraseña actual" />
             <PasswordInput
