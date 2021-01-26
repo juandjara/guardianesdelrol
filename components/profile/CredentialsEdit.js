@@ -21,7 +21,8 @@ export default function CredentialsEdit() {
   const { user } = useProfile(router.query.id)
   const { setAlert } = useAlert()
 
-  const emailValue = (email === null ? user?.email : email) || ''
+  const savedEmail = router.query.id ? user?.email : user?.sessionEmail
+  const emailValue = (email === null ? savedEmail : email) || ''
 
   async function verifyCredentials(email, password) {
     const { data, error } = await supabase.auth.api.signInWithEmail(email, password)
