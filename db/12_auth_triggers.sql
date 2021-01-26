@@ -6,7 +6,7 @@ begin
   insert into public.users (id, email, display_name, role)
   values (
     NEW.id,
-    NEW.email,
+    md5(NEW.email),
     (regexp_split_to_array(NEW.email, '@'))[1],
     NEW.role
   )
@@ -28,7 +28,7 @@ RETURNS TRIGGER AS $$
 BEGIN
   update public.users 
   set last_sign_in_at = NEW.last_sign_in_at,
-      email = NEW.email,
+      email = md5(NEW.email),
       role = NEW.role
   where id = NEW.id;
   return NEW;
