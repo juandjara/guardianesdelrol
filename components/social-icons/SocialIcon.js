@@ -2,6 +2,7 @@ export default function SocialIcon({ href, title, icon: Icon }) {
   return (
     <a
       title={title}
+      aria-label={title}
       href={href}
       target="_blank"
       rel="noreferrer"
