@@ -49,7 +49,7 @@ async function main() {
       name: post.title || null,
       description: post.description || null,
       place: post.place || null,
-      main_image: imageLink || null,
+      image: imageLink || null,
       date: post.date || null,
       time: post.hour || null,
       seats: post.totalSeats,

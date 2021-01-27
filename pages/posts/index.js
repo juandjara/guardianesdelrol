@@ -1,18 +1,20 @@
+import PostCard from '@/components/PostCard'
 import { supabase } from '@/lib/supabase'
 import useAuthGuard from '@/lib/useAuthGuard'
-import { useEffect } from 'react'
 import useSWR from 'swr'
 
-export default function PostList({ data: intialData }) {
+export default function PostList({ initialPosts }) {
   useAuthGuard()
-  const { data } = useSWR('post-list', fetcher, { intialData })
+  const { data } = useSWR('post-list', fetcher, { intialData: initialPosts })
 
-  useEffect(() => {
-    console.log(data)
-  }, [data])
   return (
-    <main className="flex-auto">
-      <h1 className="text-6xl font-bold">Post List</h1>
+    <main className="flex-auto container mx-auto p-3">
+      {/* <h1 className="text-2xl font-bold">Partidas</h1> */}
+      <ul className="grid gap-4 grid-cols-cards mt-2">
+        {(data || []).map(post => (
+          <PostCard key={post.id} post={post} />
+        ))}
+      </ul>
     </main>
   )
 }
@@ -30,13 +32,13 @@ async function fetcher() {
       date,
       time,
       type,
-      main_image,
+      image,
       section(id,name),
       game(id,name,slug),
       guest_players,
-      players:users!players(display_name,avatar_type,id),
+      players:users!players(id,email,display_name,avatarType:avatar_type),
       guest_narrator,
-      narrator:users!narrator(display_name,avatar_type,id)
+      narrator:users!narrator(id,email,display_name,avatarType:avatar_type)
       `
     )
     .order('date', { ascending: false })
@@ -50,10 +52,9 @@ async function fetcher() {
 }
 
 export async function getStaticProps() {
-  const data = await fetcher()
-  console.log('intial data', data)
+  const posts = await fetcher()
   return {
-    props: { data },
+    props: { initialPosts: posts },
     revalidate: 1
   }
 }
