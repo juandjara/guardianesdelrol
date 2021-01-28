@@ -30,8 +30,7 @@ export default function ProfileEdit() {
     const formData = new FormData()
     formData.set('file', avatar.url)
     formData.set('token', session.access_token)
-    const response = await axios.post('/api/uploadAvatar', formData)
-    console.log(response.data)
+    return await axios.post('/api/uploadAvatar', formData)
   }
 
   async function handleSubmit(ev) {
