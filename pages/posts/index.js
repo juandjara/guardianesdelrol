@@ -25,7 +25,10 @@ export default function PostList({ initialPosts, count }) {
       observer.observe(node)
     }
 
-    return () => observer.unobserve(node)
+    return () => {
+      if (node) observer.unobserve(node)
+      observer.disconnect()
+    }
   }, [loaderRef, loading, needsMore, page, setPage])
 
   return (
