@@ -4,17 +4,15 @@ import useAuthGuard from '@/lib/useAuthGuard'
 import usePosts, { fetchPosts } from '@/lib/usePosts'
 import { useEffect, useRef } from 'react'
 
-export default function PostList({ initialPosts, count }) {
+export default function PostList({ initialPosts }) {
   useAuthGuard()
   const loaderRef = useRef(null)
-  const { data, loading, page, setPage } = usePosts(initialPosts)
-  const currentCount = data.reduce((acum, next) => acum + next.length, 0)
-  const needsMore = currentCount < count
+  const { data, empty, finished, loading, page, setPage } = usePosts(initialPosts)
 
   useEffect(() => {
     function callback(entries) {
       const target = entries[0]
-      if (target.isIntersecting && !loading && needsMore) {
+      if (target.isIntersecting && !loading && !finished) {
         setPage(page + 1)
       }
     }
@@ -29,16 +27,19 @@ export default function PostList({ initialPosts, count }) {
       if (node) observer.unobserve(node)
       observer.disconnect()
     }
-  }, [loaderRef, loading, needsMore, page, setPage])
+  }, [loaderRef, loading, finished, page, setPage])
+
+  const posts = data && data.filter(Boolean).flatMap(d => d.rows)
 
   return (
     <main className="flex-auto container mx-auto p-3">
       {/* <h1 className="text-2xl font-bold">Partidas</h1> */}
+      {empty && (
+        <p className="text-white text-lg text-center">No hay partidas para estos filtros</p>
+      )}
       <ul className="grid gap-4 grid-cols-cards mt-2">
-        {(data || []).flat().map(post => (
-          <PostCard key={post.id} post={post} />
-        ))}
-        {needsMore && (
+        {posts && posts.map(post => <PostCard key={post.id} post={post} />)}
+        {!finished && (
           <div ref={loaderRef}>
             <Spinner size={8} color="white" />
           </div>
@@ -49,10 +50,9 @@ export default function PostList({ initialPosts, count }) {
 }
 
 export async function getStaticProps() {
-  const posts = await fetchPosts('with-count')
-  console.log(posts)
+  const posts = await fetchPosts()
   return {
-    props: { initialPosts: posts.rows, count: posts.count },
+    props: { initialPosts: posts },
     revalidate: 1
   }
 }
