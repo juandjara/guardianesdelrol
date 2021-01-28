@@ -1,17 +1,20 @@
 import PostCard from '@/components/PostCard'
+import Spinner from '@/components/Spinner'
 import useAuthGuard from '@/lib/useAuthGuard'
 import usePosts, { fetchPosts } from '@/lib/usePosts'
 import { useEffect, useRef } from 'react'
 
-export default function PostList({ initialPosts }) {
+export default function PostList({ initialPosts, count }) {
   useAuthGuard()
   const loaderRef = useRef(null)
   const { data, loading, page, setPage } = usePosts(initialPosts)
+  const currentCount = data.reduce((acum, next) => acum + next.length, 0)
+  const needsMore = currentCount < count
 
   useEffect(() => {
     function callback(entries) {
       const target = entries[0]
-      if (target.isIntersecting && !loading) {
+      if (target.isIntersecting && !loading && needsMore) {
         setPage(page + 1)
       }
     }
@@ -23,7 +26,7 @@ export default function PostList({ initialPosts }) {
     }
 
     return () => observer.unobserve(node)
-  }, [loaderRef, loading, page, setPage])
+  }, [loaderRef, loading, needsMore, page, setPage])
 
   return (
     <main className="flex-auto container mx-auto p-3">
@@ -32,16 +35,21 @@ export default function PostList({ initialPosts }) {
         {(data || []).flat().map(post => (
           <PostCard key={post.id} post={post} />
         ))}
-        <div ref={loaderRef}></div>
+        {needsMore && (
+          <div ref={loaderRef}>
+            <Spinner size={8} color="white" />
+          </div>
+        )}
       </ul>
     </main>
   )
 }
 
 export async function getStaticProps() {
-  const posts = await fetchPosts()
+  const posts = await fetchPosts('with-count')
+  console.log(posts)
   return {
-    props: { initialPosts: posts },
+    props: { initialPosts: posts.rows, count: posts.count },
     revalidate: 1
   }
 }
