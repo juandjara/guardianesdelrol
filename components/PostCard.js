@@ -3,14 +3,13 @@ import Image from 'next/image'
 import Avatar from './Avatar'
 import ClockIcon from './icons/ClockIcon'
 import UserIcon from './icons/UserIcon'
+import Tag from './Tag'
 
 export default function PostCard({ post }) {
   const tags = [post.type, post.section?.name, ...post.tags].filter(Boolean).map(tag => (
-    <span
-      key={tag}
-      className="text-sm my-1 py-1 px-2 font-semibold leading-none text-white bg-red-400 rounded-xl">
+    <Tag key={tag} color="red">
       {tag}
-    </span>
+    </Tag>
   ))
 
   return (
@@ -28,7 +27,7 @@ export default function PostCard({ post }) {
         )}
       </div>
       <div className="max-w-prose py-2 px-3 flex flex-col flex-grow">
-        <div className="space-x-2 flex flex-wrap items-stretch">{tags}</div>
+        <div className="mb-1 space-x-2 flex flex-wrap items-stretch">{tags}</div>
         <h2 className="text-lg font-bold">
           <a className="text-red-700" href={`/posts/${post.id}/${post.slug}`}>
             {post.name}
