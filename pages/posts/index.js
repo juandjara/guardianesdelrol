@@ -4,10 +4,10 @@ import useAuthGuard from '@/lib/useAuthGuard'
 import usePosts, { fetchPosts } from '@/lib/usePosts'
 import { useEffect, useRef } from 'react'
 
-export default function PostList({ initialPosts }) {
+export default function PostList({ initialPage }) {
   useAuthGuard()
   const loaderRef = useRef(null)
-  const { data, empty, finished, loading, page, setPage } = usePosts(initialPosts)
+  const { data, empty, finished, loading, page, setPage } = usePosts(initialPage)
 
   useEffect(() => {
     function callback(entries) {
@@ -33,7 +33,6 @@ export default function PostList({ initialPosts }) {
 
   return (
     <main className="flex-auto container mx-auto p-3">
-      {/* <h1 className="text-2xl font-bold">Partidas</h1> */}
       {empty && (
         <p className="text-white text-lg text-center">No hay partidas para estos filtros</p>
       )}
@@ -50,9 +49,9 @@ export default function PostList({ initialPosts }) {
 }
 
 export async function getStaticProps() {
-  const posts = await fetchPosts()
+  const page = await fetchPosts()
   return {
-    props: { initialPosts: posts },
+    props: { initialPage: page },
     revalidate: 1
   }
 }
