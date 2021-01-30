@@ -48,7 +48,7 @@ export default function UserListItem({ user, selected, compact }) {
         <Avatar user={user} border={selected ? 'border-gray-100' : 'border-red-500'} />
         <div className="truncate flex-auto space-y-1">
           <Link href={`/users/${user?.id || ''}`}>
-            <a ref={linkRef} className="font-semibold text-gray-700 focus:outline-none">
+            <a ref={linkRef} className="space-x-1 font-semibold text-gray-700 focus:outline-none">
               <span>{user ? user.displayName || 'Aventurero sin nombre' : <Skeleton />} </span>
               <RoleTags user={user} />
             </a>

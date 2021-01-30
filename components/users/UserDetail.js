@@ -48,7 +48,7 @@ export default function UserDetail() {
             <Avatar border="border-gray-100" size={96} user={user} />
           </div>
           <div className="mt-2 md:ml-2">
-            <p className="font-semibold text-lg">
+            <p className="space-x-1 font-semibold text-lg">
               <span>{user ? user.displayName || 'Aventurero sin nombre' : <Skeleton />} </span>
               <RoleTags user={user} />
             </p>
