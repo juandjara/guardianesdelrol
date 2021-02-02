@@ -7,35 +7,19 @@ import { useRouter } from 'next/router'
 import { useEffect, useMemo } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import Avatar from '@/components/Avatar'
-
-function AvatarListItem({ user, count }) {
-  const numgames = count[user.id]
-  return (
-    <li key={user.id} className="group relative -ml-2 mb-2">
-      <Avatar border="border-gray-200" user={user} size={46} />
-      <div className="px-2 transition-opacity duration-300 opacity-0 group-hover:opacity-100 h-0 group-hover:h-auto overflow-hidden absolute -left-1 bottom-full">
-        <div className="p-3 bg-white rounded-xl max-w-sm mb-2 w-40 shadow-md">
-          <Avatar className="w-16" border="border-gray-200" user={user} size={64} />
-          <p className="mt-2 font-medium text-sm">{user.name || 'Aventurero sin nombre'}</p>
-          <p className="mt-1 text-gray-400 text-sm">
-            {numgames} partida{numgames === 1 ? '' : 's'}
-          </p>
-        </div>
-      </div>
-    </li>
-  )
-}
+import Link from 'next/link'
 
 function aggsFromPosts(posts = []) {
-  const count = {}
+  const playercount = {}
+  const dmcount = {}
   const players = []
   const narrators = []
   for (const post of posts) {
     if (post.narrator) {
-      if (count[post.narrator.id]) {
-        count[post.narrator.id]++
+      if (dmcount[post.narrator.id]) {
+        dmcount[post.narrator.id]++
       } else {
-        count[post.narrator.id] = 1
+        dmcount[post.narrator.id] = 1
         narrators.push({
           id: post.narrator.id,
           email: post.narrator.email,
@@ -46,10 +30,10 @@ function aggsFromPosts(posts = []) {
     }
     if (post.guest_narrator) {
       const key = `anon-dm-${post.guest_narrator}`
-      if (count[key]) {
-        count[key]++
+      if (dmcount[key]) {
+        dmcount[key]++
       } else {
-        count[key] = 1
+        dmcount[key] = 1
         narrators.push({
           id: key,
           anon: true,
@@ -59,10 +43,10 @@ function aggsFromPosts(posts = []) {
       }
     }
     for (const player of post.players || []) {
-      if (count[player.id]) {
-        count[player.id]++
+      if (playercount[player.id]) {
+        playercount[player.id]++
       } else {
-        count[player.id] = 1
+        playercount[player.id] = 1
         players.push({
           id: player.id,
           email: player.email,
@@ -73,10 +57,10 @@ function aggsFromPosts(posts = []) {
     }
     for (const name of post.guest_players || []) {
       const key = `anon-${name}`
-      if (count[key]) {
-        count[key]++
+      if (playercount[key]) {
+        playercount[key]++
       } else {
-        count[key] = 1
+        playercount[key] = 1
         players.push({
           id: key,
           anon: true,
@@ -88,10 +72,60 @@ function aggsFromPosts(posts = []) {
     }
   }
 
-  return { count, players, narrators }
+  return { dmcount, playercount, players, narrators }
 }
 
-export default function PostList() {
+function AvatarListItem({ user, count }) {
+  const numgames = count[user.id]
+  return (
+    <li key={user.id} className="group relative -ml-2 mb-2">
+      <Avatar border="border-gray-200" user={user} size={46} />
+      <div className="px-2 transition-opacity duration-300 opacity-0 group-hover:opacity-100 h-0 group-hover:h-auto overflow-hidden absolute -left-1 bottom-full">
+        <div className="p-3 bg-white rounded-xl mb-2 w-40 shadow-md">
+          <Avatar className="w-16" border="border-gray-200" user={user} size={64} />
+          <p className="mt-2 font-medium text-sm">{user.name || 'Aventurero sin nombre'}</p>
+          <p className="mt-1 text-gray-400 text-sm">
+            {numgames} partida{numgames === 1 ? '' : 's'}
+          </p>
+        </div>
+      </div>
+    </li>
+  )
+}
+
+function PostListItem({ post }) {
+  const numplayers = (post.players?.length || 0) + (post.guest_players?.length || 0)
+  const user = post.narrator
+    ? {
+        ...post.narrator,
+        name: post.narrator.display_name,
+        avatarType: post.narrator.avatar_type
+      }
+    : {
+        anon: true,
+        name: post.guest_narrator
+      }
+  return (
+    <li key={post.id} className="flex items-center relative">
+      <div className="group">
+        <Avatar border="border-gray-200" user={user} size={32} />
+        <div className="px-1 transition-opacity duration-300 opacity-0 group-hover:opacity-100 h-0 group-hover:h-auto overflow-hidden absolute left-9 top-2">
+          <div className="px-2 py-1 bg-white rounded-md mb-2 w-full shadow-md">
+            <p className="font-medium text-xs text-gray-500">{user.name}</p>
+          </div>
+        </div>
+      </div>
+      <div className="ml-2">
+        <Link href={`/post/${post.id}/${post.slug}`}>
+          <a className="text-sm text-gray-700">{post.name}</a>
+        </Link>
+        <p className="text-sm text-gray-400">{numplayers} jugadores</p>
+      </div>
+    </li>
+  )
+}
+
+export default function GameList() {
   useAuthGuard()
   const router = useRouter()
   const [id, slug] = router.query.path || []
@@ -105,11 +139,11 @@ export default function PostList() {
 
   const posts = game?.full_posts
   const image = game?.full_posts?.find(p => p.image)?.image
-  const { count, players, narrators } = useMemo(() => aggsFromPosts(posts), [posts])
+  const { dmcount, playercount, players, narrators } = useMemo(() => aggsFromPosts(posts), [posts])
 
   return (
     <main className="flex-auto mx-auto p-3 max-w-4xl w-full">
-      <div className="bg-white text-gray-700 rounded-lg relative">
+      <div className="bg-white text-gray-700 pb-6 rounded-lg relative">
         <button
           title="Volver"
           aria-label="Volver"
@@ -117,7 +151,7 @@ export default function PostList() {
           className="z-20 absolute top-2 left-2 rounded-full p-2 bg-opacity-50 text-white bg-gray-500 hover:bg-opacity-75 focus:outline-none focus:ring focus:ring-offset-0 focus:ring-blue-500 focus:ring-offset-transparent">
           <BackIcon height={20} width={20} />
         </button>
-        <div className="h-64 relative clip-vertical">
+        <div className="h-64 relative clip-vertical bg-gray-100 rounded-t-lg">
           {image && (
             <Image
               className="rounded-t-lg"
@@ -141,7 +175,7 @@ export default function PostList() {
             </p>
             <ul className="flex flex-wrap ml-2">
               {players.map(p => (
-                <AvatarListItem key={p.id} user={p} count={count} />
+                <AvatarListItem key={p.id} user={p} count={playercount} />
               ))}
             </ul>
           </div>
@@ -152,20 +186,18 @@ export default function PostList() {
             </p>
             <ul className="flex flex-wrap ml-2">
               {narrators.map(p => (
-                <AvatarListItem key={p.id} user={p} count={count} />
+                <AvatarListItem key={p.id} user={p} count={dmcount} />
               ))}
             </ul>
           </div>
           <div>
-            <p className="text-base text-gray-400 mb-3 mr-2">
+            <p className="text-base text-gray-400 mb-4 mr-2">
               <span className="text-2xl text-gray-700 font-medium mr-1">{posts?.length}</span>
               partida{posts?.length === 1 ? '' : 's'}
             </p>
-            <ul className="space-y-2">
+            <ul className="space-y-4">
               {(posts || []).map(post => (
-                <li key={post.id} className="text-sm text-gray-700">
-                  {post.name}
-                </li>
+                <PostListItem key={post.id} post={post} />
               ))}
             </ul>
           </div>

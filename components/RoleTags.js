@@ -17,7 +17,7 @@ export default function RoleTags({ user }) {
   if (isDM) {
     tags.push(
       <Tag key="dm" color="yellow">
-        Narrador
+        DM
       </Tag>
     )
   }
