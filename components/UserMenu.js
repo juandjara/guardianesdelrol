@@ -1,6 +1,4 @@
 import Image from 'next/image'
-import Link from 'next/link'
-import Button from './Button'
 import MenuLink from './MenuLink'
 import { Menu, Transition } from '@headlessui/react'
 import { useRouter } from 'next/router'
@@ -23,15 +21,7 @@ export default function UserMenu() {
   }
 
   if (!user) {
-    return (
-      <div className="flex-1 text-right">
-        <Link href="/login">
-          <Button outline className="inline-block bg-outline-50 hover:no-underline">
-            Entrar
-          </Button>
-        </Link>
-      </div>
-    )
+    return <div className="flex-1"></div>
   }
 
   return (
