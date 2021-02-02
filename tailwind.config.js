@@ -11,7 +11,8 @@ module.exports = {
   variants: {
     extend: {
       ringWidth: ['hover'],
-      opacity: ['disabled']
+      opacity: ['disabled'],
+      height: ['group-hover']
     }
   },
   plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')]
