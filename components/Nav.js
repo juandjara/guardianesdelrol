@@ -22,7 +22,7 @@ const links = [
   { role: 'superadmin', href: '/users', text: 'Usuarios' },
   { href: '/posts', text: 'Partidas' },
   { href: '/catalog', text: 'Catálogo' },
-  { href: '/challenge', text: 'Reta a un narrador' }
+  { href: '/challenge', text: 'Retos' }
 ]
 
 export default function Nav() {
