@@ -6,22 +6,18 @@ import Link from 'next/link'
 
 export default function Home({ data }) {
   return (
-    <main className="px-3 flex-auto mx-auto mb-12 flex flex-col items-center justify-center">
-      <h1 className="text-center text-6xl font-bold">Guardianes del Rol</h1>
-      {/* <p className="text-center max-w-prose text-lg leading-normal md:leading-relaxed mt-4">
-        ¡Bienvenido, forastero! En este portal podr&aacute;s encontrar las partidas de rol
-        publicadas por nuestra asociaci&oacute;n as&iacute; como apuntarte para participar.
-        Tambi&eacute;n podr&aacute;s ver el cat&aacute;logo de juegos que tenemos disponible para
-        retar a un m&aacute;ster a dirigir una aventura. Hasta ahora hemos disfrutado de:
-      </p> */}
-      <p className="text-left md:text-center max-w-prose text-lg leading-normal md:leading-relaxed mt-4">
-        ¡Bienvenido, forastero! Este es el punto de encuentro donde los miembros de Guardianes
-        planifican sus viajes a otros mundos. Podrás participar en estas aventuras e incluso formar
-        tu propio equipo de leyenda. Nuestros narradores están siempre a disposición de sus
-        jugadores y algunos incluso acpetan <strong>retos</strong> para crear una nueva partida.
-        Adéntrate con nosotros en el maravilloso mundo del rol.
-      </p>
-      <div className="md:flex justify-center space-y-10 md:space-y-0 md:space-x-14 mt-12">
+    <main className="px-3 flex-auto mx-auto mb-8 flex flex-col items-center justify-center">
+      <header>
+        <h1 className="text-center text-6xl font-bold">Guardianes del Rol</h1>
+        <p className="text-left md:text-center max-w-prose text-lg leading-normal md:leading-relaxed mt-4">
+          ¡Bienvenido, forastero! Este es el punto de encuentro donde los miembros de Guardianes
+          planifican sus viajes a otros mundos. Podrás participar en estas aventuras e incluso
+          formar tu propio equipo de leyenda. Nuestros narradores están siempre a disposición de sus
+          jugadores y algunos incluso acpetan <strong>retos</strong> para crear una nueva partida.
+          Adéntrate con nosotros en el maravilloso mundo del rol.
+        </p>
+      </header>
+      <div className="md:flex justify-center space-y-10 md:space-y-0 md:space-x-14 my-8">
         <div className="flex items-center">
           <svg
             height={52}
@@ -63,7 +59,7 @@ export default function Home({ data }) {
         </div>
       </div>
       <Link href="/posts">
-        <a className="hover:no-underline inline-block mt-12">
+        <a className="hover:no-underline inline-block">
           <Button
             hasIcon="right"
             className="mx-0 my-0 tracking-wide text-lg py-3 pl-6 pr-4 rounded-lg">
