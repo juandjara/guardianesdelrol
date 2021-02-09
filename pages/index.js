@@ -4,9 +4,17 @@ import UserCircleIcon from '@/components/icons/UserCircleIcon'
 import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
 
+/*
+ * TODO: hace mas claro el proposito de esta web en esta pagina
+ * el proposito final de esta plataforma es
+ * "unir a narradores que buscan jugadores con jugadores que busquen partidas"
+ * y de ahi nace todo lo demas
+ * todas las demas features son derivadas de esa
+ */
+
 export default function Home({ data }) {
   return (
-    <main className="px-3 flex-auto mx-auto mb-8 flex flex-col items-center justify-center">
+    <main className="px-3 flex-auto mx-auto my-4 flex flex-col items-center justify-center">
       <header>
         <h1 className="text-center text-6xl font-bold">Guardianes del Rol</h1>
         <p className="text-left md:text-center max-w-prose text-lg leading-normal md:leading-relaxed mt-4">
