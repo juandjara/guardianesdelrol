@@ -1,0 +1,26 @@
+.editor-wrapper .ql-toolbar.ql-snow {
+  border-bottom: none;
+}
+
+.editor-wrapper:focus-within .ql-container {
+  @apply border-red-700;
+}
+.editor-wrapper .ql-container {
+  @apply rounded-b-lg;
+}
+
+.editor-wrapper:focus-within .ql-toolbar.ql-snow {
+  @apply border-red-700;
+}
+.editor-wrapper .ql-toolbar.ql-snow {
+  @apply rounded-t-lg;
+}
+
+.editor-wrapper .ql-editor {
+  @apply text-base;
+  min-height: 80px;
+}
+
+.editor-wrapper .ql-size {
+  max-width: 76px;
+}

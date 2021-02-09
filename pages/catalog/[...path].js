@@ -1,6 +1,6 @@
 import BackIcon from '@/components/icons/BackIcon'
 import imageKitLoader from '@/lib/imageKitLoader'
-import useAuthGuard from '@/lib/useAuthGuard'
+// import useAuthGuard from '@/lib/useAuthGuard'
 import useGameDetail from '@/lib/useGameDetail'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -8,6 +8,7 @@ import { useEffect, useMemo } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import Avatar from '@/components/Avatar'
 import Link from 'next/link'
+import Button from '@/components/Button'
 
 function aggsFromPosts(posts = []) {
   const playercount = {}
@@ -126,7 +127,7 @@ function PostListItem({ post }) {
 }
 
 export default function GameList() {
-  useAuthGuard()
+  // useAuthGuard()
   const router = useRouter()
   const [id, slug] = router.query.path || []
   const { data: game } = useGameDetail(id)
@@ -144,13 +145,22 @@ export default function GameList() {
   return (
     <main className="flex-auto mx-auto p-3 max-w-4xl w-full">
       <div className="bg-white text-gray-700 pb-6 rounded-lg relative">
-        <button
-          title="Volver"
-          aria-label="Volver"
-          onClick={() => router.back()}
-          className="z-20 absolute top-2 left-2 rounded-full p-2 bg-opacity-50 text-white bg-gray-500 hover:bg-opacity-75 focus:outline-none focus:ring focus:ring-offset-0 focus:ring-blue-500 focus:ring-offset-transparent">
-          <BackIcon height={20} width={20} />
-        </button>
+        <div className="z-20 w-full absolute top-0 left-0 p-2 flex items-start justify-between">
+          <button
+            title="Volver"
+            aria-label="Volver"
+            onClick={() => router.back()}
+            className="rounded-full p-2 bg-opacity-50 text-white bg-gray-500 hover:bg-opacity-75 focus:outline-none focus:ring focus:ring-offset-0 focus:ring-blue-500 focus:ring-offset-transparent">
+            <BackIcon height={20} width={20} />
+          </button>
+          <Link href={`/edit/catalog/${id}`}>
+            <a>
+              <Button className="mx-0 my-0" small>
+                Editar
+              </Button>
+            </a>
+          </Link>
+        </div>
         <div className="h-64 relative clip-vertical bg-gray-100 rounded-t-lg">
           {image && (
             <Image
