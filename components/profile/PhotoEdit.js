@@ -9,7 +9,7 @@ function getImgOptionValue(imgOption, user) {
   if (imgOption) {
     return imgOption
   }
-  return user ? user.avatarType : 'gravatar'
+  return user ? user.avatartype : 'gravatar'
 }
 
 export default function PhotoEdit({ onChange }) {
@@ -80,7 +80,7 @@ export default function PhotoEdit({ onChange }) {
           <label className="flex items-center mt-3">
             <input
               type="radio"
-              name="avatar_type"
+              name="avatartype"
               value="custom"
               checked={imgOptionValue === 'custom'}
               onChange={ev => setImgOption(ev.target.value)}
@@ -91,7 +91,7 @@ export default function PhotoEdit({ onChange }) {
           <label className="flex items-center mt-3">
             <input
               type="radio"
-              name="avatar_type"
+              name="avatartype"
               value="gravatar"
               checked={imgOptionValue === 'gravatar'}
               onChange={() => setGravatar()}

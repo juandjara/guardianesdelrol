@@ -51,8 +51,7 @@ export default function PostCard({ post }) {
           <p className="flex items-center space-x-2 text-sm mb-2">
             <UserIcon width={20} height={20} />
             <span className="font-semibold">
-              {post.players.length + post.guest_players.length} / {post.seats}{' '}
-              <span className="font-normal">jugadores</span>
+              {post.players.length} / {post.seats} <span className="font-normal">jugadores</span>
             </span>
           </p>
           <p className="flex items-center space-x-2 text-sm mb-2">
@@ -63,7 +62,7 @@ export default function PostCard({ post }) {
           </p>
           <div className="flex items-center space-x-2">
             <Avatar user={post.narrator} size={32} />
-            <span className="text-sm">{post.narrator?.display_name || post.guest_narrator}</span>
+            <span className="text-sm">{post.narrator?.display_name}</span>
           </div>
         </div>
       </div>

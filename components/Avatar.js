@@ -10,9 +10,9 @@ export default function Avatar({
   size = 64,
   border = 'border-gray-100'
 }) {
-  const loader = preview || user?.avatarType === 'gravatar' ? undefined : imageKitLoader
+  const loader = preview || user?.avatartype === 'gravatar' ? undefined : imageKitLoader
   let src = useGravatar({ email: user?.email, size })
-  if (user?.avatarType !== 'gravatar') {
+  if (user?.avatartype !== 'gravatar') {
     src = `/avatar/${user?.id}`
   }
   if (preview) {
@@ -25,7 +25,7 @@ export default function Avatar({
         className={`${border} ${className} bg-white relative flex-shrink-0 flex items-center justify-center rounded-full border-2`}>
         <Image
           className="rounded-full"
-          src={`https://avatar.tobi.sh/${user.name}`}
+          src={`https://avatar.tobi.sh/${user.display_name}`}
           width={size}
           height={size}
         />

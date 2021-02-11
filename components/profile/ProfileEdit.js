@@ -40,10 +40,10 @@ export default function ProfileEdit() {
         await handleAvatarUpload()
       }
       await mutate(`profile/${user.id}`, async user => {
-        const avatarType = avatar?.type || user.avatarType
+        const avatartype = avatar?.type || user.avatartype
         const data = await updateProfile({
           id: user.id,
-          avatarType,
+          avatartype,
           displayName: nameValue,
           challengeable: checkboxValue,
           bio: bioValue
