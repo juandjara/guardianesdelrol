@@ -68,9 +68,7 @@ export default function Home({ data }) {
       </div>
       <Link href="/posts">
         <a className="hover:no-underline inline-block">
-          <Button
-            hasIcon="right"
-            className="mx-0 my-0 tracking-wide text-lg py-3 pl-6 pr-4 rounded-lg">
+          <Button hasIcon="right" className="tracking-wide text-lg py-3 pl-6 pr-4 rounded-lg">
             <span>ENTRAR</span>
             <ArrowIcon height={24} width={24} />
           </Button>

@@ -37,7 +37,7 @@ export default function Layout({ children, title = 'Guardianes del Rol' }) {
       </nav>
       {children}
       <footer className="p-3 flex flex-col md:flex-row md:items-end md:justify-between">
-        <div className="">
+        <div>
           <p>
             powered by <a href="https://nextjs.org">next.js</a>
           </p>

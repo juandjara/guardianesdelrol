@@ -63,9 +63,7 @@ export default function GameList() {
           </button>
           <Link href={`/edit/catalog/${id}`}>
             <a>
-              <Button className="mx-0 my-0" small>
-                Editar
-              </Button>
+              <Button small>Editar</Button>
             </a>
           </Link>
         </div>

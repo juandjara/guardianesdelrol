@@ -12,8 +12,9 @@ import Tag from '@/components/Tag'
 import Avatar from '@/components/Avatar'
 import AvatarList from '@/components/AvatarList'
 import ClockIcon from '@/components/icons/ClockIcon'
+import { useSession } from '@/lib/auth/UserContext'
 
-function TagLine({ post }) {
+function TagsLine({ post }) {
   if (!post) {
     return <Skeleton />
   }
@@ -66,6 +67,64 @@ function TagLine({ post }) {
   )
 }
 
+function ActionButton({ post, onAdd, onDelete }) {
+  const session = useSession()
+  const currentId = session?.user?.id
+
+  if (!post) {
+    return null
+  }
+
+  const isPlaying = post.players.some(p => p.id === currentId)
+  const isFull = post.players.length === post.seats
+
+  if (isPlaying) {
+    return (
+      <Button
+        onClick={onAdd}
+        hasIcon="left"
+        className="mb-2 ml-2"
+        color="text-red-700"
+        border="border"
+        small>
+        <svg
+          height={20}
+          width={20}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor">
+          <path d="M11 6a3 3 0 11-6 0 3 3 0 016 0zM14 17a6 6 0 00-12 0h12zM13 8a1 1 0 100 2h4a1 1 0 100-2h-4z" />
+        </svg>
+        <span>Abandonar</span>
+      </Button>
+    )
+  } else {
+    if (isFull) {
+      return null
+    } else {
+      return (
+        <Button
+          onClick={onDelete}
+          color="text-white"
+          background="hover:bg-blue-600 bg-blue-500"
+          hasIcon="left"
+          className="mb-2 ml-2"
+          small>
+          <svg
+            height={20}
+            width={20}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor">
+            <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
+          </svg>
+          <span>Apuntarse</span>
+        </Button>
+      )
+    }
+  }
+}
+
 export default function PostDetails() {
   const router = useRouter()
   const [id, slug] = router.query.path || []
@@ -77,12 +136,6 @@ export default function PostDetails() {
       router.replace(`/post/${post.id}/${post.slug}`)
     }
   }, [router, slug, post])
-
-  const actionButton = (
-    <Button className="mx-0 my-0 mb-2 ml-2 md:text-sm md:border md:font-normal" small>
-      Abandonar
-    </Button>
-  )
 
   return (
     <main className="flex-auto mx-auto p-3 max-w-4xl w-full">
@@ -97,9 +150,7 @@ export default function PostDetails() {
           </button>
           <Link href={`/edit/post/{id}`}>
             <a>
-              <Button className="mx-0 my-0" small>
-                Editar
-              </Button>
+              <Button small>Editar</Button>
             </a>
           </Link>
         </div>
@@ -122,7 +173,7 @@ export default function PostDetails() {
           <p className="text-base text-gray-500">{post?.game?.name || <Skeleton />}</p>
         </header>
         <div className="my-6 px-4">
-          <p className="text-sm text-gray-500 mb-2">
+          <p className="text-sm text-gray-500 mb-3">
             {post ? (
               <>
                 <span className="text-xl text-gray-700 font-medium mr-2">
@@ -134,10 +185,10 @@ export default function PostDetails() {
               <Skeleton />
             )}
           </p>
-          <AvatarList users={post?.players} action={actionButton} />
+          <AvatarList users={post?.players} action={<ActionButton post={post} />} />
         </div>
         <div className="px-4 mt-6">
-          <TagLine post={post} />
+          <TagsLine post={post} />
           <div className="mb-4 flex items-center space-x-2 p-2 bg-gray-50 rounded-md">
             <Avatar user={post?.narrator} size={32} />
             <span className="text-sm">{post?.narrator?.display_name}</span>
