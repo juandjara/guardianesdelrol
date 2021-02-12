@@ -64,6 +64,10 @@ ul {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 1rem));
 }
 
+.hyphens {
+  hyphens: auto;
+}
+
 @media (min-width: 768px) {
   .clip-horizontal {
     clip-path: polygon(0 0, calc(100% - 1rem) 0, 100% 100%, 0 100%);

@@ -9,27 +9,59 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Skeleton from 'react-loading-skeleton'
 import Tag from '@/components/Tag'
-// import ClockIcon from '@/components/icons/ClockIcon'
 import Avatar from '@/components/Avatar'
 import AvatarList from '@/components/AvatarList'
+import ClockIcon from '@/components/icons/ClockIcon'
 
-function Tags({ post }) {
+function TagLine({ post }) {
   if (!post) {
     return <Skeleton />
   }
 
-  const tags = [post.section?.name, post.type, ...post.tags].filter(Boolean).map(tag => (
+  const blueTags = post.tags.map(tag => (
+    <Tag key={tag} color="indigo">
+      {tag}
+    </Tag>
+  ))
+  const redTags = [post.type, post.section?.name, ...post.tags].filter(Boolean).map(tag => (
     <Tag key={tag} color="red">
       {tag}
     </Tag>
   ))
+
   const date = new Date(post.date).toLocaleDateString('es', { dateStyle: 'medium' })
   const datetime = `${date} ${post.time || ''}`
 
   return (
-    <div className="space-x-2 flex flex-wrap items-center font-semibold mb-2">
-      <span className="text-sm text-gray-600 font-medium">{datetime}</span>
-      {tags}
+    <div className="flex flex-wrap items-center font-semibold space-x-2 mr-1 mb-1 -ml-2 md:-ml-0">
+      <span className="my-1 ml-2 md:ml-0 mr-1 w-full md:w-auto flex items-center text-sm text-gray-500 font-medium">
+        <ClockIcon className="mr-1 text-gray-400" width={16} height={16} />
+        {datetime}
+      </span>
+      {blueTags}
+      {redTags}
+      <span className="flex-grow-0 md:flex-grow"></span>
+      <a
+        href="https://maps.google.com/"
+        target="_blank"
+        title="ver mapa"
+        rel="noopener noreferrer"
+        className="my-1 flex items-center text-sm text-indigo-500 font-normal">
+        <svg
+          height={16}
+          width={16}
+          className="mr-1"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor">
+          <path
+            fillRule="evenodd"
+            d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+            clipRule="evenodd"
+          />
+        </svg>
+        <span>{post.place}</span>
+      </a>
     </div>
   )
 }
@@ -89,15 +121,15 @@ export default function PostDetails() {
           </h1>
           <p className="text-base text-gray-500">{post?.game?.name || <Skeleton />}</p>
         </header>
-        <div className="text-gray-600 my-4 px-4">
-          <p className="text-base text-gray-400 mb-4">
+        <div className="my-6 px-4">
+          <p className="text-sm text-gray-500 mb-2">
             {post ? (
-              <span>
+              <>
                 <span className="text-xl text-gray-700 font-medium mr-2">
                   {numplayers} / {post?.seats}
                 </span>
                 jugador{post?.seats === 1 ? '' : 'es'}
-              </span>
+              </>
             ) : (
               <Skeleton />
             )}
@@ -105,13 +137,15 @@ export default function PostDetails() {
           <AvatarList users={post?.players} action={actionButton} />
         </div>
         <div className="px-4 mt-6">
+          <TagLine post={post} />
           <div className="mb-4 flex items-center space-x-2 p-2 bg-gray-50 rounded-md">
             <Avatar user={post?.narrator} size={32} />
             <span className="text-sm">{post?.narrator?.display_name}</span>
           </div>
-          <Tags post={post} />
         </div>
-        <div className="px-4 my-4" dangerouslySetInnerHTML={{ __html: post?.description }}></div>
+        <div
+          className="hyphens text-justify font-serif leading-relaxed px-6 mt-8 mb-4 mx-auto max-w-prose"
+          dangerouslySetInnerHTML={{ __html: post?.description }}></div>
       </div>
     </main>
   )
