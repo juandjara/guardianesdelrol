@@ -4,7 +4,7 @@
 // usage: `FB_UID=<ENTER_UID_HERE> ./scripts/makeSuperAdmin.js`
 
 require('dotenv').config({ path: `${__dirname}/../.env.local` })
-const admin = require('../lib/firebaseAdmin')
+const admin = require('../lib/data/firebaseAdmin')
 
 admin
   .auth()
