@@ -1,6 +1,6 @@
 import IconGoogle from '@/components/social-icons/google.svg'
 import { useAlert } from '@/components/AlertContext'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/lib/data/supabase'
 import { useState } from 'react'
 import Button from '../Button'
 import Spinner from '../Spinner'

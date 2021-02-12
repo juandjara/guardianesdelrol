@@ -1,7 +1,7 @@
 import Button from '@/components/Button'
 import ArrowIcon from '@/components/icons/ArrowIcon'
 import UserCircleIcon from '@/components/icons/UserCircleIcon'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/lib/data/supabase'
 import Link from 'next/link'
 
 /*

@@ -2,7 +2,7 @@
 
 require('dotenv').config({ path: `${__dirname}/../.env.local` })
 const images = require('../dump/images.json')
-const supabase = require('../lib/supabaseAdmin')
+const supabase = require('../lib/data/supabaseAdmin')
 
 async function main() {
   await supabase.from('images').insert(

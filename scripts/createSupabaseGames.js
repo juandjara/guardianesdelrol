@@ -2,7 +2,7 @@
 
 require('dotenv').config({ path: `${__dirname}/../.env.local` })
 const posts = require('../dump/post.json')
-const supabase = require('../lib/supabaseAdmin')
+const supabase = require('../lib/data/supabaseAdmin')
 
 const sectionsMap = [
   { label: 'Guardianes del Rol', value: 'guardianes_rol' },
