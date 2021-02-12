@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import Button from '@/components/Button'
 import Spinner from '@/components/Spinner'
-import { updatePermissions } from '@/lib/authService'
+import { updatePermissions } from '@/lib/auth/authService'
 import { useAlert } from '@/lib/AlertContext'
 import { useRouter } from 'next/router'
-import useProfile from '@/lib/useProfile'
+import useProfile from '@/lib/data/useProfile'
 import { mutate } from 'swr'
 
 export default function RoleEdit() {

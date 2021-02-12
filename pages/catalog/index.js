@@ -1,7 +1,7 @@
 import GameCard from '@/components/GameCard'
 import Spinner from '@/components/Spinner'
-import useAuthGuard from '@/lib/useAuthGuard'
-import useGames, { fetchGames } from '@/lib/useGames'
+import useAuthGuard from '@/lib/auth/useAuthGuard'
+import useGames, { fetchGames } from '@/lib/data/useGames'
 import { useEffect, useRef } from 'react'
 
 export default function GameList({ initialPage }) {

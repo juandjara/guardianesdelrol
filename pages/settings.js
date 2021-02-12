@@ -1,4 +1,4 @@
-import useAuthGuard from '@/lib/useAuthGuard'
+import useAuthGuard from '@/lib/auth/useAuthGuard'
 import ProfileEdit from '@/components/profile/ProfileEdit'
 import CredentialsEdit from '@/components/profile/CredentialsEdit'
 import RoleEdit from '@/components/profile/RoleEdit'

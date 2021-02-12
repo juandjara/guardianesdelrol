@@ -1,4 +1,4 @@
-import useUsers from '@/lib/useUsers'
+import useUsers from '@/lib/data/useUsers'
 import { useRouter } from 'next/router'
 import UserListItem from './UserListItem'
 

@@ -1,7 +1,7 @@
 import PostCard from '@/components/PostCard'
 import Spinner from '@/components/Spinner'
-import useAuthGuard from '@/lib/useAuthGuard'
-import usePosts, { fetchPosts } from '@/lib/usePosts'
+import useAuthGuard from '@/lib/auth/useAuthGuard'
+import usePosts, { fetchPosts } from '@/lib/data/usePosts'
 import { useEffect, useRef } from 'react'
 
 export default function PostList({ initialPage }) {

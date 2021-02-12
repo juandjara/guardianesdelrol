@@ -1,6 +1,6 @@
 import UserDetail from '@/components/users/UserDetail'
 import UserList from '@/components/users/UserList'
-import useAuthGuard from '@/lib/useAuthGuard'
+import useAuthGuard from '@/lib/auth/useAuthGuard'
 
 export default function UserDetails() {
   useAuthGuard()

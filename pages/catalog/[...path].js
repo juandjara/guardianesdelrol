@@ -1,7 +1,7 @@
 import BackIcon from '@/components/icons/BackIcon'
 import imageKitLoader from '@/lib/imageKitLoader'
 // import useAuthGuard from '@/lib/useAuthGuard'
-import useGameDetail from '@/lib/useGameDetail'
+import useGameDetail from '@/lib/data/useGameDetail'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'

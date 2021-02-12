@@ -1,5 +1,5 @@
 import UserList from '@/components/users/UserList'
-import useAuthGuard from '@/lib/useAuthGuard'
+import useAuthGuard from '@/lib/auth/useAuthGuard'
 
 export default function Users() {
   useAuthGuard()

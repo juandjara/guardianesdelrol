@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { supabase } from '@/lib/supabase'
 import useGravatar from '@/lib/useGravatar'
 import RoleTags from './RoleTags'
-import useProfile from '@/lib/useProfile'
+import useProfile from '@/lib/data/useProfile'
 import imageKitLoader from '@/lib/imageKitLoader'
 
 export default function UserMenu() {

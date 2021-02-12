@@ -1,6 +1,6 @@
 import Label from '@/components/Label'
 import TextEditor from '@/components/TextEditor'
-import useGameDetail from '@/lib/useGameDetail'
+import useGameDetail from '@/lib/data/useGameDetail'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
