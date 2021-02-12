@@ -13,6 +13,8 @@ import Avatar from '@/components/Avatar'
 import AvatarList from '@/components/AvatarList'
 import ClockIcon from '@/components/icons/ClockIcon'
 import { useSession } from '@/lib/auth/UserContext'
+import PlaceIcon from '@/components/icons/PlaceIcon'
+import GlobeIcon from '@/components/icons/GlobeIcon'
 
 function TagsLine({ post }) {
   if (!post) {
@@ -32,6 +34,7 @@ function TagsLine({ post }) {
 
   const date = new Date(post.date).toLocaleDateString('es', { dateStyle: 'medium' })
   const datetime = `${date} ${post.time || ''}`
+  const LinkIcon = post.type === 'online' ? GlobeIcon : PlaceIcon
 
   return (
     <div className="flex flex-wrap items-center font-semibold space-x-2 mr-1 mb-1 -ml-2 md:-ml-0">
@@ -47,20 +50,8 @@ function TagsLine({ post }) {
         target="_blank"
         title="ver mapa"
         rel="noopener noreferrer"
-        className="my-1 flex items-center text-sm text-indigo-500 font-normal">
-        <svg
-          height={16}
-          width={16}
-          className="mr-1"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor">
-          <path
-            fillRule="evenodd"
-            d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-            clipRule="evenodd"
-          />
-        </svg>
+        className="my-1 flex items-center text-sm text-gray-500 font-normal">
+        <LinkIcon className="mr-1" height={16} width={16} />
         <span>{post.place}</span>
       </a>
     </div>
@@ -172,7 +163,7 @@ export default function PostDetails() {
           </h1>
           <p className="text-base text-gray-500">{post?.game?.name || <Skeleton />}</p>
         </header>
-        <div className="my-6 px-4">
+        <div className="mt-4 mb-6 px-4">
           <p className="text-sm text-gray-500 mb-3">
             {post ? (
               <>
