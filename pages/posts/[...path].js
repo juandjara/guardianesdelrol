@@ -16,6 +16,9 @@ import { useSession } from '@/lib/auth/UserContext'
 import PlaceIcon from '@/components/icons/PlaceIcon'
 import GlobeIcon from '@/components/icons/GlobeIcon'
 import FsLightbox from 'fslightbox-react'
+import { useAlert } from '@/components/AlertContext'
+import { mutate } from 'swr'
+import { supabase } from '@/lib/data/supabase'
 
 function TagsLine({ post }) {
   if (!post) {
@@ -59,7 +62,7 @@ function TagsLine({ post }) {
   )
 }
 
-function ActionButton({ post, onAdd, onDelete }) {
+function ActionButton({ post, onAdd, onDelete, loading }) {
   const session = useSession()
   const currentId = session?.user?.id
 
@@ -73,7 +76,8 @@ function ActionButton({ post, onAdd, onDelete }) {
   if (isPlaying) {
     return (
       <Button
-        onClick={onAdd}
+        disabled={loading}
+        onClick={() => onDelete(currentId)}
         hasIcon="left"
         className="mb-2 ml-2"
         color="text-red-700"
@@ -96,7 +100,8 @@ function ActionButton({ post, onAdd, onDelete }) {
     } else {
       return (
         <Button
-          onClick={onDelete}
+          disabled={loading}
+          onClick={() => onAdd(currentId)}
           color="text-white"
           background="hover:bg-blue-600 bg-blue-500"
           hasIcon="left"
@@ -124,13 +129,55 @@ export default function PostDetails() {
   const { data: post } = usePostDetail(id)
   const numplayers = post?.players?.length || 0
 
+  const { setAlert } = useAlert()
   const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (post && post.slug && post.slug !== slug) {
       router.replace(`/post/${post.id}/${post.slug}`)
     }
   }, [router, slug, post])
+
+  async function handleAddPlayer(userId) {
+    setLoading(true)
+    try {
+      await mutate(`post-detail/${id}`, async () => {
+        const { error } = await supabase
+          .from('players')
+          .insert([{ post_id: post.id, user_id: userId }])
+          .single()
+
+        if (error) {
+          throw error
+        }
+      })
+    } catch (err) {
+      console.error(err)
+      setAlert(err.message)
+    }
+    setLoading(false)
+  }
+
+  async function handleRemovePlayer(userId) {
+    setLoading(true)
+    try {
+      await mutate(`post-detail/${id}`, async () => {
+        const { error } = await supabase
+          .from('players')
+          .delete()
+          .match({ post_id: post.id, user_id: userId })
+
+        if (error) {
+          throw error
+        }
+      })
+    } catch (err) {
+      console.error(err)
+      setAlert(err.message)
+    }
+    setLoading(false)
+  }
 
   return (
     <main className="flex-auto mx-auto p-3 max-w-4xl w-full">
@@ -193,7 +240,17 @@ export default function PostDetails() {
               <Skeleton />
             )}
           </p>
-          <AvatarList users={post?.players} action={<ActionButton post={post} />} />
+          <AvatarList
+            users={post?.players}
+            action={
+              <ActionButton
+                loading={loading}
+                post={post}
+                onAdd={handleAddPlayer}
+                onDelete={handleRemovePlayer}
+              />
+            }
+          />
         </div>
         <div className="px-4 mt-6">
           <TagsLine post={post} />
