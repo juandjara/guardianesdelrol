@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Button from '@/components/Button'
 import BackIcon from '@/components/icons/BackIcon'
 import usePostDetail from '@/lib/data/usePostDetail'
@@ -15,6 +15,7 @@ import ClockIcon from '@/components/icons/ClockIcon'
 import { useSession } from '@/lib/auth/UserContext'
 import PlaceIcon from '@/components/icons/PlaceIcon'
 import GlobeIcon from '@/components/icons/GlobeIcon'
+import FsLightbox from 'fslightbox-react'
 
 function TagsLine({ post }) {
   if (!post) {
@@ -51,7 +52,7 @@ function TagsLine({ post }) {
         title="ver mapa"
         rel="noopener noreferrer"
         className="my-1 flex items-center text-sm text-gray-500 font-normal">
-        <LinkIcon className="mr-1" height={16} width={16} />
+        <LinkIcon className="mr-1 text-gray-400" height={16} width={16} />
         <span>{post.place}</span>
       </a>
     </div>
@@ -119,8 +120,11 @@ function ActionButton({ post, onAdd, onDelete }) {
 export default function PostDetails() {
   const router = useRouter()
   const [id, slug] = router.query.path || []
+
   const { data: post } = usePostDetail(id)
   const numplayers = post?.players?.length || 0
+
+  const [lightboxOpen, setLightboxOpen] = useState(false)
 
   useEffect(() => {
     if (post && post.slug && post.slug !== slug) {
@@ -130,6 +134,12 @@ export default function PostDetails() {
 
   return (
     <main className="flex-auto mx-auto p-3 max-w-4xl w-full">
+      {post && (
+        <FsLightbox
+          toggler={lightboxOpen}
+          sources={[`https://ik.imagekit.io/juandjara/${post.image}`]}
+        />
+      )}
       <div className="bg-white text-gray-700 pb-6 rounded-lg relative">
         <div className="z-20 w-full absolute top-0 left-0 p-2 flex items-start justify-between">
           <button
@@ -145,7 +155,14 @@ export default function PostDetails() {
             </a>
           </Link>
         </div>
-        <div className="h-64 relative clip-vertical bg-gray-100 rounded-t-lg">
+        <div
+          role="button"
+          tabIndex="0"
+          aria-label="Ver imagen completa"
+          title="Ver imagen completa"
+          onKeyUp={ev => ev.key === 'Enter' && setLightboxOpen(!lightboxOpen)}
+          onClick={() => setLightboxOpen(!lightboxOpen)}
+          className="h-64 relative clip-vertical bg-gray-100 rounded-t-lg">
           {post?.image && (
             <Image
               className="rounded-t-lg"
@@ -167,7 +184,7 @@ export default function PostDetails() {
           <p className="text-sm text-gray-500 mb-3">
             {post ? (
               <>
-                <span className="text-xl text-gray-700 font-medium mr-2">
+                <span className="text-xl text-gray-600 font-medium mr-2">
                   {numplayers} / {post?.seats}
                 </span>
                 jugador{post?.seats === 1 ? '' : 'es'}

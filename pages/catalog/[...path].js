@@ -4,12 +4,13 @@ import imageKitLoader from '@/lib/imageKitLoader'
 import useGameDetail from '@/lib/data/useGameDetail'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import Avatar from '@/components/Avatar'
 import Link from 'next/link'
 import Button from '@/components/Button'
 import AvatarList from '@/components/AvatarList'
+import FsLightbox from 'fslightbox-react'
 
 function PostListItem({ post }) {
   const numplayers = post.players?.length || 0
@@ -24,7 +25,7 @@ function PostListItem({ post }) {
         </div>
       </div>
       <div className="ml-2">
-        <Link href={`/post/${post.id}/${post.slug}`}>
+        <Link href={`/posts/${post.id}/${post.slug}`}>
           <a className="text-sm text-gray-700">{post.name}</a>
         </Link>
         <p className="text-sm text-gray-400">{numplayers} jugadores</p>
@@ -38,6 +39,7 @@ export default function GameList() {
   const router = useRouter()
   const [id, slug] = router.query.path || []
   const { data: game } = useGameDetail(id)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
 
   useEffect(() => {
     if (game && game.slug && game.slug !== slug) {
@@ -52,6 +54,12 @@ export default function GameList() {
 
   return (
     <main className="flex-auto mx-auto p-3 max-w-4xl w-full">
+      {image && (
+        <FsLightbox
+          toggler={lightboxOpen}
+          sources={[`https://ik.imagekit.io/juandjara/${image}`]}
+        />
+      )}
       <div className="bg-white text-gray-700 pb-6 rounded-lg relative">
         <div className="z-20 w-full absolute top-0 left-0 p-2 flex items-start justify-between">
           <button
@@ -67,7 +75,14 @@ export default function GameList() {
             </a>
           </Link>
         </div>
-        <div className="h-64 relative clip-vertical bg-gray-100 rounded-t-lg">
+        <div
+          role="button"
+          tabIndex="0"
+          aria-label="Ver imagen completa"
+          title="Ver imagen completa"
+          onKeyUp={ev => ev.key === 'Enter' && setLightboxOpen(!lightboxOpen)}
+          onClick={() => setLightboxOpen(!lightboxOpen)}
+          className="h-64 relative clip-vertical bg-gray-100 rounded-t-lg">
           {image && (
             <Image
               className="rounded-t-lg"
