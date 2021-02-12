@@ -27,6 +27,7 @@ export default function TextEditor({ value }) {
               'underline',
               'link',
               'image',
+              'video',
               { align: [] },
               { list: 'ordered' },
               { list: 'bullet' }

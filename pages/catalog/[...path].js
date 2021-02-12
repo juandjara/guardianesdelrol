@@ -9,24 +9,7 @@ import Skeleton from 'react-loading-skeleton'
 import Avatar from '@/components/Avatar'
 import Link from 'next/link'
 import Button from '@/components/Button'
-
-function AvatarListItem({ user, count }) {
-  const numgames = count[user.id]
-  return (
-    <li key={user.id} className="group relative -ml-2 mb-2">
-      <Avatar border="border-gray-200" user={user} size={46} />
-      <div className="px-2 transition-opacity duration-300 opacity-0 group-hover:opacity-100 h-0 group-hover:h-auto overflow-hidden absolute -left-1 bottom-full">
-        <div className="p-3 bg-white rounded-xl mb-2 w-40 shadow-md">
-          <Avatar className="w-16" border="border-gray-200" user={user} size={64} />
-          <p className="mt-2 font-medium text-sm">{user.display_name || 'Aventurero sin nombre'}</p>
-          <p className="mt-1 text-gray-400 text-sm">
-            {numgames} partida{numgames === 1 ? '' : 's'}
-          </p>
-        </div>
-      </div>
-    </li>
-  )
-}
+import AvatarList from '@/components/AvatarList'
 
 function PostListItem({ post }) {
   const numplayers = post.players?.length || 0
@@ -108,26 +91,14 @@ export default function GameList() {
               <span className="text-2xl text-gray-700 font-medium mr-1">{numplayers}</span>
               jugador{numplayers === 1 ? '' : 'es'}
             </p>
-            {game && (
-              <ul className="flex flex-wrap ml-2">
-                {game.players.items.map(p => (
-                  <AvatarListItem key={p.id} user={p} count={game.players.count} />
-                ))}
-              </ul>
-            )}
+            {game && <AvatarList users={game.players.items} count={game.players.count} />}
           </div>
           <div>
             <p className="text-base text-gray-400 mb-4">
               <span className="text-2xl text-gray-700 font-medium mr-1">{numdms}</span>
               narrador{numdms === 1 ? '' : 'es'}
             </p>
-            {game && (
-              <ul className="flex flex-wrap ml-2">
-                {game.narrators.items.map(p => (
-                  <AvatarListItem key={p.id} user={p} count={game.narrators.count} />
-                ))}
-              </ul>
-            )}
+            {game && <AvatarList users={game.narrators.items} count={game.narrators.count} />}
           </div>
           <div>
             <p className="text-base text-gray-400 mb-4 mr-2">
