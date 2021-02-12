@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
-import { useAlert } from '@/lib/AlertContext'
+import { useAlert } from '@/components/AlertContext'
 import { supabase } from '@/lib/supabase'
 import { useSession } from '@/lib/auth/UserContext'
 import translateErrorMessage from '@/lib/translateErrorMessage'

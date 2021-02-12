@@ -1,5 +1,5 @@
 import IconGoogle from '@/components/social-icons/google.svg'
-import { useAlert } from '@/lib/AlertContext'
+import { useAlert } from '@/components/AlertContext'
 import { supabase } from '@/lib/supabase'
 import { useState } from 'react'
 import Button from '../Button'

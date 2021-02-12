@@ -1,4 +1,4 @@
-import { useAlert } from '@/lib/AlertContext'
+import { useAlert } from '@/components/AlertContext'
 import { updateProfile } from '@/lib/auth/authService'
 import { supabase } from '@/lib/supabase'
 import useProfile from '@/lib/data/useProfile'

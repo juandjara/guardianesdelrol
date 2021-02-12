@@ -1,7 +1,7 @@
 import Button from '@/components/Button'
 import Label from '@/components/Label'
 import Spinner from '@/components/Spinner'
-import { useAlert } from '@/lib/AlertContext'
+import { useAlert } from '@/components/AlertContext'
 import { supabase } from '@/lib/supabase'
 import { useEffect, useRef, useState } from 'react'
 import MailIcon from '@/components/icons/MailIcon'

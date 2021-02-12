@@ -1,4 +1,4 @@
-import { useAlert } from '@/lib/AlertContext'
+import { useAlert } from '@/components/AlertContext'
 import { useEffect } from 'react'
 // import AlertIcon from './icons/AlertIcon'
 

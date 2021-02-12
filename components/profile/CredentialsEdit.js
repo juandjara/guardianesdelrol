@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { useAlert } from '@/lib/AlertContext'
+import { useAlert } from '@/components/AlertContext'
 import { supabase } from '@/lib/supabase'
 import useProfile from '@/lib/data/useProfile'
 import Button from '@/components/Button'

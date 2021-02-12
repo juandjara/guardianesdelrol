@@ -1,4 +1,4 @@
-import { useAlert } from '@/lib/AlertContext'
+import { useAlert } from '@/components/AlertContext'
 import { useEffect, useRef, useState } from 'react'
 import Button from '@/components/Button'
 import LockIcon from '@/components/icons/LockIcon'
