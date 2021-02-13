@@ -105,7 +105,7 @@ export default function SignUp() {
             disabled={loading || !email || !password || !passwordValid}
             hasIcon="left"
             type="submit"
-            className="w-full my-0 mx-0 hover:shadow-md border-red-500 hover:border-red-600"
+            className="w-full hover:shadow-md border-red-500 hover:border-red-600"
             color="text-white"
             background="bg-red-500 hover:bg-red-600">
             {loading ? <Spinner size={6} color="white" /> : <LockIcon width={20} height={20} />}

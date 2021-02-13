@@ -69,7 +69,7 @@ export default function PhotoEdit({ onChange }) {
             disabled={!user}
             onClick={toggleFile}
             type="button"
-            className="my-0 pr-1 pl-1 rounded-full"
+            className="rounded-full"
             color="text-blue-500"
             background="bg-white hover:shadow-md"
             hasIcon="left">

@@ -59,7 +59,7 @@ export default function UserDetail() {
               <Button
                 small
                 hasIcon="left"
-                className="mx-0"
+                className="my-2"
                 color="text-blue-500 w-auto hover:text-white"
                 background="bg-white hover:bg-blue-500 hover:border-blue-500 hover:shadow-md">
                 <EditIcon width={20} height={20} />

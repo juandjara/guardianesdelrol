@@ -80,7 +80,7 @@ export default function RoleEdit() {
           type="submit"
           disabled={loading}
           hasIcon={loading ? 'left' : null}
-          className="block ml-auto border-none my-0 mx-0"
+          className="block ml-auto border-none"
           color="text-white"
           background="bg-red-500 hover:bg-red-600 hover:shadow-md">
           {loading ? (

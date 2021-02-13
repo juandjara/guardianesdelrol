@@ -60,7 +60,7 @@ export default function MailSentScreen() {
           </p>
           <a className="hover:no-underline" href={`http://${emailDomain}`} rel="noopener">
             <Button
-              className="mx-0 shadow-md border-none"
+              className="my-2 shadow-md border-none"
               color="text-white"
               background="bg-red-500 hover:bg-red-700">
               Ir a {emailDomain}

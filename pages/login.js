@@ -38,7 +38,7 @@ export default function Login() {
       if (next) {
         router.replace(next)
       } else {
-        router.push('/settings')
+        router.push('/posts')
       }
     } else {
       if (next) {
@@ -120,7 +120,7 @@ export default function Login() {
               disabled={loading || !email || !password}
               hasIcon="left"
               type="submit"
-              className="w-full my-0 mx-0 hover:shadow-md border-red-500 hover:border-red-600"
+              className="w-full hover:shadow-md border-red-500 hover:border-red-600"
               color="text-white"
               background="bg-red-500 hover:bg-red-600">
               {loading ? <Spinner size={6} color="white" /> : <LockIcon width={20} height={20} />}
@@ -130,7 +130,7 @@ export default function Login() {
               disabled={loading || !email}
               hasIcon="left"
               type="submit"
-              className="w-full my-0 mx-0 hover:shadow-md border-blue-500 hover:border-blue-600"
+              className="w-full hover:shadow-md border-blue-500 hover:border-blue-600"
               color="text-white"
               background="bg-blue-500 hover:bg-blue-600">
               {loading ? <Spinner size={6} color="white" /> : <MailIcon width={20} height={20} />}

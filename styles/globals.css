@@ -33,6 +33,10 @@ ul {
   margin: 0;
 }
 
+label[for] {
+  cursor: pointer;
+}
+
 * {
   box-sizing: border-box;
 }

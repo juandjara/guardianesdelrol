@@ -27,7 +27,7 @@ export default function GoogleLoginButton({ onLoggedIn = () => {} }) {
       onClick={login}
       disabled={loading}
       hasIcon="left"
-      className="w-full "
+      className="w-full"
       color="text-gray-700"
       background="bg-white hover:shadow-md"
       border="border-gray-200 hover:border-gray-300">

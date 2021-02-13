@@ -90,7 +90,7 @@ export default function ProfileEdit() {
         </div>
         <textarea
           rows="3"
-          name="bio"
+          id="bio"
           value={bioValue}
           maxLength={BIO_MAXLENGTH}
           onChange={ev => setBio(ev.target.value)}
@@ -107,21 +107,13 @@ export default function ProfileEdit() {
           onChange={ev => setChallenge(ev.target.checked)}
           className="h-5 w-5 text-blue-500 focus:outline-none focus:ring-offset-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 border-gray-300 rounded"
         />
-        <Label
-          name="challenge"
-          margin="ml-2"
-          text={
-            <span>
-              Disponible para la sección <strong>Reta a un narrador</strong>
-            </span>
-          }
-        />
+        <Label name="challenge" margin="ml-2" text="Disponible para retos" />
       </div>
       <Button
         type="submit"
         disabled={loading || !user}
         hasIcon={loading ? 'left' : null}
-        className="block ml-auto border-none my-0 mx-0"
+        className="block ml-auto border-none"
         color="text-white"
         background="bg-red-500 hover:bg-red-600 hover:shadow-md">
         {loading ? (

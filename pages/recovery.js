@@ -67,7 +67,7 @@ function EmailForm({ header, className, style }) {
         disabled={loading || !email}
         hasIcon="left"
         type="submit"
-        className="w-full my-0 mx-0 hover:shadow-md border-red-500 hover:border-red-600"
+        className="w-full hover:shadow-md border-red-500 hover:border-red-600"
         color="text-white"
         background="bg-red-500 hover:bg-red-600">
         {loading ? <Spinner size={6} color="white" /> : <MailIcon width={20} height={20} />}
@@ -131,7 +131,7 @@ function PasswordForm({ header, className, style }) {
         disabled={loading || !password || !passwordValid}
         hasIcon="left"
         type="submit"
-        className="w-full my-0 mx-0 hover:shadow-md border-red-500 hover:border-red-600"
+        className="w-full hover:shadow-md border-red-500 hover:border-red-600"
         color="text-white"
         background="bg-red-500 hover:bg-red-600">
         {loading ? <Spinner size={6} color="white" /> : <LockIcon width={20} height={20} />}
