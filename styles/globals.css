@@ -3,6 +3,7 @@
 @tailwind utilities;
 @import './pattern.css';
 @import './editor.css';
+@import '~nprogress/nprogress.css';
 
 :root {
   --light-red: #c41525;
