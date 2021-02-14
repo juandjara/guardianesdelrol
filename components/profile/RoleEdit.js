@@ -10,7 +10,6 @@ import { mutate } from 'swr'
 export default function RoleEdit() {
   const router = useRouter()
   const { user, loading } = useProfile(router.query.id)
-  const { user: loggedUser } = useProfile()
   const { setAlert } = useAlert()
 
   const [role, setRole] = useState(null)
@@ -31,10 +30,6 @@ export default function RoleEdit() {
       console.error(error)
       setAlert(error.message)
     }
-  }
-
-  if (loggedUser?.role !== 'superadmin') {
-    return null
   }
 
   return (

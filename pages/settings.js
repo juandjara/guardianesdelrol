@@ -4,10 +4,12 @@ import CredentialsEdit from '@/components/profile/CredentialsEdit'
 import RoleEdit from '@/components/profile/RoleEdit'
 import { useRouter } from 'next/router'
 import BackIcon from '@/components/icons/BackIcon'
+import useProfile from '@/lib/data/useProfile'
 
 export default function Settings() {
   useAuthGuard()
   const router = useRouter()
+  const { user } = useProfile()
 
   return (
     <main className="flex-auto mt-4 px-3">
@@ -33,9 +35,11 @@ export default function Settings() {
       <div className="bg-white text-gray-700 rounded-lg mt-8 p-4 max-w-screen-md mx-auto">
         <CredentialsEdit />
       </div>
-      <div className="bg-white text-gray-700 rounded-lg mt-8 p-4 max-w-screen-md mx-auto">
-        <RoleEdit />
-      </div>
+      {user?.role === 'superadmin' && (
+        <div className="bg-white text-gray-700 rounded-lg mt-8 p-4 max-w-screen-md mx-auto">
+          <RoleEdit />
+        </div>
+      )}
     </main>
   )
 }
