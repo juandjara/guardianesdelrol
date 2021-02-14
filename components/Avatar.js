@@ -19,10 +19,11 @@ export default function Avatar({
     src = preview
   }
 
+  const CN = `${border} ${className} bg-white relative flex-shrink-0 rounded-full border-2`
+  const style = { width: size + 4, height: size + 4 }
   if (user?.anon) {
     return (
-      <div
-        className={`${border} ${className} bg-white relative flex-shrink-0 flex items-center justify-center rounded-full border-2`}>
+      <div className={CN} style={style}>
         <Image
           className="rounded-full"
           src={`https://avatar.tobi.sh/${user.display_name}`}
@@ -34,8 +35,7 @@ export default function Avatar({
   }
 
   return user ? (
-    <div
-      className={`${border} ${className} bg-white relative flex-shrink-0 flex items-center justify-center rounded-full border-2`}>
+    <div className={CN} style={style}>
       <Image className="rounded-full" loader={loader} src={src} width={size} height={size} />
     </div>
   ) : (

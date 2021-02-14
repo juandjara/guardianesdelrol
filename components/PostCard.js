@@ -3,8 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRef } from 'react'
 import Avatar from './Avatar'
-import ClockIcon from './icons/ClockIcon'
-import UserIcon from './icons/UserIcon'
+import CalendarIcon from './icons/CalendarIcon'
+import UserGroupIcon from './icons/UserGroupIcon'
 import Tag from './Tag'
 
 export default function PostCard({ post }) {
@@ -24,7 +24,7 @@ export default function PostCard({ post }) {
     <li
       role="presentation"
       onClick={triggerLink}
-      className="flex h-96 flex-col bg-white text-gray-700 rounded-lg ring-red-500 hover:ring-4 focus-within:ring-4 transition-shadow duration-500">
+      className="flex flex-col bg-white text-gray-700 rounded-lg ring-red-500 hover:ring-4 focus-within:ring-4 transition-shadow duration-500">
       <div className="h-44 relative clip-vertical">
         {post.image && (
           <Image
@@ -37,32 +37,40 @@ export default function PostCard({ post }) {
           />
         )}
       </div>
-      <div className="max-w-prose py-2 px-3 flex flex-col flex-grow">
-        <h2 className="text-lg font-bold truncate text-red-700">
-          <Link href={`/posts/${post.id}/${post.slug}`}>
-            <a ref={linkRef} className="text-red-700 hover:no-underline">
-              {post.name}
-            </a>
-          </Link>
-        </h2>
-        <p className="text-base text-gray-500 mb-2">{post.game?.name}</p>
-        <div className="space-x-2 flex flex-wrap items-stretch font-semibold mb-2">{tags}</div>
-        <div className="mt-auto text-gray-600">
-          <p className="flex items-center space-x-2 text-sm mb-2">
-            <UserIcon width={20} height={20} />
-            <span className="font-semibold">
-              {post.players.length} / {post.seats} <span className="font-normal">jugadores</span>
-            </span>
-          </p>
-          <p className="flex items-center space-x-2 text-sm mb-2">
-            <ClockIcon height={20} width={20} />
-            <span>
-              {new Date(post.date).toLocaleDateString('es', { dateStyle: 'medium' })} {post.time}
-            </span>
-          </p>
-          <div className="flex items-center space-x-2">
-            <Avatar user={post.narrator} size={32} />
-            <span className="text-sm">{post.narrator?.display_name}</span>
+      <div className="py-2 px-3 flex flex-col flex-grow">
+        <header>
+          <h2 className="text-lg font-bold text-red-700">
+            <Link href={`/posts/${post.id}/${post.slug}`}>
+              <a ref={linkRef} className="text-red-700 hover:no-underline">
+                {post.name}
+              </a>
+            </Link>
+          </h2>
+          <p className="text-base text-gray-500 mb-1">{post.game?.name}</p>
+        </header>
+        <div className="space-x-2 flex flex-wrap items-stretch font-semibold mb-6">{tags}</div>
+        <div className="flex items-center space-x-2 mb-2 mt-auto">
+          <Avatar user={post.narrator} size={42} />
+          <div className="flex-grow pr-1">
+            <p className="text-base mb-1">{post.narrator?.display_name}</p>
+            <p className="flex items-center justify-between space-x-4 text-sm text-gray-400">
+              <span className="flex items-center space-x-2">
+                <CalendarIcon height={20} width={20} />
+                <span className="">
+                  {new Date(post.date).toLocaleDateString('es', { dateStyle: 'medium' })}{' '}
+                  {post.time}
+                </span>
+              </span>
+              <span className="flex items-center space-x-2">
+                <UserGroupIcon height={20} width={20} />
+                <span>
+                  <span className="font-medium text-gray-500">
+                    {post.players.length} / {post.seats}
+                  </span>
+                  <span> jugadores</span>
+                </span>
+              </span>
+            </p>
           </div>
         </div>
       </div>
