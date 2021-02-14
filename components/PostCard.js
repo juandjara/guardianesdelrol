@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useRef } from 'react'
 import Avatar from './Avatar'
 import CalendarIcon from './icons/CalendarIcon'
+import PlaceIcon from './icons/PlaceIcon'
 import UserGroupIcon from './icons/UserGroupIcon'
 import Tag from './Tag'
 
@@ -49,19 +50,12 @@ export default function PostCard({ post }) {
           <p className="text-base text-gray-500 mb-1">{post.game?.name}</p>
         </header>
         <div className="space-x-2 flex flex-wrap items-stretch font-semibold mb-6">{tags}</div>
-        <div className="flex items-start md:items-center space-x-2 mb-2 mt-auto">
+        <div className="flex items-start space-x-2 mt-auto">
           <Avatar user={post.narrator} size={42} />
           <div className="flex-grow pr-1">
             <p className="text-base mb-1">{post.narrator?.display_name}</p>
-            <p className="flex flex-wrap items-center justify-between text-sm text-gray-400">
-              <span className="flex items-center space-x-2 my-1 md:my-0 mr-4">
-                <CalendarIcon height={20} width={20} />
-                <span className="">
-                  {new Date(post.date).toLocaleDateString('es', { dateStyle: 'medium' })}{' '}
-                  {post.time}
-                </span>
-              </span>
-              <span className="flex items-center space-x-2 my-1 md:my-0">
+            <p className="text-sm text-gray-400">
+              <span className="flex items-center space-x-2 mb-1">
                 <UserGroupIcon height={20} width={20} />
                 <span>
                   <span className="font-medium text-gray-500">
@@ -69,6 +63,17 @@ export default function PostCard({ post }) {
                   </span>
                   <span> jugadores</span>
                 </span>
+              </span>
+              <span className="flex items-center space-x-2 mb-1">
+                <CalendarIcon height={20} width={20} />
+                <span>
+                  {new Date(post.date).toLocaleDateString('es', { dateStyle: 'medium' })}{' '}
+                  {post.time}
+                </span>
+              </span>
+              <span className="flex items-center space-x-2 mb-1">
+                <PlaceIcon height={20} width={20} />
+                <span>{post.place}</span>
               </span>
             </p>
           </div>
