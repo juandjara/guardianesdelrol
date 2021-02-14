@@ -8,59 +8,15 @@ import Image from 'next/image'
 // import useAuthGuard from '@/lib/useAuthGuard'
 import Link from 'next/link'
 import Skeleton from 'react-loading-skeleton'
-import Tag from '@/components/Tag'
 import Avatar from '@/components/Avatar'
 import AvatarList from '@/components/AvatarList'
-import ClockIcon from '@/components/icons/ClockIcon'
 import { useSession } from '@/lib/auth/UserContext'
-import PlaceIcon from '@/components/icons/PlaceIcon'
-import GlobeIcon from '@/components/icons/GlobeIcon'
 import FsLightbox from 'fslightbox-react'
 import { useAlert } from '@/components/AlertContext'
 import { mutate } from 'swr'
 import { supabase } from '@/lib/data/supabase'
-
-function TagsLine({ post }) {
-  if (!post) {
-    return <Skeleton />
-  }
-
-  const blueTags = post.tags.map(tag => (
-    <Tag key={tag} color="indigo">
-      {tag}
-    </Tag>
-  ))
-  const redTags = [post.type, post.section?.name, ...post.tags].filter(Boolean).map(tag => (
-    <Tag key={tag} color="red">
-      {tag}
-    </Tag>
-  ))
-
-  const date = new Date(post.date).toLocaleDateString('es', { dateStyle: 'medium' })
-  const datetime = `${date} ${post.time || ''}`
-  const LinkIcon = post.type === 'online' ? GlobeIcon : PlaceIcon
-
-  return (
-    <div className="flex flex-wrap items-center font-semibold space-x-2 mr-1 mb-1 -ml-2 md:-ml-0">
-      <span className="my-1 ml-2 md:ml-0 mr-1 w-full md:w-auto flex items-center text-sm text-gray-500 font-medium">
-        <ClockIcon className="mr-1 text-gray-400" width={16} height={16} />
-        {datetime}
-      </span>
-      {blueTags}
-      {redTags}
-      <span className="flex-grow-0 md:flex-grow"></span>
-      <a
-        href="https://maps.google.com/"
-        target="_blank"
-        title="ver mapa"
-        rel="noopener noreferrer"
-        className="my-1 flex items-center text-sm text-gray-500 font-normal">
-        <LinkIcon className="mr-1 text-gray-400" height={16} width={16} />
-        <span>{post.place}</span>
-      </a>
-    </div>
-  )
-}
+import UserGroupIcon from '@/components/icons/UserGroupIcon'
+import PostDetailTags from '@/components/PostDetailTags'
 
 function ActionButton({ post, onAdd, onDelete, loading }) {
   const session = useSession()
@@ -229,15 +185,16 @@ export default function PostDetails() {
         </header>
         <div className="mt-4 mb-6 px-4">
           <p className="text-sm text-gray-500 mb-3">
-            {post ? (
-              <>
-                <span className="text-xl text-gray-600 font-medium mr-2">
-                  {numplayers} / {post?.seats}
+            {post && (
+              <span className="flex items-center">
+                <UserGroupIcon className="text-gray-400 mx-1" height={24} width={24} />
+                <span className="ml-2">
+                  <span className="text-xl text-gray-600 font-medium mr-2">
+                    {numplayers} / {post?.seats}
+                  </span>
+                  jugador{post?.seats === 1 ? '' : 'es'}
                 </span>
-                jugador{post?.seats === 1 ? '' : 'es'}
-              </>
-            ) : (
-              <Skeleton />
+              </span>
             )}
           </p>
           <AvatarList
@@ -253,7 +210,7 @@ export default function PostDetails() {
           />
         </div>
         <div className="px-4 mt-6">
-          <TagsLine post={post} />
+          <PostDetailTags post={post} />
           <div className="mb-4 flex items-center space-x-2 p-2 bg-gray-50 rounded-md">
             <Avatar user={post?.narrator} size={32} />
             <span className="text-sm">{post?.narrator?.display_name}</span>
