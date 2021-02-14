@@ -19,9 +19,9 @@ function AvatarListItem({ user, count }) {
   )
 }
 
-export default function AvatarList({ users = [], count, action }) {
+export default function AvatarList({ className = '', users = [], count, action }) {
   return (
-    <ul className="flex flex-wrap items-center ml-2">
+    <ul className={`flex flex-wrap items-center ml-2 ${className}`}>
       {users.map(u => (
         <AvatarListItem key={u.id} user={u} count={count} />
       ))}

@@ -198,6 +198,7 @@ export default function PostDetails() {
             )}
           </p>
           <AvatarList
+            className={post?.players?.length === 0 ? '-ml-2' : ''}
             users={post?.players}
             action={
               <ActionButton
