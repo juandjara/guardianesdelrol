@@ -14,18 +14,18 @@ import Link from 'next/link'
 
 export default function Home({ data }) {
   return (
-    <main className="px-3 flex-auto mx-auto my-4 flex flex-col items-center justify-center">
+    <main className="px-3 my-4 container mx-auto flex-auto flex flex-col justify-center">
       <header>
-        <h1 className="text-center text-6xl font-bold">Guardianes del Rol</h1>
-        <p className="text-left md:text-center max-w-prose text-lg leading-normal md:leading-relaxed mt-4">
+        <h1 className="text-6xl font-bold">Guardianes del Rol</h1>
+        <p className="mt-4 max-w-prose text-justify text-lg leading-normal md:leading-relaxed">
           ¡Bienvenido, forastero! Este es el punto de encuentro donde los miembros de Guardianes
           planifican sus viajes a otros mundos. Podrás participar en estas aventuras e incluso
-          formar tu propio equipo de leyenda. Nuestros narradores están siempre a disposición de sus
-          jugadores y algunos incluso acpetan <strong>retos</strong> para crear una nueva partida.
-          Adéntrate con nosotros en el maravilloso mundo del rol.
+          formar tu propio equipo de leyenda. Nuestros narradores siempre están a disposición de sus
+          jugadores y algunos incluso acpetan retos para crear nuevas partidas.
+          <br /> ¡Adéntrate con nosotros en el maravilloso mundo del rol!
         </p>
       </header>
-      <div className="md:flex justify-center space-y-10 md:space-y-0 md:space-x-14 my-8">
+      <div className="md:flex space-y-10 md:space-y-0 md:space-x-14 my-14">
         <div className="flex items-center">
           <svg
             height={52}
@@ -66,9 +66,11 @@ export default function Home({ data }) {
           </p>
         </div>
       </div>
-      <Link href="/posts">
+      <Link href="/login">
         <a className="hover:no-underline inline-block">
-          <Button hasIcon="right" className="tracking-wide text-lg py-3 pl-6 pr-4 rounded-lg">
+          <Button
+            hasIcon="right"
+            className="tracking-wide text-lg py-3 pl-6 pr-4 rounded-lg shadow-lg">
             <span>ENTRAR</span>
             <ArrowIcon height={24} width={24} />
           </Button>

@@ -18,7 +18,7 @@ export function getClassname({ small, hasIcon, outline, color, background, borde
   const defaultBackground = outline ? 'bg-red-900 hover:bg-white' : 'bg-white hover:bg-red-50'
   const _background = background || defaultBackground
 
-  const _border = border || 'border-current'
+  const _border = border || 'border-white'
   const layout = hasIcon ? `flex justify-center items-center space-x-2` : 'block'
   const focus =
     'focus:outline-none focus:ring focus:ring-offset-0 focus:ring-blue-500 focus:ring-offset-transparent'
