@@ -15,6 +15,7 @@ RETURNS jsonb[] AS $$
       'type', type,
       'image', image,
       'place', place,
+      'place_link', place_link,
       'game', (SELECT jsonb_build_object('id', id, 'name', name, 'slug', slug) FROM games g WHERE g.id = p.game),
       'section', (SELECT jsonb_build_object('id', id, 'name', name) FROM sections s WHERE s.id = p.section),
       'narrator', narrator(p.*),
