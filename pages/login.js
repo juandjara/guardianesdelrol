@@ -38,11 +38,7 @@ export default function Login() {
       if (next) {
         router.replace(next)
       } else {
-        router.push('/posts')
-      }
-    } else {
-      if (next) {
-        setAlert('Es necesario iniciar sesión para continuar')
+        router.push('/dashboard')
       }
     }
   }, [session, next, router, setAlert])

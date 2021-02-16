@@ -26,6 +26,10 @@ function ActionButton({ post, onAdd, onDelete, loading }) {
     return null
   }
 
+  if (post.narrator.id === currentId) {
+    return null
+  }
+
   const isPlaying = post.players.some(p => p.id === currentId)
   const isFull = post.players.length === post.seats
 

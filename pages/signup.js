@@ -32,7 +32,7 @@ export default function SignUp() {
 
   useEffect(() => {
     if (session) {
-      router.push('/settings')
+      router.push('/dashboard')
     }
   }, [session, router])
 

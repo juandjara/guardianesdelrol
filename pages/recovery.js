@@ -106,7 +106,7 @@ function PasswordForm({ header, className, style }) {
       setAlert(translateErrorMessage(error.message))
     } else {
       setAlert({ type: 'success', text: 'Contraseña actualizada correctamente' })
-      router.push('/settings')
+      router.push('/dashboard')
     }
     setLoading(false)
   }

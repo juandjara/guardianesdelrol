@@ -65,7 +65,7 @@ export default function UserMenu() {
                 </Menu.Item>
                 <Menu.Item>
                   {({ active }) => (
-                    <MenuLink active={active} href="/userposts">
+                    <MenuLink active={active} href="/dashboard#myposts">
                       Mis partidas
                     </MenuLink>
                   )}
