@@ -31,15 +31,17 @@ export default function PostDetailTags({ post }) {
       {blueTags}
       {redTags}
       <span className="flex-grow-0 md:flex-grow"></span>
-      <a
-        href="https://maps.google.com/"
-        target="_blank"
-        title="ver mapa"
-        rel="noopener noreferrer"
-        className="my-1 flex items-center text-sm text-gray-500 font-normal">
-        <PlaceIcon className="mr-1 text-gray-400" height={16} width={16} />
-        <span>{post.place}</span>
-      </a>
+      {post.place && (
+        <a
+          href="https://maps.google.com/"
+          target="_blank"
+          title="ver mapa"
+          rel="noopener noreferrer"
+          className="my-1 flex items-center text-sm text-gray-500 font-normal">
+          <PlaceIcon className="mr-1 text-gray-400" height={16} width={16} />
+          <span>{post.place}</span>
+        </a>
+      )}
     </div>
   )
 }

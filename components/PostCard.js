@@ -71,10 +71,12 @@ export default function PostCard({ post }) {
                   {post.time}
                 </span>
               </span>
-              <span className="flex items-center space-x-2 mb-1">
-                <PlaceIcon height={20} width={20} />
-                <span>{post.place}</span>
-              </span>
+              {post.place && (
+                <span className="flex items-center space-x-2 mb-1">
+                  <PlaceIcon height={20} width={20} />
+                  <span>{post.place}</span>
+                </span>
+              )}
             </p>
           </div>
         </div>
