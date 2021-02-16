@@ -1,5 +1,4 @@
-import { getClassname as getButtonClassname } from './Button'
-import MenuLink from './MenuLink'
+import { buttonFocusStyle } from './Button'
 import MenuIcon from './icons/MenuIcon'
 import CloseIcon from './icons/CloseIcon'
 import { Menu, Transition } from '@headlessui/react'
@@ -46,7 +45,7 @@ export default function Nav() {
         <Menu>
           {({ open }) => (
             <>
-              <Menu.Button className={`${getButtonClassname()} bg-opacity-50 relative w-11 h-11`}>
+              <Menu.Button className={`relative m-2 w-10 h-10 rounded-lg ${buttonFocusStyle}`}>
                 <span className="sr-only">Mobile nav menu</span>
                 <TransitionMenuIcon as={CloseIcon} show={open} />
                 <TransitionMenuIcon as={MenuIcon} show={!open} />
@@ -61,13 +60,13 @@ export default function Nav() {
                 leaveTo="scale-y-50 opacity-0">
                 <Menu.Items
                   static
-                  className="absolute left-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5">
+                  className={`absolute flex flex-col left-2 w-48 p-2 rounded-md shadow-lg py-1 bg-red-900 bg-opacity-75`}>
                   {filteredLinks.map(l => (
                     <Menu.Item key={l.href}>
                       {({ active }) => (
-                        <MenuLink active={active} href={l.href}>
+                        <NavLink active={active} key={l.href} href={l.href}>
                           {l.text}
-                        </MenuLink>
+                        </NavLink>
                       )}
                     </Menu.Item>
                   ))}
