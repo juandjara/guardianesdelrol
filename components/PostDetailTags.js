@@ -33,7 +33,7 @@ export default function PostDetailTags({ post }) {
       <span className="flex-grow-0 md:flex-grow"></span>
       {post.place && (
         <a
-          href="https://maps.google.com/"
+          href={post.place_link}
           target="_blank"
           title="ver mapa"
           rel="noopener noreferrer"
