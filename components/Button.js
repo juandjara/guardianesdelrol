@@ -10,6 +10,7 @@ function getPadding({ hasIcon, small }) {
     padding = 'px-4 py-2'
     if (hasIcon === 'left') padding += ' pl-3'
     if (hasIcon === 'right') padding += ' pr-3'
+    if (hasIcon === 'only') padding = 'p-3'
   }
 
   return padding
