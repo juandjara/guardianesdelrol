@@ -35,7 +35,7 @@ export default function PostList({ initialPage }) {
 
   return (
     <main className="flex-auto container mx-auto p-3">
-      <header className="rounded-lg px-1 flex sticky top-0 z-20 bg-red-900 bg-opacity-75">
+      <header className="rounded-lg px-1 flex sticky top-0 z-10 bg-red-900 bg-opacity-75">
         <h1 className="flex-grow flex items-center text-xl font-semibold space-x-2">
           {count && <Tag color="red">{count}</Tag>}
           <span>Partidas</span>
