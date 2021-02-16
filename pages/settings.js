@@ -5,6 +5,7 @@ import RoleEdit from '@/components/profile/RoleEdit'
 import { useRouter } from 'next/router'
 import BackIcon from '@/components/icons/BackIcon'
 import useProfile from '@/lib/data/useProfile'
+import { buttonFocusStyle } from '@/components/Button'
 
 export default function Settings() {
   useAuthGuard()
@@ -18,7 +19,7 @@ export default function Settings() {
           title="Volver"
           aria-label="Volver"
           onClick={() => router.back()}
-          className="rounded-full p-2 bg-opacity-20 text-white bg-gray-50 hover:bg-opacity-50 focus:outline-none focus:ring focus:ring-offset-0 focus:ring-blue-500 focus:ring-offset-transparent">
+          className={`rounded-full p-2 bg-opacity-20 text-white bg-gray-50 hover:bg-opacity-50 ${buttonFocusStyle}`}>
           <BackIcon height={20} width={20} />
         </button>
         <h1 className="text-2xl font-bold">Mi cuenta</h1>

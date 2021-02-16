@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Skeleton from 'react-loading-skeleton'
 import Avatar from '../Avatar'
-import Button from '../Button'
+import Button, { buttonFocusStyle } from '../Button'
 import CloseIcon from '../icons/CloseIcon'
 import EditIcon from '../icons/EditIcon'
 import RoleTags from '../RoleTags'
@@ -38,7 +38,7 @@ export default function UserDetail() {
           <button
             title="Cerrar"
             aria-label="Cerrar"
-            className="absolute top-2 -left-2 rounded-full p-2 bg-opacity-20 text-white bg-gray-50 hover:bg-opacity-50 focus:outline-none focus:ring focus:ring-offset-0 focus:ring-blue-500 focus:ring-offset-transparent">
+            className={`absolute top-2 -left-2 rounded-full p-2 bg-opacity-20 text-white bg-gray-50 hover:bg-opacity-50 ${buttonFocusStyle}`}>
             <CloseIcon height={20} width={20} />
           </button>
         </Link>

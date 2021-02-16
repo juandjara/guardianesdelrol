@@ -1,4 +1,4 @@
-import Button from '@/components/Button'
+import Button, { buttonFocusStyle } from '@/components/Button'
 import Label from '@/components/Label'
 import Spinner from '@/components/Spinner'
 import { useAlert } from '@/components/AlertContext'
@@ -154,7 +154,7 @@ export default function RecoveryPassword() {
           title="Volver"
           aria-label="Volver"
           onClick={() => router.back()}
-          className="rounded-full p-2 bg-opacity-20 text-gray-600 bg-gray-200 hover:bg-opacity-50 focus:outline-none focus:ring focus:ring-offset-0 focus:ring-blue-500 focus:ring-offset-transparent">
+          className={`rounded-full p-2 bg-opacity-20 text-gray-600 bg-gray-200 hover:bg-opacity-50 ${buttonFocusStyle}`}>
           <BackIcon width={20} height={20} />
         </button>
         <h1 className="text-lg pl-2">Recuperar contraseña</h1>

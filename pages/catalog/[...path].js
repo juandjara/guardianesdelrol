@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import Avatar from '@/components/Avatar'
 import Link from 'next/link'
-import Button from '@/components/Button'
+import Button, { buttonFocusStyle } from '@/components/Button'
 import AvatarList from '@/components/AvatarList'
 import FsLightbox from 'fslightbox-react'
 
@@ -66,7 +66,7 @@ export default function GameList() {
             title="Volver"
             aria-label="Volver"
             onClick={() => router.back()}
-            className="rounded-full p-2 bg-opacity-50 text-white bg-gray-500 hover:bg-opacity-75 focus:outline-none focus:ring focus:ring-offset-0 focus:ring-blue-500 focus:ring-offset-transparent">
+            className={`rounded-full p-2 bg-opacity-50 text-white bg-gray-500 hover:bg-opacity-75 ${buttonFocusStyle}`}>
             <BackIcon height={20} width={20} />
           </button>
           <Link href={`/edit/catalog/${id}`}>

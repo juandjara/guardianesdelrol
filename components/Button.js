@@ -11,29 +11,26 @@ function getPadding({ hasIcon, small }) {
   return classes
 }
 
-export function getClassname({ small, hasIcon, outline, color, background, border, disabled }) {
-  const defaultColor = outline ? 'text-white hover:text-red-900' : 'text-red-900'
-  const _color = color || defaultColor
+export const buttonFocusStyle =
+  'focus:outline-none focus:ring focus:ring-offset-0 focus:ring-blue-500 focus:ring-offset-transparent'
 
-  const defaultBackground = outline ? 'bg-red-900 hover:bg-white' : 'bg-white hover:bg-red-50'
-  const _background = background || defaultBackground
-
-  const _border = border || 'border-white'
-  const layout = hasIcon ? `flex justify-center items-center space-x-2` : 'block'
-  const focus =
-    'focus:outline-none focus:ring focus:ring-offset-0 focus:ring-blue-500 focus:ring-offset-transparent'
-  const padding = getPadding({ hasIcon, small })
-  const font = small ? 'text-sm font-medium' : 'text-base font-semibold'
-  const base = 'transition-colors rounded-md border-2'
+export function getClassname({ small, hasIcon, color, background, border, disabled }) {
+  const _color = color || 'text-red-900'
+  const _background = background || 'bg-white hover:bg-red-50'
+  const _border = border || 'border-white border-2'
+  const _layout = hasIcon ? `flex justify-center items-center space-x-2` : 'block'
+  const _padding = getPadding({ hasIcon, small })
+  const _font = small ? 'text-sm font-medium' : 'text-base font-semibold'
   const _disabled = disabled ? 'opacity-50 pointer-events-none' : ''
-  return `${_color} ${_background} ${padding} ${_border} ${_disabled} ${font} ${layout} ${focus} ${base}`
+  const base = 'transition-colors rounded-md'
+
+  return `${_color} ${_background} ${_padding} ${_border} ${_disabled} ${_font} ${_layout} ${buttonFocusStyle} ${base}`
 }
 
 export default function Button({
   className = '',
   children,
   hasIcon,
-  outline,
   color,
   background,
   border,
@@ -43,7 +40,6 @@ export default function Button({
 }) {
   const classes = `${className} ${getClassname({
     hasIcon,
-    outline,
     color,
     background,
     border,

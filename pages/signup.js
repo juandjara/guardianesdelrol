@@ -5,7 +5,7 @@ import { useAlert } from '@/components/AlertContext'
 import { supabase } from '@/lib/data/supabase'
 import { useSession } from '@/lib/auth/UserContext'
 import translateErrorMessage from '@/lib/translateErrorMessage'
-import Button from '@/components/Button'
+import Button, { buttonFocusStyle } from '@/components/Button'
 import Label from '@/components/Label'
 import Spinner from '@/components/Spinner'
 import LockIcon from '@/components/icons/LockIcon'
@@ -72,7 +72,7 @@ export default function SignUp() {
               aria-label="Volver"
               type="button"
               onClick={() => router.back()}
-              className="rounded-full p-2 bg-opacity-20 text-gray-600 bg-gray-200 hover:bg-opacity-50 focus:outline-none focus:ring focus:ring-offset-0 focus:ring-blue-500 focus:ring-offset-transparent">
+              className={`rounded-full p-2 bg-opacity-20 text-gray-600 bg-gray-200 hover:bg-opacity-50 ${buttonFocusStyle}`}>
               <BackIcon width={20} height={20} />
             </button>
             <h1 className="text-lg pl-2">Crear cuenta</h1>

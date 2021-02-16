@@ -24,7 +24,7 @@ export default function Dashboard() {
   return (
     <main className="max-w-screen-lg w-full mx-auto flex-auto px-4">
       <header className="flex items-center justify-between my-6 mx-1">
-        <Avatar user={user} />
+        <Avatar size={64} user={user} />
         <div className="ml-6 flex-grow">
           <h1 className="my-1 text-4xl md:text-5xl font-semibold">Hola, {name}</h1>
           <Link href="/settings">
