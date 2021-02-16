@@ -55,8 +55,8 @@ export default function PostCard({ post }) {
           <div className="flex-grow pr-1">
             <p className="text-base mb-1">{post.narrator?.display_name}</p>
             <p className="text-sm text-gray-400">
-              <span className="flex items-center space-x-2 mb-1">
-                <UserGroupIcon height={20} width={20} />
+              <span className="flex items-start space-x-2 mb-1">
+                <UserGroupIcon className="flex-shrink-0" height={20} width={20} />
                 <span>
                   <span className="font-medium text-gray-500">
                     {post.players.length} / {post.seats}
@@ -64,16 +64,16 @@ export default function PostCard({ post }) {
                   <span> jugadores</span>
                 </span>
               </span>
-              <span className="flex items-center space-x-2 mb-1">
-                <CalendarIcon height={20} width={20} />
+              <span className="flex items-start space-x-2 mb-1">
+                <CalendarIcon className="flex-shrink-0" height={20} width={20} />
                 <span>
                   {new Date(post.date).toLocaleDateString('es', { dateStyle: 'medium' })}{' '}
                   {post.time}
                 </span>
               </span>
               {post.place && (
-                <span className="flex items-center space-x-2 mb-1">
-                  <PlaceIcon height={20} width={20} />
+                <span className="flex items-start space-x-2 mb-1">
+                  <PlaceIcon className="flex-shrink-0" height={20} width={20} />
                   <span>{post.place}</span>
                 </span>
               )}
