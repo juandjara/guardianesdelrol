@@ -1,14 +1,18 @@
 function getPadding({ hasIcon, small }) {
-  let classes = ''
+  let padding = ''
   if (small) {
-    classes = hasIcon ? 'px-3 py-1.5' : 'px-3 py-1'
+    if (hasIcon) {
+      padding = hasIcon === 'only' ? 'p-1.5' : 'px-3 py-1.5'
+    } else {
+      padding = 'px-3 py-1'
+    }
   } else {
-    classes = 'px-4 py-2'
-    if (hasIcon === 'left') classes += ' pl-3'
-    if (hasIcon === 'right') classes += ' pr-3'
+    padding = 'px-4 py-2'
+    if (hasIcon === 'left') padding += ' pl-3'
+    if (hasIcon === 'right') padding += ' pr-3'
   }
 
-  return classes
+  return padding
 }
 
 export const buttonFocusStyle =

@@ -72,7 +72,8 @@ export default function PhotoEdit({ onChange }) {
             className="rounded-full"
             color="text-blue-500"
             background="bg-white hover:shadow-md"
-            hasIcon="left">
+            border="border-blue-500 border-2"
+            hasIcon="only">
             <EditIcon height={20} width={20} />
           </Button>
         </div>
