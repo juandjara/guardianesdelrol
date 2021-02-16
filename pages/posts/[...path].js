@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import Button, { buttonFocusStyle } from '@/components/Button'
-import BackIcon from '@/components/icons/BackIcon'
+import Button from '@/components/Button'
 import usePostDetail from '@/lib/data/usePostDetail'
 import imageKitLoader from '@/lib/imageKitLoader'
 import Image from 'next/image'
@@ -17,6 +16,7 @@ import { mutate } from 'swr'
 import { supabase } from '@/lib/data/supabase'
 import UserGroupIcon from '@/components/icons/UserGroupIcon'
 import PostDetailTags from '@/components/PostDetailTags'
+import BackButton from '@/components/BackButton'
 
 function ActionButton({ post, onAdd, onDelete, loading }) {
   const session = useSession()
@@ -149,13 +149,7 @@ export default function PostDetails() {
       )}
       <div className="bg-white text-gray-700 pb-6 rounded-lg relative">
         <div className="z-20 w-full absolute top-0 left-0 p-2 flex items-start justify-between">
-          <button
-            title="Volver"
-            aria-label="Volver"
-            onClick={() => router.back()}
-            className={`rounded-full p-2 bg-opacity-50 text-white bg-gray-500 hover:bg-opacity-75 ${buttonFocusStyle}`}>
-            <BackIcon height={20} width={20} />
-          </button>
+          <BackButton colors="bg-opacity-50 text-white bg-gray-500 hover:bg-opacity-75" />
           <Link href={`/edit/post/{id}`}>
             <a>
               <Button small>Editar</Button>

@@ -5,13 +5,13 @@ import { useAlert } from '@/components/AlertContext'
 import { supabase } from '@/lib/data/supabase'
 import { useSession } from '@/lib/auth/UserContext'
 import translateErrorMessage from '@/lib/translateErrorMessage'
-import Button, { buttonFocusStyle } from '@/components/Button'
+import Button from '@/components/Button'
 import Label from '@/components/Label'
 import Spinner from '@/components/Spinner'
 import LockIcon from '@/components/icons/LockIcon'
-import BackIcon from '@/components/icons/BackIcon'
 import PasswordInput from '@/components/PasswordInput'
 import WeakPasswordWarning from '@/components/WeakPasswordWarning'
+import BackButton from '@/components/BackButton'
 
 export default function SignUp() {
   const inputRef = useRef()
@@ -67,14 +67,7 @@ export default function SignUp() {
           style={{ width: '28rem', maxWidth: 'calc(100vw - 24px)' }} // width from max-w-md
           className="flex flex-col justify-center text-left md:px-6 px-4 py-4">
           <header className="flex items-center mb-6">
-            <button
-              title="Volver"
-              aria-label="Volver"
-              type="button"
-              onClick={() => router.back()}
-              className={`rounded-full p-2 bg-opacity-20 text-gray-600 bg-gray-200 hover:bg-opacity-50 ${buttonFocusStyle}`}>
-              <BackIcon width={20} height={20} />
-            </button>
+            <BackButton />
             <h1 className="text-lg pl-2">Crear cuenta</h1>
           </header>
           <div>

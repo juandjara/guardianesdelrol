@@ -2,26 +2,17 @@ import useAuthGuard from '@/lib/auth/useAuthGuard'
 import ProfileEdit from '@/components/profile/ProfileEdit'
 import CredentialsEdit from '@/components/profile/CredentialsEdit'
 import RoleEdit from '@/components/profile/RoleEdit'
-import { useRouter } from 'next/router'
-import BackIcon from '@/components/icons/BackIcon'
 import useProfile from '@/lib/data/useProfile'
-import { buttonFocusStyle } from '@/components/Button'
+import BackButton from '@/components/BackButton'
 
 export default function Settings() {
   useAuthGuard()
-  const router = useRouter()
   const { user } = useProfile()
 
   return (
     <main className="flex-auto mt-4 px-3">
       <header className="max-w-screen-md mx-auto flex items-center space-x-4">
-        <button
-          title="Volver"
-          aria-label="Volver"
-          onClick={() => router.back()}
-          className={`rounded-full p-2 bg-opacity-20 text-white bg-gray-50 hover:bg-opacity-50 ${buttonFocusStyle}`}>
-          <BackIcon height={20} width={20} />
-        </button>
+        <BackButton colors="bg-opacity-20 text-white bg-gray-50 hover:bg-opacity-50" />
         <h1 className="text-2xl font-bold">Mi cuenta</h1>
       </header>
       <div className="bg-white text-gray-700 rounded-lg mt-4 p-4 max-w-screen-md mx-auto">

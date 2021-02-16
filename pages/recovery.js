@@ -1,4 +1,4 @@
-import Button, { buttonFocusStyle } from '@/components/Button'
+import Button from '@/components/Button'
 import Label from '@/components/Label'
 import Spinner from '@/components/Spinner'
 import { useAlert } from '@/components/AlertContext'
@@ -8,10 +8,10 @@ import MailIcon from '@/components/icons/MailIcon'
 import LockIcon from '@/components/icons/LockIcon'
 import { useRouter } from 'next/router'
 import translateErrorMessage from '@/lib/translateErrorMessage'
-import BackIcon from '@/components/icons/BackIcon'
 import Image from 'next/image'
 import PasswordInput from '@/components/PasswordInput'
 import WeakPasswordWarning from '@/components/WeakPasswordWarning'
+import BackButton from '@/components/BackButton'
 
 function EmailForm({ header, className, style }) {
   const inputRef = useRef()
@@ -149,14 +149,7 @@ export default function RecoveryPassword() {
   const header =
     form === 'email' ? (
       <header className="flex items-center mb-6">
-        <button
-          type="button"
-          title="Volver"
-          aria-label="Volver"
-          onClick={() => router.back()}
-          className={`rounded-full p-2 bg-opacity-20 text-gray-600 bg-gray-200 hover:bg-opacity-50 ${buttonFocusStyle}`}>
-          <BackIcon width={20} height={20} />
-        </button>
+        <BackButton />
         <h1 className="text-lg pl-2">Recuperar contraseña</h1>
       </header>
     ) : (

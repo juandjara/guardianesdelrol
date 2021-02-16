@@ -14,7 +14,7 @@ function getPadding({ hasIcon, small }) {
 export const buttonFocusStyle =
   'focus:outline-none focus:ring focus:ring-offset-0 focus:ring-blue-500 focus:ring-offset-transparent'
 
-export function getClassname({ small, hasIcon, color, background, border, disabled }) {
+export function getClassname({ small, hasIcon, color, background, border, disabled } = {}) {
   const _color = color || 'text-red-900'
   const _background = background || 'bg-white hover:bg-red-50'
   const _border = border || 'border-white border-2'

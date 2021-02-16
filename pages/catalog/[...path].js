@@ -1,4 +1,3 @@
-import BackIcon from '@/components/icons/BackIcon'
 import imageKitLoader from '@/lib/imageKitLoader'
 // import useAuthGuard from '@/lib/useAuthGuard'
 import useGameDetail from '@/lib/data/useGameDetail'
@@ -8,9 +7,10 @@ import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import Avatar from '@/components/Avatar'
 import Link from 'next/link'
-import Button, { buttonFocusStyle } from '@/components/Button'
+import Button from '@/components/Button'
 import AvatarList from '@/components/AvatarList'
 import FsLightbox from 'fslightbox-react'
+import BackButton from '@/components/BackButton'
 
 function PostListItem({ post }) {
   const numplayers = post.players?.length || 0
@@ -62,13 +62,7 @@ export default function GameList() {
       )}
       <div className="bg-white text-gray-700 pb-6 rounded-lg relative">
         <div className="z-20 w-full absolute top-0 left-0 p-2 flex items-start justify-between">
-          <button
-            title="Volver"
-            aria-label="Volver"
-            onClick={() => router.back()}
-            className={`rounded-full p-2 bg-opacity-50 text-white bg-gray-500 hover:bg-opacity-75 ${buttonFocusStyle}`}>
-            <BackIcon height={20} width={20} />
-          </button>
+          <BackButton colors="bg-opacity-50 text-white bg-gray-500 hover:bg-opacity-75" />
           <Link href={`/edit/catalog/${id}`}>
             <a>
               <Button small>Editar</Button>
