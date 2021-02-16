@@ -34,7 +34,7 @@ export default function Dashboard() {
       </header>
       <section className="my-12">
         <header className="flex items-baseline justify-between mx-1">
-          <h2 id="myposts" className="text-xl font-semibold">
+          <h2 id="posts" className="text-xl font-semibold">
             <span>Mis partidas</span>
             <span className="text-sm ml-2 font-medium">
               ({numasdm} narradas, {numasplayer} jugadas)
