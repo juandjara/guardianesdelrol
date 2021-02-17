@@ -49,6 +49,20 @@ function SearchBox() {
   return open ? input : button
 }
 
+function PostFilters() {
+  return (
+    <Button
+      small
+      hasIcon="only"
+      className="m-1"
+      background="bg-transparent hover:bg-red-100 hover:bg-opacity-50"
+      color="text-white"
+      border="border-none">
+      <FilterIcon width={20} height={20} />
+    </Button>
+  )
+}
+
 export default function PostList({ initialPage }) {
   useAuthGuard()
   const loaderRef = useRef(null)
@@ -85,15 +99,7 @@ export default function PostList({ initialPage }) {
           <span>Partidas</span>
         </h1>
         <div className="flex-grow"></div>
-        <Button
-          small
-          hasIcon="only"
-          className="m-1"
-          background="bg-transparent hover:bg-red-100 hover:bg-opacity-50"
-          color="text-white"
-          border="border-none">
-          <FilterIcon width={20} height={20} />
-        </Button>
+        <PostFilters />
         <SearchBox />
       </header>
       <Button
