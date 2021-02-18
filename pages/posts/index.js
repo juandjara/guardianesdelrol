@@ -159,7 +159,7 @@ export default function PostList() {
   return (
     <main className="flex-auto container mx-auto p-3">
       <header className="flex items-end">
-        <h1 className="flex items-center text-lg font-medium tracking-wide space-x-3">
+        <h1 className="flex items-center text-xl font-medium tracking-wide space-x-3">
           {count && <Tag color="red">{count}</Tag>}
           <span>Partidas</span>
         </h1>
@@ -185,9 +185,14 @@ export default function PostList() {
       <ul className="grid gap-4 grid-cols-cards mt-2">
         {posts && posts.map(post => <PostCard key={post.id} post={post} />)}
         {!finished && (
-          <div ref={loaderNode}>
-            <Spinner size={8} color="white" />
-          </div>
+          <>
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <div ref={loaderNode}>
+              <Spinner size={8} color="white" />
+            </div>
+          </>
         )}
       </ul>
       <ScrollToTopButton />
