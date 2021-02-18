@@ -8,72 +8,8 @@ import Button from '@/components/Button'
 import SearchIcon from '@/components/icons/SearchIcon'
 import FilterIcon from '@/components/icons/FilterIcon'
 import AddIcon from '@/components/icons/AddIcon'
-import CloseIcon from '@/components/icons/CloseIcon'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-
-function SearchBox() {
-  const inputRef = useRef(null)
-  const [open, setOpen] = useState(false)
-
-  useEffect(() => {
-    if (open && inputRef.current) {
-      inputRef.current.focus()
-    }
-  }, [open])
-
-  const button = (
-    <Button
-      small
-      hasIcon="only"
-      className="my-1 mr-2"
-      background="bg-red-900 hover:bg-red-700"
-      color="text-white"
-      border="border-none"
-      onClick={() => setOpen(!open)}>
-      <SearchIcon className="md:ml-1" width={20} height={20} />
-      <span className="md:inline hidden">B&uacute;squeda</span>
-    </Button>
-  )
-  const input = (
-    <div className="absolute top-0 right-4 shadow-md bg-white text-gray-400 flex items-center my-1.5 rounded-md focus-within:ring-2 focus-within:ring-red-700 focus-within:border-red-700">
-      <SearchIcon className="ml-2" width={16} height={16} />
-      <input
-        ref={inputRef}
-        id="search"
-        type="search"
-        className="h-7 px-2 text-sm rounded-md placeholder-gray-400 border-none focus:outline-none focus:ring-0"
-        placeholder="Buscar partidas"
-      />
-      <Button
-        small
-        hasIcon="only"
-        background="bg-transparent hover:bg-gray-100"
-        color="text-gray-400"
-        border="border-none"
-        onClick={() => setOpen(!open)}>
-        <CloseIcon width={16} height={16} />
-      </Button>
-    </div>
-  )
-
-  return open ? input : button
-}
-
-function PostFilters() {
-  return (
-    <Button
-      small
-      hasIcon="only"
-      className="my-1 mr-2"
-      background="bg-red-900 hover:bg-red-700"
-      color="text-white"
-      border="border-none">
-      <FilterIcon className="md:ml-1" width={20} height={20} />
-      <span className="md:inline hidden">Filtrar</span>
-    </Button>
-  )
-}
 
 function ScrollToTopButton() {
   const scrollToTopNode = useRef(null)
@@ -164,8 +100,26 @@ export default function PostList() {
           <span>Partidas</span>
         </h1>
         <div className="flex-grow"></div>
-        <SearchBox />
-        <PostFilters />
+        <Button
+          small
+          hasIcon="only"
+          className="my-1 mr-2"
+          background="bg-red-900 hover:bg-red-700"
+          color="text-white"
+          border="border-none">
+          <SearchIcon className="md:ml-1" width={20} height={20} />
+          <span className="md:inline hidden">B&uacute;squeda</span>
+        </Button>
+        <Button
+          small
+          hasIcon="only"
+          className="my-1 mr-2"
+          background="bg-red-900 hover:bg-red-700"
+          color="text-white"
+          border="border-none">
+          <FilterIcon className="md:ml-1" width={20} height={20} />
+          <span className="md:inline hidden">Filtrar</span>
+        </Button>
         <Link href="/edit/posts/new">
           <a className="hover:no-underline">
             <Button
