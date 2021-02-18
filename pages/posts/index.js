@@ -95,7 +95,7 @@ export default function PostList() {
   return (
     <main className="flex-auto container mx-auto p-3">
       <header className="flex items-end">
-        <h1 className="flex items-center text-xl font-medium tracking-wide space-x-3">
+        <h1 className="flex items-center text-xl font-semibold tracking-wide space-x-3">
           {count && <Tag color="red">{count}</Tag>}
           <span>Partidas</span>
         </h1>
