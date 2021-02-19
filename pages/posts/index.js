@@ -11,6 +11,7 @@ import AddIcon from '@/components/icons/AddIcon'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import FiltersPanel from '@/components/FiltersPanel'
+import CloseIcon from '@/components/icons/CloseIcon'
 
 function ScrollToTopButton() {
   const scrollToTopNode = useRef(null)
@@ -63,7 +64,7 @@ function ScrollToTopButton() {
   )
 }
 
-function SearchBox() {
+function SearchBox({ route }) {
   const router = useRouter()
   const query = new URLSearchParams(router.asPath.split('?')[1] || '').get('q')
   const inputNode = useRef(null)
@@ -71,22 +72,39 @@ function SearchBox() {
   const [search, setSearch] = useState(query)
 
   useEffect(() => {
+    function handler(ev) {
+      const wrapper = inputNode.current.parentElement
+      if (!wrapper.contains(ev.target)) {
+        setOpen(false)
+      }
+    }
+
     if (open && inputNode.current) {
       inputNode.current.focus()
+      document.addEventListener('pointerdown', handler)
     }
+
+    return () => document.removeEventListener('pointerdown', handler)
   }, [open])
 
   function applySearch(ev) {
     ev.preventDefault()
     if (search) {
       router.push({
-        pathname: '/posts',
+        pathname: route,
         query: {
           q: search
         }
       })
     } else {
-      router.push('/posts')
+      router.push(route)
+    }
+  }
+
+  function clearSearch() {
+    setSearch('')
+    if (inputNode.current) {
+      inputNode.current.focus()
     }
   }
 
@@ -115,10 +133,21 @@ function SearchBox() {
           name="posts-search"
           value={search}
           onChange={ev => setSearch(ev.target.value)}
-          onBlur={() => setOpen(false)}
           placeholder="Busca y pulsa enter"
-          className="w-full md:w-64 bg-red-900 h-8 pl-9 pr-3 text-base placeholder-gray-200 placeholder-opacity-50 border-transparent rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
+          className="w-full md:w-64 bg-red-900 h-8 pl-9 pr-9 text-base placeholder-gray-200 placeholder-opacity-50 border-transparent rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
         />
+        {search && (
+          <Button
+            small
+            hasIcon="only"
+            className="absolute right-0 z-10"
+            border="border-none"
+            color="text-white opacity-50 hover:opacity-100"
+            background="bg-transparent"
+            onClick={clearSearch}>
+            <CloseIcon width={20} height={20} />
+          </Button>
+        )}
         <input type="submit" hidden />
       </form>
     </div>
@@ -137,7 +166,7 @@ function PostListHeader({ count }) {
           <span>Partidas</span>
         </h1>
         <div className="flex-grow"></div>
-        <SearchBox />
+        <SearchBox route="/posts" />
         <Button
           small
           hasIcon="only"
