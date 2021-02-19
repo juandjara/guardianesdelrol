@@ -10,6 +10,7 @@ import FilterIcon from '@/components/icons/FilterIcon'
 import AddIcon from '@/components/icons/AddIcon'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import FiltersPanel from '@/components/FiltersPanel'
 
 function ScrollToTopButton() {
   const scrollToTopNode = useRef(null)
@@ -62,6 +63,111 @@ function ScrollToTopButton() {
   )
 }
 
+function SearchBox() {
+  const router = useRouter()
+  const query = new URLSearchParams(router.asPath.split('?')[1] || '').get('q')
+  const inputNode = useRef(null)
+  const [open, setOpen] = useState(false)
+  const [search, setSearch] = useState(query)
+
+  useEffect(() => {
+    if (open && inputNode.current) {
+      inputNode.current.focus()
+    }
+  }, [open])
+
+  function applySearch(ev) {
+    ev.preventDefault()
+    if (search) {
+      router.push({
+        pathname: '/posts',
+        query: {
+          q: search
+        }
+      })
+    } else {
+      router.push('/posts')
+    }
+  }
+
+  return (
+    <div className="md:relative">
+      <Button
+        small
+        hasIcon="only"
+        className={`my-1 mr-2 ${open ? 'invisible' : 'visible'}`}
+        background="bg-red-900 hover:bg-red-700"
+        color="text-white"
+        border="border-none"
+        onClick={() => setOpen(true)}>
+        <SearchIcon className="md:ml-1" width={20} height={20} />
+        <span className="md:inline hidden">B&uacute;squeda</span>
+      </Button>
+      <form
+        onSubmit={applySearch}
+        className={`w-full md:w-auto md:mr-2 flex items-center absolute top-0 bottom-0 right-0 transform md:origin-right transition-transform ${
+          open ? 'scale-x-100 visible' : 'scale-x-0 invisible'
+        }`}>
+        <SearchIcon className="absolute left-2 z-10" width={20} height={20} />
+        <input
+          ref={inputNode}
+          type="search"
+          name="posts-search"
+          value={search}
+          onChange={ev => setSearch(ev.target.value)}
+          onBlur={() => setOpen(false)}
+          placeholder="Busca y pulsa enter"
+          className="w-full md:w-64 bg-red-900 h-8 pl-9 pr-3 text-base placeholder-gray-200 placeholder-opacity-50 border-transparent rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
+        />
+        <input type="submit" hidden />
+      </form>
+    </div>
+  )
+}
+
+function PostListHeader({ count }) {
+  const [filtersOpen, setFiltersOpen] = useState(false)
+
+  return (
+    <>
+      <FiltersPanel open={filtersOpen} setOpen={setFiltersOpen} />
+      <header className="relative flex items-end">
+        <h1 className="flex items-center text-xl font-semibold tracking-wide space-x-3">
+          {count && <Tag color="red">{count}</Tag>}
+          <span>Partidas</span>
+        </h1>
+        <div className="flex-grow"></div>
+        <SearchBox />
+        <Button
+          small
+          hasIcon="only"
+          className="my-1 mr-2"
+          background="bg-red-900 hover:bg-red-700"
+          color="text-white"
+          border="border-none"
+          onClick={() => setFiltersOpen(true)}>
+          <FilterIcon className="md:ml-1" width={20} height={20} />
+          <span className="md:inline hidden">Filtrar</span>
+        </Button>
+        <Link href="/edit/posts/new">
+          <a className="hover:no-underline">
+            <Button
+              small
+              hasIcon="left"
+              className="my-1"
+              background="bg-red-500 hover:bg-red-400 hover:bg-opacity-100"
+              color="text-white"
+              border="border-none">
+              <AddIcon className="-ml-1" width={20} height={20} />
+              <span>Nueva partida</span>
+            </Button>
+          </a>
+        </Link>
+      </header>
+    </>
+  )
+}
+
 export default function PostList() {
   useAuthGuard()
   const router = useRouter()
@@ -94,47 +200,7 @@ export default function PostList() {
 
   return (
     <main className="flex-auto container mx-auto p-3">
-      <header className="flex items-end">
-        <h1 className="flex items-center text-xl font-semibold tracking-wide space-x-3">
-          {count && <Tag color="red">{count}</Tag>}
-          <span>Partidas</span>
-        </h1>
-        <div className="flex-grow"></div>
-        <Button
-          small
-          hasIcon="only"
-          className="my-1 mr-2"
-          background="bg-red-900 hover:bg-red-700"
-          color="text-white"
-          border="border-none">
-          <SearchIcon className="md:ml-1" width={20} height={20} />
-          <span className="md:inline hidden">B&uacute;squeda</span>
-        </Button>
-        <Button
-          small
-          hasIcon="only"
-          className="my-1 mr-2"
-          background="bg-red-900 hover:bg-red-700"
-          color="text-white"
-          border="border-none">
-          <FilterIcon className="md:ml-1" width={20} height={20} />
-          <span className="md:inline hidden">Filtrar</span>
-        </Button>
-        <Link href="/edit/posts/new">
-          <a className="hover:no-underline">
-            <Button
-              small
-              hasIcon="left"
-              className="my-1"
-              background="bg-red-500 hover:bg-red-400 hover:bg-opacity-100"
-              color="text-white"
-              border="border-none">
-              <AddIcon className="-ml-1" width={20} height={20} />
-              <span>Nueva partida</span>
-            </Button>
-          </a>
-        </Link>
-      </header>
+      <PostListHeader count={count} />
       {empty && <p className="text-gray-200 text-base">No hay partidas para estos filtros</p>}
       <ul className="grid gap-4 grid-cols-cards mt-2">
         {posts && posts.map(post => <PostCard key={post.id} post={post} />)}
