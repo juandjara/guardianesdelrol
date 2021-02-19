@@ -1,15 +1,20 @@
+import useLocalStorage from '@/lib/useLocalStorage'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import Button from './Button'
+import ClockIcon from './icons/ClockIcon'
 import CloseIcon from './icons/CloseIcon'
 import SearchIcon from './icons/SearchIcon'
 
 export default function SearchBox({ route }) {
   const router = useRouter()
-  const query = new URLSearchParams(router.asPath.split('?')[1] || '').get('q')
+  const query = new URLSearchParams(router.asPath.split('?')[1] || '').get('q') || ''
   const inputNode = useRef(null)
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState(query)
+  const searchKey = `recent-searches-${route}`
+  const [recentSearches, setRecentSearches] = useLocalStorage(searchKey, [])
 
   useEffect(() => {
     function handler(ev) {
@@ -30,6 +35,8 @@ export default function SearchBox({ route }) {
   function applySearch(ev) {
     ev.preventDefault()
     if (search) {
+      const newRecent = [search, ...recentSearches].slice(0, 5)
+      setRecentSearches(newRecent)
       router.push({
         pathname: route,
         query: {
@@ -48,6 +55,10 @@ export default function SearchBox({ route }) {
     }
   }
 
+  function removeRecent(q) {
+    setRecentSearches(recentSearches.filter(s => s !== q))
+  }
+
   return (
     <div className="md:relative">
       <Button
@@ -63,10 +74,10 @@ export default function SearchBox({ route }) {
       </Button>
       <form
         onSubmit={applySearch}
-        className={`w-full md:w-auto md:mr-2 flex items-center absolute top-0 bottom-0 right-0 transform md:origin-right transition-transform ${
+        className={`z-20 w-full md:w-auto md:mr-2 flex items-center absolute top-0 bottom-0 right-0 transform md:origin-right transition-transform ${
           open ? 'scale-x-100 visible' : 'scale-x-0 invisible'
         }`}>
-        <SearchIcon className="absolute left-2 z-10" width={20} height={20} />
+        <SearchIcon className="text-gray-200 opacity-75 absolute left-2" width={20} height={20} />
         <input
           ref={inputNode}
           type="search"
@@ -80,7 +91,8 @@ export default function SearchBox({ route }) {
           <Button
             small
             hasIcon="only"
-            className="absolute right-0 z-10"
+            type="button"
+            className="absolute right-0"
             border="border-none"
             color="text-white opacity-50 hover:opacity-100"
             background="bg-transparent"
@@ -89,6 +101,32 @@ export default function SearchBox({ route }) {
           </Button>
         )}
         <input type="submit" hidden />
+        <div className="absolute w-full top-full rounded-md bg-red-900">
+          <p className="text-xs text-gray-300 uppercase tracking-wider p-2 pt-3">
+            B&uacute;squedas recientes
+          </p>
+          <ul>
+            {recentSearches.map(q => (
+              <li key={q} className="px-2 py-2 flex items-center">
+                <ClockIcon className="text-gray-300 opacity-75" height={20} width={20} />
+                <Link href={`${route}?q=${q}`}>
+                  <a className="ml-2 flex-grow">{q}</a>
+                </Link>
+                <Button
+                  small
+                  hasIcon="only"
+                  type="button"
+                  className="-mr-1"
+                  border="border-none"
+                  color="text-white opacity-50 hover:opacity-100"
+                  background="bg-transparent"
+                  onClick={() => removeRecent(q)}>
+                  <CloseIcon width={20} height={20} />
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </div>
       </form>
     </div>
   )
