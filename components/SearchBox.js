@@ -108,7 +108,11 @@ export default function SearchBox({ route }) {
           <ul>
             {recentSearches.map(q => (
               <li key={q} className="px-2 py-2 flex items-center">
-                <ClockIcon className="text-gray-300 opacity-75" height={20} width={20} />
+                <ClockIcon
+                  className="text-gray-300 opacity-75 flex-shrink-0"
+                  height={20}
+                  width={20}
+                />
                 <Link href={`${route}?q=${q}`}>
                   <a className="ml-2 flex-grow">{q}</a>
                 </Link>
