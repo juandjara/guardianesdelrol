@@ -33,7 +33,7 @@ export default function Pagination({ count, page, rpp, onChange }) {
     onChange(lastPage)
   }
 
-  if (!count) {
+  if (lastPage < 1) {
     return null
   }
 

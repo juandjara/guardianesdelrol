@@ -21,7 +21,7 @@ function PostListHeader({ count }) {
       <FiltersPanel open={filtersOpen} setOpen={setFiltersOpen} />
       <header className="relative flex items-end">
         <h1 className="flex items-center text-xl font-semibold tracking-wide space-x-3">
-          {count && <Tag color="red">{count}</Tag>}
+          <Tag color="red">{count}</Tag>
           <span>Partidas</span>
         </h1>
         <div className="flex-grow"></div>
@@ -60,7 +60,7 @@ export default function PostList() {
   useAuthGuard()
   const router = useRouter()
   const { query, params } = useQueryParams()
-  const { posts, count, loading } = usePosts({ query })
+  const { posts, count, loading } = usePosts(query)
   const empty = !loading && count === 0
   const page = Number(params.page || 0)
   const rpp = Number(params.rpp || DEFAULT_RPP)
@@ -84,17 +84,11 @@ export default function PostList() {
             <PostCard />
           </>
         )}
-        {posts && posts.map(post => <PostCard key={post.id} post={post} />)}
+        {posts.map(post => (
+          <PostCard key={post.id} post={post} />
+        ))}
       </ul>
       <Pagination onChange={handlePageChange} page={page} rpp={rpp} count={count} />
     </main>
   )
 }
-
-// export async function getStaticProps() {
-//   const page = await fetchPosts()
-//   return {
-//     props: { initialPage: page },
-//     revalidate: 1
-//   }
-// }
