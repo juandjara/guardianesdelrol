@@ -56,7 +56,7 @@ export default function GameList() {
   return (
     <main className="flex-auto mx-auto p-3 max-w-4xl w-full">
       <GameListHeader count={count} />
-      {empty && <p className="text-white text-lg text-center">No hay juegos para estos filtros</p>}
+      {empty && <p className="text-white text-lg mt-1">No hay juegos para estos filtros</p>}
       <ul className="mt-2 space-y-4">
         {games.map(game => (
           <GameCard key={game.id} game={game} />

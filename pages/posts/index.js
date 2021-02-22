@@ -75,7 +75,7 @@ export default function PostList() {
   return (
     <main className="relative flex-auto container mx-auto p-3">
       <PostListHeader count={count} />
-      {empty && <p className="text-gray-200 text-base">No hay partidas para estos filtros</p>}
+      {empty && <p className="text-white text-lg mt-1">No hay partidas para estos filtros</p>}
       <ul className="grid gap-4 grid-cols-cards mt-2">
         {loading && (
           <>
