@@ -1,8 +1,7 @@
 import PostCard from '@/components/PostCard'
-import Spinner from '@/components/Spinner'
 import useAuthGuard from '@/lib/auth/useAuthGuard'
-import usePosts from '@/lib/data/usePosts'
-import { useEffect, useRef, useState } from 'react'
+import usePosts, { DEFAULT_RPP } from '@/lib/data/usePosts'
+import { useState } from 'react'
 import Tag from '@/components/Tag'
 import Button from '@/components/Button'
 import FilterIcon from '@/components/icons/FilterIcon'
@@ -11,57 +10,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import FiltersPanel from '@/components/FiltersPanel'
 import SearchBox from '@/components/SearchBox'
-
-function ScrollToTopButton() {
-  const scrollToTopNode = useRef(null)
-  const [showScrollToTop, setShowScrollToTop] = useState(false)
-
-  useEffect(() => {
-    function callback(entries) {
-      const target = entries[0]
-      setShowScrollToTop(!target.isIntersecting)
-    }
-    const observer = new IntersectionObserver(callback)
-    const node = scrollToTopNode?.current
-    if (node) {
-      observer.observe(node)
-    }
-
-    return () => {
-      if (node) observer.unobserve(node)
-      observer.disconnect()
-    }
-  }, [scrollToTopNode])
-
-  function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
-  return (
-    <div ref={scrollToTopNode} className="absolute top-0 right-0 h-screen w-1">
-      <Button
-        small
-        hasIcon="only"
-        className={`fixed bottom-4 right-4 rounded-full transition-opacity ${
-          showScrollToTop ? 'opacity-100 visible' : 'opacity-0 invisible'
-        }`}
-        background="bg-red-500 hover:bg-red-400"
-        color="text-white"
-        border="border-none"
-        onClick={scrollToTop}>
-        <svg
-          height={20}
-          width={20}
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-        </svg>
-      </Button>
-    </div>
-  )
-}
+import Pagination from '@/components/Pagination'
+import { useQueryParams } from '@/lib/useQueryParams'
 
 function PostListHeader({ count }) {
   const [filtersOpen, setFiltersOpen] = useState(false)
@@ -109,49 +59,34 @@ function PostListHeader({ count }) {
 export default function PostList() {
   useAuthGuard()
   const router = useRouter()
-  const query = router.asPath.replace(router.pathname, '')
-  const { data, empty, finished, loading, page, setPage } = usePosts({ query })
-  const loaderNode = useRef(null)
+  const { query, params } = useQueryParams()
+  const { posts, count, loading } = usePosts({ query })
+  const empty = !loading && count === 0
+  const page = Number(params.page || 0)
+  const rpp = Number(params.rpp || DEFAULT_RPP)
 
-  useEffect(() => {
-    function callback(entries) {
-      const target = entries[0]
-      if (target.isIntersecting && !loading && !finished) {
-        setPage(page + 1)
-      }
-    }
-
-    const observer = new IntersectionObserver(callback, { threshold: 0.25 })
-    const node = loaderNode?.current
-    if (node) {
-      observer.observe(node)
-    }
-
-    return () => {
-      if (node) observer.unobserve(node)
-      observer.disconnect()
-    }
-  }, [loaderNode, loading, finished, page, setPage])
-
-  const posts = data && data.filter(Boolean).flatMap(d => d.rows)
-  const count = data && data[0]?.count
+  function handlePageChange(page) {
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, page }
+    })
+  }
 
   return (
-    <main className="flex-auto container mx-auto p-3">
+    <main className="relative flex-auto container mx-auto p-3">
       <PostListHeader count={count} />
       {empty && <p className="text-gray-200 text-base">No hay partidas para estos filtros</p>}
       <ul className="grid gap-4 grid-cols-cards mt-2">
-        {posts && posts.map(post => <PostCard key={post.id} post={post} />)}
-        {!finished && (
+        {loading && (
           <>
             <PostCard />
-            <div ref={loaderNode}>
-              <Spinner size={8} color="white" />
-            </div>
+            <PostCard />
+            <PostCard />
           </>
         )}
+        {posts && posts.map(post => <PostCard key={post.id} post={post} />)}
       </ul>
-      <ScrollToTopButton />
+      <Pagination onChange={handlePageChange} page={page} rpp={rpp} count={count} />
     </main>
   )
 }
