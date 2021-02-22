@@ -8,7 +8,7 @@ import IconInstagram from './social-icons/instagram.svg'
 
 export default function Footer() {
   return (
-    <footer className="p-3 container mx-auto flex flex-col md:flex-row md:items-end md:justify-between">
+    <footer className="p-3 flex flex-col md:flex-row md:items-end md:justify-between">
       <p>
         &copy; Asocicacion Guardianes {new Date().getFullYear()}
         {' - '}
