@@ -4,6 +4,7 @@ import { AlertProvider } from '@/components/AlertContext'
 import { UserContextProvider } from '@/lib/auth/UserContext'
 import dynamic from 'next/dynamic'
 import '../styles/globals.css'
+import 'core-js/features/object/from-entries'
 
 const ProgressBar = dynamic(() => import('@/components/ProgressBar'), { ssr: false })
 
