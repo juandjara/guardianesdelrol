@@ -58,6 +58,13 @@ export default function GameList() {
       <GameListHeader count={count} />
       {empty && <p className="text-white text-lg mt-1">No hay juegos para estos filtros</p>}
       <ul className="mt-2 space-y-4">
+        {loading && (
+          <>
+            <GameCard />
+            <GameCard />
+            <GameCard />
+          </>
+        )}
         {games.map(game => (
           <GameCard key={game.id} game={game} />
         ))}

@@ -41,7 +41,7 @@ export default function PostCard({ post }) {
     <li
       role="presentation"
       onClick={triggerLink}
-      className="flex flex-col bg-white text-gray-700 rounded-lg ring-red-500 hover:ring-4 focus-within:ring-4 transition-shadow duration-500">
+      className="cursor-pointer flex flex-col bg-white text-gray-700 rounded-lg ring-red-500 hover:ring-4 focus-within:ring-4 transition-shadow duration-500">
       {post ? (
         <div className="h-44 relative clip-vertical">
           {post.image && (
