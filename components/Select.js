@@ -38,7 +38,7 @@ export default function Select({
           {label && <Listbox.Label>{label}</Listbox.Label>}
           <Listbox.Button
             className={`${className} bg-red-200 text-gray-700 py-2 pl-3 pr-2 rounded flex items-center justify-between space-x-3`}>
-            {String(selected?.label) ? (
+            {selected?.label || selected?.label === 0 ? (
               <span className="font-semibold">{selected.label}</span>
             ) : (
               <span className="font-medium">Selecciona una opcion...</span>
