@@ -21,8 +21,8 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const query = useQueryParams()
-  const next = query.get('next')
+  const { params } = useQueryParams()
+  const next = params.next
   const router = useRouter()
   const session = useSession()
   const { setAlert } = useAlert()

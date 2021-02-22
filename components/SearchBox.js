@@ -1,4 +1,5 @@
 import useLocalStorage from '@/lib/useLocalStorage'
+import { useQueryParams } from '@/lib/useQueryParams'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
@@ -9,7 +10,8 @@ import SearchIcon from './icons/SearchIcon'
 
 export default function SearchBox({ route }) {
   const router = useRouter()
-  const query = new URLSearchParams(router.asPath.split('?')[1] || '').get('q') || ''
+  const { params } = useQueryParams()
+  const query = params.q || ''
   const inputNode = useRef(null)
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState(query)

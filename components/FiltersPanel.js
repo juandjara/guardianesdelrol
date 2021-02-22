@@ -3,18 +3,14 @@ import CloseIcon from './icons/CloseIcon'
 import { Dialog } from '@reach/dialog'
 import Select from './Select'
 import useSections from '@/lib/data/useSections'
-import { useRouter } from 'next/router'
 import { useState } from 'react'
-
-function getQueryParam(router, key) {
-  return new URLSearchParams(router.asPath.split('?')[1] || '').get(key) || ''
-}
+import { useQueryParams } from '@/lib/useQueryParams'
 
 export default function FiltersPanel({ open, setOpen }) {
-  const router = useRouter()
+  const { params } = useQueryParams()
   const { sections } = useSections()
   const sectionOptions = sections.map(s => ({ value: s.id, label: s.name }))
-  const sectionId = getQueryParam(router, 's')
+  const sectionId = params.s || ''
   const initialSection = sectionOptions.find(s => s.value === sectionId)
   const [section, setSection] = useState(initialSection)
 
