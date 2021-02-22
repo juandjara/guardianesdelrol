@@ -86,7 +86,7 @@ export default function Pagination({ count, page, rpp, onChange }) {
         <span>P&aacute;gina</span>
         <Select
           className="inline-flex mx-2 w-20"
-          optionsClassname="absolute left-0 bottom-0 right-0 mb-12 h-40 overflow-y-auto"
+          optionsClassname="absolute left-0 bottom-0 right-0 mb-12 max-h-40 overflow-y-auto"
           options={pageOptions}
           onChange={handlePageSelect}
           selected={selectedPage}

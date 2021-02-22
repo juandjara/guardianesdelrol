@@ -1,45 +1,94 @@
 import useSections from '@/lib/data/useSections'
 import { useQueryParams } from '@/lib/useQueryParams'
-import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import { useEffect, useRef, useState } from 'react'
 import Button from '../Button'
 import FilterIcon from '../icons/FilterIcon'
 import Select from '../Select'
 
 export default function PostFiltersPanel() {
-  const [open, setOpen] = useState(false)
-
+  const router = useRouter()
   const { params } = useQueryParams()
+  const [open, setOpen] = useState(false)
+  const wrapperRef = useRef(null)
 
   const { sections } = useSections()
+  const initialSectionId = Number(params.s)
+  const [section, setSection] = useState(initialSectionId)
+
   const sectionOptions = sections.map(s => ({ value: s.id, label: s.name }))
-  const sectionId = params.s || ''
-  const initialSection = sectionOptions.find(s => s.value === sectionId)
-  const [section, setSection] = useState(initialSection)
+  const selectedSection = sectionOptions.find(s => s.value === section)
 
   const [typePresential, setTypePresential] = useState(!params.t || params.t === 'presencial')
   const [typeOnline, setTypeOnline] = useState(!params.t || params.t === 'online')
+  const hasFilters = Boolean(params.t || params.s)
 
   useEffect(() => {
-    setSection(initialSection)
-  }, [initialSection])
+    setSection(initialSectionId)
+  }, [initialSectionId])
 
   useEffect(() => {
-    setTypeOnline(!params.t || params.t === 'presencial')
-    setTypePresential(!params.t || params.t === 'online')
+    setTypePresential(!params.t || params.t === 'presencial')
+    setTypeOnline(!params.t || params.t === 'online')
   }, [params.t])
 
+  useEffect(() => {
+    function handler(ev) {
+      if (!wrapperRef.current.contains(ev.target)) {
+        setOpen(false)
+      }
+    }
+
+    if (open) {
+      document.addEventListener('pointerdown', handler)
+    }
+
+    return () => document.removeEventListener('pointerdown', handler)
+  }, [open])
+
+  function apply() {
+    let type = null
+    if (typeOnline !== typePresential) {
+      type = typeOnline ? 'online' : 'presencial'
+    }
+    router.push({
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        page: 0,
+        s: section || undefined,
+        t: type || undefined
+      }
+    })
+  }
+
+  function clear() {
+    router.push({
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        page: 0,
+        s: undefined,
+        t: undefined
+      }
+    })
+  }
+
   return (
-    <div className="md:relative">
+    <div className="md:relative" ref={wrapperRef}>
       <Button
         small
         hasIcon="only"
-        className="my-1 mr-2"
-        background="bg-red-900 hover:bg-red-700"
+        className="relative my-1 mr-2"
+        background={open ? 'bg-red-700' : 'bg-red-900 hover:bg-red-700'}
         color="text-white"
         border="border-none"
-        onClick={() => setOpen(true)}>
+        onClick={() => setOpen(!open)}>
         <FilterIcon className="md:ml-1" width={20} height={20} />
-        <span className="md:inline hidden">Filtrar</span>
+        <span className="md:inline hidden">Filtros</span>
+        {hasFilters && (
+          <span className="flex h-2 w-2 absolute -top-1 -right-1 rounded-full bg-red-200"></span>
+        )}
       </Button>
       <div
         className={`${
@@ -52,7 +101,8 @@ export default function PostFiltersPanel() {
             className="mx-1"
             background="hover:bg-gray-100 hover:bg-opacity-25"
             color="text-white"
-            border="border-none">
+            border="border-none"
+            onClick={clear}>
             <span>Limpiar</span>
           </Button>
           <Button
@@ -60,7 +110,8 @@ export default function PostFiltersPanel() {
             className="mx-1"
             background="hover:bg-gray-100 hover:bg-opacity-25"
             color="text-indigo-300"
-            border="border-none">
+            border="border-none"
+            onClick={apply}>
             <span>Aplicar</span>
           </Button>
         </header>
@@ -92,8 +143,8 @@ export default function PostFiltersPanel() {
           noSelectionLabel="Todas"
           className="w-64"
           options={sectionOptions}
-          selected={section}
-          onChange={setSection}
+          selected={selectedSection}
+          onChange={ev => setSection(ev.value)}
         />
       </div>
     </div>

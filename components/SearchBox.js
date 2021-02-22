@@ -51,11 +51,18 @@ export default function SearchBox({ route }) {
       router.push({
         pathname: route,
         query: {
+          ...router.query,
           q: search
         }
       })
     } else {
-      router.push(route)
+      router.push({
+        pathname: route,
+        query: {
+          ...router.query,
+          q: undefined
+        }
+      })
     }
   }
 
