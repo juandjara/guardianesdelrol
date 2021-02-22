@@ -95,7 +95,7 @@ export default function PostDetails() {
 
   useEffect(() => {
     if (post && post.slug && post.slug !== slug) {
-      router.replace(`/post/${post.id}/${post.slug}`)
+      router.replace(`/posts/${post.id}/${post.slug}`)
     }
   }, [router, slug, post])
 

@@ -11,6 +11,7 @@ export default function PostFiltersPanel() {
   const { params } = useQueryParams()
   const [open, setOpen] = useState(false)
   const wrapperRef = useRef(null)
+  const hasFilters = Boolean(params.t || params.s || params.ofs)
 
   const { sections } = useSections()
   const initialSectionId = Number(params.s)
@@ -21,7 +22,8 @@ export default function PostFiltersPanel() {
 
   const [typePresential, setTypePresential] = useState(!params.t || params.t === 'presencial')
   const [typeOnline, setTypeOnline] = useState(!params.t || params.t === 'online')
-  const hasFilters = Boolean(params.t || params.s)
+
+  const [onlyFreeSeats, setOnlyFreeSeats] = useState(!!params.ofs)
 
   useEffect(() => {
     setSection(initialSectionId)
@@ -33,18 +35,25 @@ export default function PostFiltersPanel() {
   }, [params.t])
 
   useEffect(() => {
-    function handler(ev) {
-      if (!wrapperRef.current.contains(ev.target)) {
-        setOpen(false)
+    setOnlyFreeSeats(!!params.ofs)
+  }, [params.ofs])
+
+  useEffect(
+    function handleClickOutside() {
+      function handler(ev) {
+        if (!wrapperRef.current.contains(ev.target)) {
+          setOpen(false)
+        }
       }
-    }
 
-    if (open) {
-      document.addEventListener('pointerdown', handler)
-    }
+      if (open) {
+        document.addEventListener('pointerdown', handler)
+      }
 
-    return () => document.removeEventListener('pointerdown', handler)
-  }, [open])
+      return () => document.removeEventListener('pointerdown', handler)
+    },
+    [open]
+  )
 
   function apply() {
     let type = null
@@ -57,7 +66,8 @@ export default function PostFiltersPanel() {
         ...router.query,
         page: 0,
         s: section || undefined,
-        t: type || undefined
+        t: type || undefined,
+        ofs: onlyFreeSeats ? '1' : undefined
       }
     })
   }
@@ -69,7 +79,8 @@ export default function PostFiltersPanel() {
         ...router.query,
         page: 0,
         s: undefined,
-        t: undefined
+        t: undefined,
+        ofs: undefined
       }
     })
   }
@@ -99,8 +110,8 @@ export default function PostFiltersPanel() {
           <Button
             small
             className="mx-1"
-            background="hover:bg-gray-100 hover:bg-opacity-25"
-            color="text-white"
+            background="hover:bg-gray-100 hover:bg-opacity-20"
+            color="text-gray-100"
             border="border-none"
             onClick={clear}>
             <span>Limpiar</span>
@@ -108,14 +119,33 @@ export default function PostFiltersPanel() {
           <Button
             small
             className="mx-1"
-            background="hover:bg-gray-100 hover:bg-opacity-25"
-            color="text-indigo-300"
+            background="bg-red-100 bg-opacity-30 hover:bg-opacity-40"
+            color="text-white"
             border="border-none"
             onClick={apply}>
             <span>Aplicar</span>
           </Button>
         </header>
-        <div>
+        <section>
+          <label className="inline-flex space-x-1 items-center">
+            <input
+              type="checkbox"
+              className="rounded-sm text-red-500"
+              checked={onlyFreeSeats}
+              onChange={ev => setOnlyFreeSeats(ev.target.checked)}
+            />
+            <span>Solo partidas con plazas libres</span>
+          </label>
+        </section>
+        <Select
+          label="Seccion"
+          noSelectionLabel="Todas"
+          className="w-64"
+          options={sectionOptions}
+          selected={selectedSection}
+          onChange={ev => setSection(ev.value)}
+        />
+        <section>
           <p className="text-sm text-gray-100 mb-1">Tipo</p>
           <div className="space-x-6">
             <label className="inline-flex space-x-1 items-center">
@@ -137,15 +167,7 @@ export default function PostFiltersPanel() {
               <span>Presencial</span>
             </label>
           </div>
-        </div>
-        <Select
-          label="Seccion"
-          noSelectionLabel="Todas"
-          className="w-64"
-          options={sectionOptions}
-          selected={selectedSection}
-          onChange={ev => setSection(ev.value)}
-        />
+        </section>
       </div>
     </div>
   )

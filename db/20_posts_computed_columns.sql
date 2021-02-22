@@ -47,3 +47,8 @@ from (
 ) q
 
 $$ LANGUAGE SQL;
+
+CREATE or replace FUNCTION has_free_seats(posts)
+RETURNS boolean AS $$
+  SELECT seats > coalesce(array_length(players(p.*), 1), 0) FROM posts where id = $1.id
+$$ LANGUAGE SQL;
