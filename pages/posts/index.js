@@ -1,58 +1,41 @@
-import PostCard from '@/components/PostCard'
+import PostCard from '@/components/posts/PostCard'
 import useAuthGuard from '@/lib/auth/useAuthGuard'
 import usePosts, { DEFAULT_RPP } from '@/lib/data/usePosts'
-import { useState } from 'react'
 import Tag from '@/components/Tag'
 import Button from '@/components/Button'
-import FilterIcon from '@/components/icons/FilterIcon'
 import AddIcon from '@/components/icons/AddIcon'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import FiltersPanel from '@/components/FiltersPanel'
 import SearchBox from '@/components/SearchBox'
 import Pagination from '@/components/Pagination'
 import { useQueryParams } from '@/lib/useQueryParams'
+import PostFiltersPanel from '@/components/posts/PostFiltersPanel'
 
 function PostListHeader({ count }) {
-  const [filtersOpen, setFiltersOpen] = useState(false)
-
   return (
-    <>
-      <FiltersPanel open={filtersOpen} setOpen={setFiltersOpen} />
-      <header className="relative flex items-end">
-        <h1 className="flex items-center text-xl font-semibold tracking-wide space-x-3">
-          <Tag color="red">{count}</Tag>
-          <span>Partidas</span>
-        </h1>
-        <div className="flex-grow"></div>
-        <SearchBox route="/posts" />
-        <Button
-          small
-          hasIcon="only"
-          className="my-1 mr-2"
-          background="bg-red-900 hover:bg-red-700"
-          color="text-white"
-          border="border-none"
-          onClick={() => setFiltersOpen(true)}>
-          <FilterIcon className="md:ml-1" width={20} height={20} />
-          <span className="md:inline hidden">Filtrar</span>
-        </Button>
-        <Link href="/edit/posts/new">
-          <a className="hover:no-underline">
-            <Button
-              small
-              hasIcon="left"
-              className="my-1"
-              background="bg-red-500 hover:bg-red-400 hover:bg-opacity-100"
-              color="text-white"
-              border="border-none">
-              <AddIcon className="-ml-1" width={20} height={20} />
-              <span>Nueva partida</span>
-            </Button>
-          </a>
-        </Link>
-      </header>
-    </>
+    <header className="relative flex items-end">
+      <h1 className="flex items-center text-xl font-semibold tracking-wide space-x-3">
+        <Tag color="red">{count}</Tag>
+        <span>Partidas</span>
+      </h1>
+      <div className="flex-grow"></div>
+      <SearchBox route="/posts" />
+      <PostFiltersPanel />
+      <Link href="/edit/posts/new">
+        <a className="hover:no-underline">
+          <Button
+            small
+            hasIcon="left"
+            className="my-1"
+            background="bg-red-500 hover:bg-red-400 hover:bg-opacity-100"
+            color="text-white"
+            border="border-none">
+            <AddIcon className="-ml-1" width={20} height={20} />
+            <span>Nueva partida</span>
+          </Button>
+        </a>
+      </Link>
+    </header>
   )
 }
 

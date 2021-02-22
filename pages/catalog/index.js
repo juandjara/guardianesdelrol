@@ -12,7 +12,7 @@ import { useRouter } from 'next/router'
 
 function GameListHeader({ count }) {
   return (
-    <header className="flex items-end">
+    <header className="relative flex items-end">
       <h1 className="flex items-center text-xl font-semibold tracking-wide space-x-3">
         <Tag color="red">{count}</Tag>
         <span>Juegos</span>

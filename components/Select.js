@@ -5,6 +5,7 @@ export default function Select({
   className = '',
   optionsClassname = '',
   label = '',
+  noSelectionLabel = 'Selecciona una opcion ...',
   selected,
   options = [],
   position = 'top',
@@ -35,16 +36,16 @@ export default function Select({
     <Listbox value={selected} onChange={onChange}>
       {({ open }) => (
         <div className="relative">
-          {label && <Listbox.Label>{label}</Listbox.Label>}
+          {label && <Listbox.Label className="text-sm text-gray-100 mb-1">{label}</Listbox.Label>}
           <Listbox.Button
-            className={`${className} bg-red-200 text-gray-700 py-2 pl-3 pr-2 rounded flex items-center justify-between space-x-3`}>
+            className={`${className} bg-red-200 text-gray-700 py-2 pl-3 pr-2 rounded max-w-full flex items-center justify-between space-x-3`}>
             {selected?.label || selected?.label === 0 ? (
-              <span className="font-semibold">{selected.label}</span>
+              <span className="font-semibold truncate">{selected.label}</span>
             ) : (
-              <span className="font-medium">Selecciona una opcion...</span>
+              <span className="font-medium truncate">{noSelectionLabel}</span>
             )}
             <svg
-              className="text-red-900"
+              className="text-red-900 flex-shrink-0"
               height={20}
               width={20}
               xmlns="http://www.w3.org/2000/svg"

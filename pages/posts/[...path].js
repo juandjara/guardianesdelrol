@@ -15,7 +15,7 @@ import { useAlert } from '@/components/AlertContext'
 import { mutate } from 'swr'
 import { supabase } from '@/lib/data/supabase'
 import UserGroupIcon from '@/components/icons/UserGroupIcon'
-import PostDetailTags from '@/components/PostDetailTags'
+import PostDetailTags from '@/components/posts/PostDetailTags'
 import BackButton from '@/components/BackButton'
 
 function ActionButton({ post, onAdd, onDelete, loading }) {

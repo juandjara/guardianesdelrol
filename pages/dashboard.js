@@ -1,5 +1,5 @@
 import Avatar from '@/components/Avatar'
-import PostCard from '@/components/PostCard'
+import PostCard from '@/components/posts/PostCard'
 import useAuthGuard from '@/lib/auth/useAuthGuard'
 import usePostsForUser from '@/lib/data/usePostsForUsers'
 import useProfile from '@/lib/data/useProfile'

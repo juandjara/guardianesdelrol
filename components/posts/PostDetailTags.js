@@ -1,7 +1,7 @@
 import Skeleton from 'react-loading-skeleton'
-import CalendarIcon from './icons/CalendarIcon'
-import PlaceIcon from './icons/PlaceIcon'
-import Tag from './Tag'
+import CalendarIcon from '../icons/CalendarIcon'
+import PlaceIcon from '../icons/PlaceIcon'
+import Tag from '../Tag'
 
 export default function PostDetailTags({ post }) {
   if (!post) {

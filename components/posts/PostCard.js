@@ -3,11 +3,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRef } from 'react'
 import Skeleton from 'react-loading-skeleton'
-import Avatar from './Avatar'
-import CalendarIcon from './icons/CalendarIcon'
-import PlaceIcon from './icons/PlaceIcon'
-import UserGroupIcon from './icons/UserGroupIcon'
-import Tag from './Tag'
+import Avatar from '../Avatar'
+import CalendarIcon from '../icons/CalendarIcon'
+import PlaceIcon from '../icons/PlaceIcon'
+import UserGroupIcon from '../icons/UserGroupIcon'
+import Tag from '../Tag'
 
 function Tags({ post }) {
   const blueTags = (post?.tags || []).map(tag => (
