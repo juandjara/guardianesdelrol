@@ -4,13 +4,7 @@ import Image from 'next/image'
 import styles from '../styles/Layout.module.css'
 import Nav from './Nav'
 import UserMenu from './UserMenu'
-
-import SocialIcon from './social-icons/SocialIcon'
-import IconTwitter from './social-icons/twitter.svg'
-import IconTwitch from './social-icons/twitch.svg'
-import IconMail from './social-icons/mail.svg'
-import IconFacebook from './social-icons/facebook.svg'
-import IconInstagram from './social-icons/instagram.svg'
+import Footer from './Footer'
 
 export default function Layout({ children, title = 'Guardianes del Rol' }) {
   return (
@@ -36,50 +30,7 @@ export default function Layout({ children, title = 'Guardianes del Rol' }) {
         <UserMenu />
       </nav>
       {children}
-      <footer className="p-3 flex flex-col md:flex-row md:items-end md:justify-between">
-        <div>
-          <p>
-            powered by <a href="https://nextjs.org">next.js</a>
-          </p>
-          <p>
-            creado por <a href="https://juandjara.com">juandjara</a>
-          </p>
-          <p>
-            &copy; Asocicacion Guardianes {new Date().getFullYear()}
-            {' - '}
-            <Link href="/rgpd">RGPD</Link>
-            {' - '}
-            <Link href="/privacy">Politica de privacidad</Link>
-          </p>
-        </div>
-        <div className="space-x-4 mt-4">
-          <SocialIcon
-            title="@asoguardianes"
-            href="https://twitter.com/asoguardianes"
-            icon={IconTwitter}
-          />
-          <SocialIcon
-            title="Guardianes Sevilla"
-            href="https://www.facebook.com/Guardianes-Sevilla-758918664213908"
-            icon={IconFacebook}
-          />
-          <SocialIcon
-            title="@asoguardianes"
-            href="https://instagram.com/asoguardianes"
-            icon={IconInstagram}
-          />
-          <SocialIcon
-            title="guardianes_esports"
-            href="https://www.twitch.tv/guardianes_esports"
-            icon={IconTwitch}
-          />
-          <SocialIcon
-            title="asociacion.guardianes@gmail.com"
-            href="mailto:asociacion.guardianes@gmail.com"
-            icon={IconMail}
-          />
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }
