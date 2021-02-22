@@ -19,6 +19,10 @@ export default function SearchBox({ route }) {
   const [recentSearches, setRecentSearches] = useLocalStorage(searchKey, [])
 
   useEffect(() => {
+    setSearch(query)
+  }, [query])
+
+  useEffect(() => {
     function handler(ev) {
       const wrapper = inputNode.current.parentElement
       if (!wrapper.contains(ev.target)) {
@@ -34,11 +38,16 @@ export default function SearchBox({ route }) {
     return () => document.removeEventListener('pointerdown', handler)
   }, [open])
 
-  function applySearch(ev) {
-    ev.preventDefault()
+  function applySearch(search, ev) {
+    if (ev) {
+      ev.preventDefault()
+    }
+    setOpen(false)
     if (search) {
-      const newRecent = [search, ...recentSearches].slice(0, 5)
-      setRecentSearches(newRecent)
+      if (recentSearches.indexOf(search) === -1) {
+        const newRecent = [search, ...recentSearches].slice(0, 5)
+        setRecentSearches(newRecent)
+      }
       router.push({
         pathname: route,
         query: {
@@ -51,10 +60,7 @@ export default function SearchBox({ route }) {
   }
 
   function clearSearch() {
-    setSearch('')
-    if (inputNode.current) {
-      inputNode.current.focus()
-    }
+    applySearch(null)
   }
 
   function removeRecent(q) {
@@ -66,16 +72,19 @@ export default function SearchBox({ route }) {
       <Button
         small
         hasIcon="only"
-        className={`my-1 mr-2 ${open ? 'invisible' : 'visible'}`}
+        className={`my-1 mr-2 relative ${open ? 'invisible' : 'visible'}`}
         background="bg-red-900 hover:bg-red-700"
         color="text-white"
         border="border-none"
         onClick={() => setOpen(true)}>
         <SearchIcon className="md:ml-1" width={20} height={20} />
         <span className="md:inline hidden">B&uacute;squeda</span>
+        {search && (
+          <span className="flex h-2 w-2 absolute -top-1 -right-1 rounded-full bg-red-200"></span>
+        )}
       </Button>
       <form
-        onSubmit={applySearch}
+        onSubmit={ev => applySearch(search, ev)}
         className={`z-20 w-full md:w-auto md:mr-2 flex items-center absolute top-0 bottom-0 right-0 transform md:origin-right transition-transform ${
           open ? 'scale-x-100 visible' : 'scale-x-0 invisible'
         }`}>
