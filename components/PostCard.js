@@ -56,7 +56,7 @@ export default function PostCard({ post }) {
           )}
         </div>
       ) : (
-        <Skeleton height={44 * 4} />
+        <Skeleton className="clip-vertical" height={44 * 4} />
       )}
       <div className="py-2 px-3 flex flex-col flex-grow">
         <header>
