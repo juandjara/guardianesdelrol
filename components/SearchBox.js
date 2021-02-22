@@ -103,36 +103,38 @@ export default function SearchBox({ route }) {
           </Button>
         )}
         <input type="submit" hidden />
-        <div className="absolute w-full top-full rounded-md bg-red-900">
-          <p className="text-xs text-gray-300 uppercase tracking-wider p-2 pt-3">
-            B&uacute;squedas recientes
-          </p>
-          <ul>
-            {recentSearches.map(q => (
-              <li key={q} className="px-2 py-2 flex items-center">
-                <ClockIcon
-                  className="text-gray-300 opacity-75 flex-shrink-0"
-                  height={20}
-                  width={20}
-                />
-                <Link href={`${route}?q=${q}`}>
-                  <a className="ml-2 flex-grow">{q}</a>
-                </Link>
-                <Button
-                  small
-                  hasIcon="only"
-                  type="button"
-                  className="-mr-1"
-                  border="border-none"
-                  color="text-white opacity-50 hover:opacity-100"
-                  background="bg-transparent"
-                  onClick={() => removeRecent(q)}>
-                  <CloseIcon width={20} height={20} />
-                </Button>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {recentSearches.length ? (
+          <div className="absolute w-full top-full rounded-md bg-red-900">
+            <p className="text-xs text-gray-300 uppercase tracking-wider p-2 pt-3">
+              B&uacute;squedas recientes
+            </p>
+            <ul>
+              {recentSearches.map(q => (
+                <li key={q} className="px-2 py-2 flex items-center">
+                  <ClockIcon
+                    className="text-gray-300 opacity-75 flex-shrink-0"
+                    height={20}
+                    width={20}
+                  />
+                  <Link href={`${route}?q=${q}`}>
+                    <a className="ml-2 flex-grow">{q}</a>
+                  </Link>
+                  <Button
+                    small
+                    hasIcon="only"
+                    type="button"
+                    className="-mr-1"
+                    border="border-none"
+                    color="text-white opacity-50 hover:opacity-100"
+                    background="bg-transparent"
+                    onClick={() => removeRecent(q)}>
+                    <CloseIcon width={20} height={20} />
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
       </form>
     </div>
   )
