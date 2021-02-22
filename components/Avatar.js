@@ -39,6 +39,6 @@ export default function Avatar({
       <Image className="rounded-full" loader={loader} src={src} width={size} height={size} />
     </div>
   ) : (
-    <Skeleton className={className} width={size} height={size} circle />
+    <Skeleton className={className} width={style.width} height={style.height} circle />
   )
 }
