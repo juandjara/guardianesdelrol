@@ -1,9 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 @import './pattern.css';
 @import './editor.css';
 @import '~nprogress/nprogress.css';
+@import '~@reach/dialog/styles.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --light-red: #c41525;
@@ -76,4 +78,8 @@ label[for] {
   .clip-horizontal {
     clip-path: polygon(0 0, calc(100% - 1rem) 0, 100% 100%, 0 100%);
   }
+}
+
+[data-reach-dialog-overlay] {
+  z-index: 40;
 }

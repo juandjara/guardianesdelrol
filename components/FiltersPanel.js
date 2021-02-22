@@ -1,25 +1,51 @@
 import Button from './Button'
 import CloseIcon from './icons/CloseIcon'
+import { Dialog } from '@reach/dialog'
+import Select from './Select'
+import useSections from '@/lib/data/useSections'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+
+function getQueryParam(router, key) {
+  return new URLSearchParams(router.asPath.split('?')[1] || '').get(key) || ''
+}
 
 export default function FiltersPanel({ open, setOpen }) {
-  if (!open) {
-    return null
+  const router = useRouter()
+  const { sections } = useSections()
+  const sectionOptions = sections.map(s => ({ value: s.id, label: s.name }))
+  const sectionId = getQueryParam(router, 's')
+  const initialSection = sectionOptions.find(s => s.value === sectionId)
+  const [section, setSection] = useState(initialSection)
+
+  function close() {
+    setOpen(false)
   }
 
   return (
-    <div className="fixed z-30 inset-0 w-full overflow-hidden flex justify-end items-stretch bg-black bg-opacity-30">
-      <div className="shadow-lg max-w-md bg-red-900 h-full w-full">
+    <Dialog
+      className="p-0 m-0 ml-auto h-full w-full max-w-md text-white bg-red-900"
+      aria-labelledby="filter-modal-label"
+      isOpen={open}
+      onDismiss={close}>
+      <header className="flex items-center">
+        <h2 id="filter-modal-label" className="px-4 text-xl flex-grow font-semibold">
+          Filtros
+        </h2>
         <Button
           small
           hasIcon="only"
           color="text-white"
-          background="bg-red-700"
+          background="hover:bg-red-800"
           border="border-none"
-          className="ml-auto m-2"
+          className="m-2"
           onClick={() => setOpen(false)}>
           <CloseIcon height={20} width={20} />
         </Button>
+      </header>
+      <div className="py-2 px-4">
+        <Select label="Seccion" options={sectionOptions} selected={section} onChange={setSection} />
       </div>
-    </div>
+    </Dialog>
   )
 }
