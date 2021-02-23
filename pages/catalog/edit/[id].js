@@ -14,8 +14,6 @@ export default function CatalogEdit() {
 
   return (
     <main className="flex-auto mx-auto p-3 max-w-4xl w-full">
-      <style>{`
-      `}</style>
       <div className="bg-white text-gray-700 pb-6 rounded-lg relative">
         <div className="p-3">
           <Label name="name" text="Nombre" />
