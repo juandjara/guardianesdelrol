@@ -10,6 +10,7 @@ import { useQueryParams } from '@/lib/useQueryParams'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Title from '@/components/Title'
+import GameFiltersPanel from '@/components/game/GameFiltersPanel'
 
 function GameListHeader({ count }) {
   return (
@@ -20,6 +21,7 @@ function GameListHeader({ count }) {
       </h1>
       <div className="flex-grow"></div>
       <SearchBox route="/catalog" />
+      <GameFiltersPanel />
       <Link href="/edit/posts/new">
         <a className="hover:no-underline">
           <Button
