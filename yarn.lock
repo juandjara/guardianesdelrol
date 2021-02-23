@@ -3315,6 +3315,11 @@ date-and-time@^0.14.0:
   resolved "https://registry.npmjs.org/date-and-time/-/date-and-time-0.14.2.tgz"
   integrity sha512-EFTCh9zRSEpGPmJaexg7HTuzZHh6cnJj1ui7IGCFNXzd2QdpsNh05Db5TF3xzJm30YN+A8/6xHSuRcQqoc3kFA==
 
+date-fns@^2.17.0:
+  version "2.17.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.17.0.tgz#afa55daea539239db0a64e236ce716ef3d681ba1"
+  integrity sha512-ZEhqxUtEZeGgg9eHNSOAJ8O9xqSgiJdrL0lzSSfMF54x6KXWJiOH/xntSJ9YomJPrYH/p08t6gWjGWq1SDJlSA==
+
 debug@4, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.2.0:
   version "4.3.1"
   resolved "https://registry.npmjs.org/debug/-/debug-4.3.1.tgz"
