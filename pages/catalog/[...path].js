@@ -65,8 +65,8 @@ export default function GameList() {
       <div className="bg-white text-gray-700 pb-6 rounded-lg relative">
         <div className="z-20 w-full absolute top-0 left-0 p-2 flex items-start justify-between">
           <BackButton colors="bg-opacity-50 text-white bg-gray-500 hover:bg-opacity-75" />
-          <Link href={`/edit/catalog/${id}`}>
-            <a>
+          <Link href={`/catalog/edit/${id}`}>
+            <a className="hover:no-underline">
               <Button small>Editar</Button>
             </a>
           </Link>

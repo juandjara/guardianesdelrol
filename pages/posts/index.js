@@ -22,7 +22,7 @@ function PostListHeader({ count }) {
       <div className="flex-grow"></div>
       <SearchBox route="/posts" />
       <PostFiltersPanel />
-      <Link href="/edit/posts/new">
+      <Link href="/posts/edit/new">
         <a className="hover:no-underline">
           <Button
             small
