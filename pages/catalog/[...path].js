@@ -52,6 +52,8 @@ export default function GameList() {
   const numplayers = game?.players.items.length || 0
   const numdms = game?.narrators.items.length || 0
   const numposts = game?.posts.length || 0
+  const updateTime = new Date(game?.updated_at).toLocaleTimeString()
+  const updateDate = new Date(game?.updated_at).toLocaleDateString()
 
   return (
     <main className="flex-auto mx-auto p-3 max-w-4xl w-full">
@@ -94,7 +96,7 @@ export default function GameList() {
           <h1 className="text-red-700 text-xl font-semibold">{game?.name || <Skeleton />}</h1>
           <p className="max-w-prose text-base mt-2">{game?.description}</p>
         </header>
-        <div className="space-y-6 p-4">
+        <div className="space-y-6 p-4 pb-0">
           <div>
             <p className="text-base text-gray-400 mb-4">
               <span className="text-2xl text-gray-700 font-medium mr-1">{numplayers}</span>
@@ -121,6 +123,11 @@ export default function GameList() {
                 ))}
               </ul>
             )}
+          </div>
+          <div>
+            <p className="mt-8 text-sm text-gray-400">
+              Actualizado el {updateDate} a las {updateTime}
+            </p>
           </div>
         </div>
       </div>

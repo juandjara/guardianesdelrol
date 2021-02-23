@@ -94,6 +94,9 @@ export default function PostDetails() {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [loading, setLoading] = useState(false)
 
+  const updateTime = new Date(post?.updated_at).toLocaleTimeString()
+  const updateDate = new Date(post?.updated_at).toLocaleDateString()
+
   useEffect(() => {
     if (post && post.slug && post.slug !== slug) {
       router.replace(`/posts/${post.id}/${post.slug}`)
@@ -220,6 +223,11 @@ export default function PostDetails() {
         <div
           className="hyphens text-justify font-serif leading-relaxed px-6 mt-8 mb-4 mx-auto max-w-prose"
           dangerouslySetInnerHTML={{ __html: post?.description }}></div>
+        <div>
+          <p className="mt-8 px-6 text-sm text-gray-400">
+            Actualizado el {updateDate} a las {updateTime}
+          </p>
+        </div>
       </div>
     </main>
   )
