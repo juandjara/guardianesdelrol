@@ -1,5 +1,7 @@
+import BackButton from '@/components/BackButton'
 import Label from '@/components/Label'
 import TextEditor from '@/components/TextEditor'
+import Title from '@/components/Title'
 import useGameDetail from '@/lib/data/useGameDetail'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
@@ -13,8 +15,13 @@ export default function CatalogEdit() {
   const nameValue = (name === null ? game?.name : name) || ''
 
   return (
-    <main className="flex-auto mx-auto p-3 max-w-4xl w-full">
-      <div className="bg-white text-gray-700 pb-6 rounded-lg relative">
+    <main className="flex-auto p-3 mx-auto max-w-4xl w-full">
+      <Title title="Editar juego" />
+      <header className="flex items-center space-x-4">
+        <BackButton colors="bg-opacity-20 text-white bg-gray-50 hover:bg-opacity-50" />
+        <h1 className="text-xl font-semibold">Editar juego</h1>
+      </header>
+      <div className="bg-white text-gray-700 mt-4 pb-6 rounded-lg relative">
         <div className="p-3">
           <Label name="name" text="Nombre" />
           <input
