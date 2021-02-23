@@ -8,6 +8,7 @@ import Select from '../Select'
 import { addWeeks, startOfWeek, endOfWeek } from 'date-fns'
 import es from 'date-fns/locale/es'
 import { DEFAULT_RPP } from '@/lib/data/usePosts'
+import useStateEffect from '@/lib/useStateEffect'
 
 const SORT_OPTIONS = [
   { label: 'Fecha', value: null },
@@ -37,56 +38,23 @@ export default function PostFiltersPanel() {
 
   const { sections } = useSections()
   const initialSectionId = Number(params.s)
-  const [section, setSection] = useState(initialSectionId)
+  const [section, setSection] = useStateEffect(initialSectionId)
 
   const sectionOptions = sections.map(s => ({ value: s.id, label: s.name }))
   const selectedSection = sectionOptions.find(s => s.value === section)
 
-  const [typePresential, setTypePresential] = useState(!params.t || params.t === 'presencial')
-  const [typeOnline, setTypeOnline] = useState(!params.t || params.t === 'online')
+  const [typePresential, setTypePresential] = useStateEffect(!params.t || params.t === 'presencial')
+  const [typeOnline, setTypeOnline] = useStateEffect(!params.t || params.t === 'online')
 
-  const [onlyFreeSeats, setOnlyFreeSeats] = useState(!!params.ofs)
-  const [startDate, setStartDate] = useState(new Date(params.sd))
-  const [endDate, setEndDate] = useState(new Date(params.ed))
-  const [rpp, setRpp] = useState(params.rpp || DEFAULT_RPP)
-  const [sortKey, setSortKey] = useState(params.sk || SORT_OPTIONS[0].value)
-  const [sortType, setSortType] = useState(params.st || SORT_TYPES[0].value)
+  const [onlyFreeSeats, setOnlyFreeSeats] = useStateEffect(!!params.ofs)
+  const [startDate, setStartDate] = useStateEffect(params.sd)
+  const [endDate, setEndDate] = useStateEffect(params.ed)
+  const [rpp, setRpp] = useStateEffect(params.rpp || DEFAULT_RPP)
+  const [sortKey, setSortKey] = useStateEffect(params.sk || SORT_OPTIONS[0].value)
+  const [sortType, setSortType] = useStateEffect(params.st || SORT_TYPES[0].value)
 
   const selectedSortKey = SORT_OPTIONS.find(s => s.value === sortKey)
   const selectedSortType = SORT_TYPES.find(s => s.value === sortType)
-
-  useEffect(() => {
-    setSection(initialSectionId)
-  }, [initialSectionId])
-
-  useEffect(() => {
-    setTypePresential(!params.t || params.t === 'presencial')
-    setTypeOnline(!params.t || params.t === 'online')
-  }, [params.t])
-
-  useEffect(() => {
-    setOnlyFreeSeats(!!params.ofs)
-  }, [params.ofs])
-
-  useEffect(() => {
-    setStartDate(params.sd)
-  }, [params.sd])
-
-  useEffect(() => {
-    setEndDate(params.ed)
-  }, [params.ed])
-
-  useEffect(() => {
-    setRpp(params.rpp || DEFAULT_RPP)
-  }, [params.rpp])
-
-  useEffect(() => {
-    setSortKey(params.sk || SORT_OPTIONS[0].value)
-  }, [params.sk])
-
-  useEffect(() => {
-    setSortType(params.st || SORT_TYPES[0].value)
-  }, [params.st])
 
   useEffect(
     function handleClickOutside() {
@@ -128,21 +96,17 @@ export default function PostFiltersPanel() {
   }
 
   function clear() {
-    router.push({
-      pathname: router.pathname,
-      query: {
-        ...router.query,
-        page: 0,
-        s: undefined,
-        t: undefined,
-        ofs: undefined,
-        sd: undefined,
-        ed: undefined,
-        rpp: undefined,
-        sk: undefined,
-        st: undefined
-      }
-    })
+    const query = { ...router.query, page: 0 }
+    delete query.s
+    delete query.t
+    delete query.ofs
+    delete query.sd
+    delete query.ed
+    delete query.rpp
+    delete query.sk
+    delete query.st
+
+    router.push({ pathname: router.pathname, query })
   }
 
   function selectThisWeek() {
@@ -171,7 +135,7 @@ export default function PostFiltersPanel() {
         color="text-white"
         border="border-none"
         onClick={() => setOpen(!open)}>
-        <FilterIcon className="md:ml-1" width={20} height={20} />
+        <FilterIcon width={20} height={20} />
         <span className="md:inline hidden">Filtros</span>
         {hasFilters && (
           <span className="flex h-2 w-2 absolute -top-1 -right-1 rounded-full bg-red-200"></span>
