@@ -84,7 +84,7 @@ export default function SearchBox({ route }) {
         color="text-white"
         border="border-none"
         onClick={() => setOpen(true)}>
-        <SearchIcon className="md:ml-1" width={20} height={20} />
+        <SearchIcon width={20} height={20} />
         <span className="md:inline hidden">B&uacute;squeda</span>
         {search && (
           <span className="flex h-2 w-2 absolute -top-1 -right-1 rounded-full bg-red-200"></span>
