@@ -52,8 +52,8 @@ export default function GameList() {
   const numplayers = game?.players.items.length || 0
   const numdms = game?.narrators.items.length || 0
   const numposts = game?.posts.length || 0
-  const updateTime = new Date(game?.updated_at).toLocaleTimeString()
-  const updateDate = new Date(game?.updated_at).toLocaleDateString()
+  const updateTime = new Date(game?.updated_at || Date.now()).toLocaleTimeString()
+  const updateDate = new Date(game?.updated_at || Date.now()).toLocaleDateString()
 
   return (
     <main className="flex-auto mx-auto p-3 max-w-4xl w-full">

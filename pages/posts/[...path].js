@@ -94,8 +94,8 @@ export default function PostDetails() {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const updateTime = new Date(post?.updated_at).toLocaleTimeString()
-  const updateDate = new Date(post?.updated_at).toLocaleDateString()
+  const updateTime = new Date(post?.updated_at || Date.now()).toLocaleTimeString()
+  const updateDate = new Date(post?.updated_at || Date.now()).toLocaleDateString()
 
   useEffect(() => {
     if (post && post.slug && post.slug !== slug) {
