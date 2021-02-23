@@ -1,5 +1,5 @@
 import Button from '@/components/Button'
-import GameCard from '@/components/GameCard'
+import GameCard from '@/components/game/GameCard'
 import AddIcon from '@/components/icons/AddIcon'
 import Pagination from '@/components/Pagination'
 import SearchBox from '@/components/SearchBox'
