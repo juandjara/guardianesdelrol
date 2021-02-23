@@ -9,6 +9,7 @@ import { addWeeks, startOfWeek, endOfWeek } from 'date-fns'
 import es from 'date-fns/locale/es'
 import { DEFAULT_RPP } from '@/lib/data/usePosts'
 import useStateEffect from '@/lib/useStateEffect'
+import BackIcon from '../icons/BackIcon'
 
 const SORT_OPTIONS = [
   { label: 'Fecha', value: null },
@@ -144,8 +145,18 @@ export default function PostFiltersPanel() {
       <div
         className={`${
           open ? 'scale-x-100 visible' : 'scale-x-0 invisible'
-        } space-y-4 rounded-md bg-red-900 bg-opacity-90 absolute z-20 w-full md:w-96 md:mr-2 py-2 px-3 top-full right-0 md:origin-right transition-transform`}>
+        } space-y-4 rounded-md bg-red-900 bg-opacity-90 z-20 fixed md:absolute top-0 md:top-full right-0 h-full md:h-auto w-full md:w-96 md:mr-2 py-2 px-3 md:origin-right transition-transform`}>
         <header className="flex items-center -mr-2">
+          <Button
+            small
+            hasIcon="only"
+            color="text-white"
+            background="hover:bg-red-800"
+            border="border-none"
+            className="mr-2 md:hidden"
+            onClick={() => setOpen(false)}>
+            <BackIcon height={20} width={20} />
+          </Button>
           <p className="flex-grow text-xl font-medium">Filtros</p>
           <Button
             small
