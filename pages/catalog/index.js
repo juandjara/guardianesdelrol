@@ -7,8 +7,9 @@ import Tag from '@/components/Tag'
 import useAuthGuard from '@/lib/auth/useAuthGuard'
 import useGames, { DEFAULT_RPP } from '@/lib/data/useGames'
 import { useQueryParams } from '@/lib/useQueryParams'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
+import Title from '@/components/Title'
 
 function GameListHeader({ count }) {
   return (
@@ -55,6 +56,7 @@ export default function GameList() {
 
   return (
     <main className="flex-auto mx-auto p-3 max-w-4xl w-full">
+      <Title title="Juegos" />
       <GameListHeader count={count} />
       {empty && <p className="text-white text-lg mt-1">No hay juegos para estos filtros</p>}
       <ul className="mt-2 space-y-4">

@@ -11,6 +11,7 @@ import Button from '@/components/Button'
 import AvatarList from '@/components/AvatarList'
 import FsLightbox from 'fslightbox-react'
 import BackButton from '@/components/BackButton'
+import Title from '@/components/Title'
 
 function PostListItem({ post }) {
   const numplayers = post.players?.length || 0
@@ -54,6 +55,7 @@ export default function GameList() {
 
   return (
     <main className="flex-auto mx-auto p-3 max-w-4xl w-full">
+      <Title title={game?.name} />
       {image && (
         <FsLightbox
           toggler={lightboxOpen}

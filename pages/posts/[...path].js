@@ -17,6 +17,7 @@ import { supabase } from '@/lib/data/supabase'
 import UserGroupIcon from '@/components/icons/UserGroupIcon'
 import PostDetailTags from '@/components/posts/PostDetailTags'
 import BackButton from '@/components/BackButton'
+import Title from '@/components/Title'
 
 function ActionButton({ post, onAdd, onDelete, loading }) {
   const session = useSession()
@@ -141,6 +142,7 @@ export default function PostDetails() {
 
   return (
     <main className="flex-auto mx-auto p-3 max-w-4xl w-full">
+      <Title title={post?.name} />
       {post && (
         <FsLightbox
           toggler={lightboxOpen}

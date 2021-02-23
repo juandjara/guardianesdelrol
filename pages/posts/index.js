@@ -10,6 +10,7 @@ import SearchBox from '@/components/SearchBox'
 import Pagination from '@/components/Pagination'
 import { useQueryParams } from '@/lib/useQueryParams'
 import PostFiltersPanel from '@/components/posts/PostFiltersPanel'
+import Title from '@/components/Title'
 
 function PostListHeader({ count }) {
   return (
@@ -57,6 +58,7 @@ export default function PostList() {
 
   return (
     <main className="relative flex-auto container mx-auto p-3">
+      <Title title="Partidas" />
       <PostListHeader count={count} />
       {empty && <p className="text-white text-lg mt-1">No hay partidas para estos filtros</p>}
       <ul className="grid gap-4 grid-cols-cards mt-2">

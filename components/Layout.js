@@ -6,7 +6,7 @@ import Nav from './Nav'
 import UserMenu from './UserMenu'
 import Footer from './Footer'
 
-export default function Layout({ children, title = 'Guardianes del Rol' }) {
+export default function Layout({ children }) {
   return (
     <div className="relative flex flex-col text-white h-screen">
       <Head>
@@ -15,7 +15,7 @@ export default function Layout({ children, title = 'Guardianes del Rol' }) {
           name="description"
           content="Portal para organizar las partidas de rol de la asociación Guardianes de Sevilla"
         />
-        <title>{title}</title>
+        <title>Guardianes del Rol</title>
       </Head>
       <div className={styles.bgimage}>
         <Image src="/img/dice-bg.jpg" priority layout="fill" objectFit="cover" />
