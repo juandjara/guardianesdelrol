@@ -35,7 +35,7 @@ function PostListItem({ post }) {
   )
 }
 
-export default function GameList() {
+export default function GameDetail() {
   // useAuthGuard()
   const router = useRouter()
   const [id, slug] = router.query.path || []

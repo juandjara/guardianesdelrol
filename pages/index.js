@@ -12,7 +12,7 @@ import Link from 'next/link'
  * todas las demas features son derivadas de esa
  */
 
-export default function Home({ data }) {
+export default function Landing({ data }) {
   return (
     <main className="px-3 my-4 container mx-auto flex-auto flex flex-col justify-center">
       <header>

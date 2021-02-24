@@ -142,7 +142,7 @@ function PasswordForm({ header, className, style }) {
   )
 }
 
-export default function RecoveryPassword() {
+export default function Recovery() {
   const router = useRouter()
   const form = router.query.form
 

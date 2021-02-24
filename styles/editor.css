@@ -16,9 +16,14 @@
   @apply rounded-t-lg;
 }
 
+.editor-wrapper {
+  min-height: 124px;
+}
+
 .editor-wrapper .ql-editor {
   @apply text-base;
   min-height: 80px;
+  padding: 8px 16px;
 }
 
 .editor-wrapper .ql-size {
