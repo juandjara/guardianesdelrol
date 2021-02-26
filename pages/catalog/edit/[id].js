@@ -41,7 +41,7 @@ export default function CatalogEdit() {
       </header>
       <form
         onSubmit={handleSubmit}
-        className="bg-white text-gray-700 space-y-6 mt-2 px-4 py-6 rounded-lg relative">
+        className="bg-white text-gray-700 space-y-6 mt-2 p-4 pt-6 rounded-lg relative">
         <div>
           <Label text="Imagen" />
           <ImageUploader />

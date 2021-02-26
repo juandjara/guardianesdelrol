@@ -85,10 +85,10 @@ function ImageEditor({ url, file, onRemove = () => {} }) {
 export default function ImageUploader() {
   const [imageURL, setImageURL] = useState(null)
   const [file, setFile] = useState(null)
+  const [isDragging, setIsDragging] = useState(false)
 
-  function handleFile(ev) {
+  function handleFile(file) {
     const reader = new FileReader()
-    const file = ev.target.files[0]
     setFile({
       name: file.name,
       size: file.size,
@@ -105,10 +105,32 @@ export default function ImageUploader() {
     setImageURL(null)
   }
 
+  function handleDrop(ev) {
+    setIsDragging(false)
+    ev.preventDefault()
+    const file = ev.dataTransfer.files[0]
+    if (file.type.split('/')[0] === 'image') {
+      handleFile(file)
+    }
+  }
+
+  function handleDrag(ev, isDragging) {
+    ev.preventDefault()
+    setIsDragging(isDragging)
+  }
+
+  const dropzoneStyle = `${
+    isDragging ? 'bg-red-50' : ''
+  } px-6 pt-10 pb-8 space-y-1 flex flex-col items-center border-2 border-gray-300 border-dashed rounded-md`
+
   return (
     <div className="mt-1 relative">
       {imageURL ? <ImageEditor url={imageURL} file={file} onRemove={handleRemove} /> : null}
-      <div className="px-6 pt-10 pb-8 space-y-1 flex flex-col items-center border-2 border-gray-300 border-dashed rounded-md">
+      <div
+        onDrop={handleDrop}
+        onDragOver={ev => handleDrag(ev, true)}
+        onDragLeave={ev => handleDrag(ev, false)}
+        className={dropzoneStyle}>
         <svg
           className="h-12 w-12 text-gray-400"
           stroke="currentColor"
@@ -125,7 +147,7 @@ export default function ImageUploader() {
         <div className="flex text-sm text-gray-600">
           <label
             htmlFor="file-upload"
-            className="relative cursor-pointer bg-white rounded-md font-medium text-red-600 hover:text-red-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-red-400">
+            className="relative cursor-pointer rounded-md font-medium text-red-600 hover:text-red-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-red-400">
             <span>Upload a file</span>
             <input
               id="file-upload"
@@ -133,7 +155,7 @@ export default function ImageUploader() {
               type="file"
               accept="image/*"
               className="sr-only"
-              onChange={handleFile}
+              onChange={ev => handleFile(ev.target.files[0])}
             />
           </label>
           <p className="pl-1">or drag and drop</p>
