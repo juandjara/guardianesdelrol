@@ -200,24 +200,22 @@ export default function PostFiltersPanel() {
                 />
               </div>
             </div>
-            <div className="flex flex-wrap">
-              <Button
-                onClick={selectThisWeek}
-                border="border-none"
-                background="hover:bg-red-200 bg-red-100"
-                className="mt-2 mr-2"
-                small>
-                Esta semana
-              </Button>
-              <Button
-                onClick={selectNextWeek}
-                border="border-none"
-                background="hover:bg-red-200 bg-red-100"
-                className="mt-2 mr-2"
-                small>
-                La semana que viene
-              </Button>
-            </div>
+            <Button
+              onClick={selectThisWeek}
+              border="border-none"
+              background="hover:bg-red-200 bg-red-100"
+              className="mt-2 mr-2"
+              small>
+              Esta semana
+            </Button>
+            <Button
+              onClick={selectNextWeek}
+              border="border-none"
+              background="hover:bg-red-200 bg-red-100"
+              className="mt-2 mr-2"
+              small>
+              La semana que viene
+            </Button>
           </div>
         </section>
         <Select

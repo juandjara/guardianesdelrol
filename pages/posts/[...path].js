@@ -42,7 +42,7 @@ function ActionButton({ post, onAdd, onDelete, loading }) {
         hasIcon="left"
         className="mb-2 ml-2"
         color="text-red-700"
-        border="border"
+        border="border border-red-100"
         small>
         <svg
           height={20}
@@ -63,6 +63,7 @@ function ActionButton({ post, onAdd, onDelete, loading }) {
         <Button
           disabled={loading}
           onClick={() => onAdd(currentId)}
+          border="border-none"
           color="text-white"
           background="hover:bg-blue-600 bg-blue-500"
           hasIcon="left"

@@ -23,7 +23,7 @@ export function getButtonStyle({ small, hasIcon, color, background, border, disa
   const _color = color || 'text-red-900'
   const _background = background || 'bg-white hover:bg-red-50'
   const _border = border || 'border-white border-2 hover:border-red-200'
-  const _layout = hasIcon ? `flex justify-center items-center space-x-2` : 'block'
+  const _layout = hasIcon ? `inline-flex justify-center items-center space-x-2` : ''
   const _padding = getPadding({ hasIcon, small })
   const _font = small ? 'text-sm font-medium' : 'text-base font-semibold'
   const _disabled = disabled ? 'opacity-50 pointer-events-none' : ''
