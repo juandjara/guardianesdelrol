@@ -52,8 +52,8 @@ export default function Avatar({
           alt=""
           className="rounded-full"
           src={`avatar/${user?.id}`}
-          width={size * 2}
-          height={size * 2}
+          width={size}
+          height={size}
         />
       </div>
     )

@@ -1,14 +1,20 @@
 export default function ImageKit({ style, className = '', src, width, height, alt }) {
   let url = `https://ik.imagekit.io/juandjara/${src}`
-  const tr = []
+  let url1x = ''
+  let url2x = ''
+  const size = []
+  const size2x = []
   if (width) {
-    tr.push(`w-${width}`)
+    size.push(`w-${width}`)
+    size2x.push(`w-${width * 2}`)
   }
   if (height) {
-    tr.push(`h-${height}`)
+    size.push(`h-${height}`)
+    size2x.push(`h-${height * 2}`)
   }
-  if (tr.length) {
-    url += `?tr=${tr.join(',')}`
+  if (size.length) {
+    url1x = url + `?tr=${size.join(',')}`
+    url2x = url + `?tr=${size2x.join(',')}`
   }
   return (
     <img
@@ -17,7 +23,8 @@ export default function ImageKit({ style, className = '', src, width, height, al
       width={width}
       height={height}
       alt={alt}
-      src={url}
+      src={url1x ? '' : url}
+      srcSet={url2x ? `${url1x} 1x, ${url2x} 2x` : ''}
       decoding="async"
       loading="lazy"
     />
