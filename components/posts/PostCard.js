@@ -41,13 +41,13 @@ export default function PostCard({ post }) {
       role="presentation"
       onClick={triggerLink}
       className="cursor-pointer flex flex-col bg-white text-gray-700 rounded-lg ring-red-500 hover:ring-4 focus-within:ring-4 transition-shadow duration-500">
-      <div className="h-44 bg-gray-100 w-full clip-vertical rounded-t-lg">
+      <div className="aspect-w-7 aspect-h-3 bg-gray-100 w-full clip-vertical rounded-t-lg">
         {post ? (
           post.image && (
             <ImageKit alt="" src={post.image} className="w-full h-full rounded-t-lg object-cover" />
           )
         ) : (
-          <Skeleton height={44 * 4} />
+          <Skeleton className="aspect-w-7 aspect-h-3" />
         )}
       </div>
       <div className="py-2 px-3 flex flex-col flex-grow">

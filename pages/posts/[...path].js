@@ -168,7 +168,7 @@ export default function PostDetails() {
           title="Ver imagen completa"
           onKeyUp={ev => ev.key === 'Enter' && setLightboxOpen(!lightboxOpen)}
           onClick={() => setLightboxOpen(!lightboxOpen)}
-          className="h-64 relative clip-vertical bg-gray-100 rounded-t-lg">
+          className="aspect-w-7 aspect-h-3 relative clip-vertical bg-gray-100 rounded-t-lg">
           {post?.image && (
             <ImageKit
               className="w-full h-full object-cover rounded-t-lg"

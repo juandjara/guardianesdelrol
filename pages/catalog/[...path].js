@@ -79,7 +79,7 @@ export default function GameDetail() {
           title="Ver imagen completa"
           onKeyUp={ev => ev.key === 'Enter' && setLightboxOpen(!lightboxOpen)}
           onClick={() => setLightboxOpen(!lightboxOpen)}
-          className="h-64 relative clip-vertical bg-gray-100 rounded-t-lg">
+          className="aspect-w-7 aspect-h-3 relative clip-vertical bg-gray-100 rounded-t-lg">
           {image && (
             <ImageKit alt="" src={image} className="w-full h-full object-cover rounded-t-lg" />
           )}

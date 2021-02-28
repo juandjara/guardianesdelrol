@@ -17,11 +17,12 @@ export default function GameCard({ game }) {
       role="presentation"
       onClick={triggerLink}
       className="cursor-pointer flex flex-col md:flex-row bg-white text-gray-700 rounded-lg ring-red-500 hover:ring-4 focus-within:ring-4 transition-shadow duration-500">
-      <div className="bg-gray-100 h-44 md:w-80 w-full md:flex-shrink-0 clip-horizontal rounded-t-lg md:rounded-t-none md:rounded-l-lg">
+      <div className="bg-gray-100 md:h-44 md:aspect-none aspect-w-7 aspect-h-3 md:w-80 w-full md:flex-shrink-0 clip-horizontal rounded-t-lg md:rounded-t-none md:rounded-l-lg">
         {game ? (
           image && (
             <ImageKit
-              className="w-full h-full object-cover rounded-t-lg md:rounded-t-none md:rounded-l-lg"
+              style={{ width: '100%', height: '100%' }}
+              className="object-cover rounded-t-lg md:rounded-t-none md:rounded-l-lg"
               src={image}
               alt=""
             />
