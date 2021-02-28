@@ -1,18 +1,15 @@
-import Image from 'next/image'
 import MenuLink from './MenuLink'
 import { Menu, Transition } from '@headlessui/react'
 import { useRouter } from 'next/router'
 import { supabase } from '@/lib/data/supabase'
-import useGravatar from '@/lib/useGravatar'
 import RoleTags from './RoleTags'
 import useProfile from '@/lib/data/useProfile'
-import imageKitLoader from '@/lib/imageKitLoader'
+import Avatar from './Avatar'
+import { buttonFocusStyle } from './Button'
 
 export default function UserMenu() {
   const { user } = useProfile()
   const router = useRouter()
-  const avatarSize = 44
-  const gravatarURL = useGravatar({ email: user?.email, size: avatarSize })
 
   async function handleLogout(ev) {
     ev.preventDefault()
@@ -29,15 +26,11 @@ export default function UserMenu() {
       <Menu>
         {({ open }) => (
           <>
-            <Menu.Button className="w-11 h-11 m-2 ml-auto block border-2 border-white bg-red-900 bg-opacity-50 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:ring-offset-transparent">
+            <Menu.Button
+              title="Open user menu"
+              className={`m-2 ml-auto block rounded-full ${buttonFocusStyle}`}>
               <span className="sr-only">Open user menu</span>
-              <Image
-                width={avatarSize}
-                height={avatarSize}
-                className="rounded-full"
-                loader={user.avatartype === 'gravatar' ? undefined : imageKitLoader}
-                src={user.avatartype === 'gravatar' ? gravatarURL : `/avatar/${user.id}`}
-              />
+              <Avatar user={user} size={44} border="border-white" />
             </Menu.Button>
             <Transition
               show={open}
