@@ -2,8 +2,6 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Button from '@/components/Button'
 import usePostDetail from '@/lib/data/usePostDetail'
-import imageKitLoader from '@/lib/imageKitLoader'
-import Image from 'next/image'
 // import useAuthGuard from '@/lib/useAuthGuard'
 import Link from 'next/link'
 import Skeleton from 'react-loading-skeleton'
@@ -18,6 +16,7 @@ import UserGroupIcon from '@/components/icons/UserGroupIcon'
 import PostDetailTags from '@/components/posts/PostDetailTags'
 import BackButton from '@/components/BackButton'
 import Title from '@/components/Title'
+import ImageKit from '@/components/ImageKit'
 
 function ActionButton({ post, onAdd, onDelete, loading }) {
   const session = useSession()
@@ -171,13 +170,10 @@ export default function PostDetails() {
           onClick={() => setLightboxOpen(!lightboxOpen)}
           className="h-64 relative clip-vertical bg-gray-100 rounded-t-lg">
           {post?.image && (
-            <Image
-              className="rounded-t-lg"
-              loader={imageKitLoader}
-              src={'/' + post?.image}
+            <ImageKit
+              className="w-full h-full object-cover rounded-t-lg"
+              src={post?.image}
               alt=""
-              layout="fill"
-              objectFit="cover"
             />
           )}
         </div>

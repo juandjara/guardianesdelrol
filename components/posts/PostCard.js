@@ -1,5 +1,3 @@
-import imageKitLoader from '@/lib/imageKitLoader'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useRef } from 'react'
 import Skeleton from 'react-loading-skeleton'
@@ -7,6 +5,7 @@ import Avatar from '../Avatar'
 import CalendarIcon from '../icons/CalendarIcon'
 import PlaceIcon from '../icons/PlaceIcon'
 import UserGroupIcon from '../icons/UserGroupIcon'
+import ImageKit from '../ImageKit'
 import Tag from '../Tag'
 
 function Tags({ post }) {
@@ -42,22 +41,15 @@ export default function PostCard({ post }) {
       role="presentation"
       onClick={triggerLink}
       className="cursor-pointer flex flex-col bg-white text-gray-700 rounded-lg ring-red-500 hover:ring-4 focus-within:ring-4 transition-shadow duration-500">
-      {post ? (
-        <div className="h-44 relative clip-vertical">
-          {post.image && (
-            <Image
-              className="rounded-t-lg"
-              loader={imageKitLoader}
-              src={'/' + post.image}
-              alt=""
-              layout="fill"
-              objectFit="cover"
-            />
-          )}
-        </div>
-      ) : (
-        <Skeleton className="clip-vertical" height={44 * 4} />
-      )}
+      <div className="h-44 bg-gray-100 w-full clip-vertical rounded-t-lg">
+        {post ? (
+          post.image && (
+            <ImageKit alt="" src={post.image} className="w-full h-full rounded-t-lg object-cover" />
+          )
+        ) : (
+          <Skeleton height={44 * 4} />
+        )}
+      </div>
       <div className="py-2 px-3 flex flex-col flex-grow">
         <header>
           <h2 className="text-lg font-bold">

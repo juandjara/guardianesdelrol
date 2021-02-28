@@ -4,6 +4,7 @@ import Button from './Button'
 import CloseIcon from './icons/CloseIcon'
 import FilterIcon from './icons/FilterIcon'
 import FsLightbox from 'fslightbox-react'
+import Dialog from '@reach/dialog'
 
 function formatSize(n) {
   if (n < 1024) {
@@ -15,8 +16,29 @@ function formatSize(n) {
   return `${(n / 1024 / 1024).toFixed(2)} MB`
 }
 
+function ImageDialog({ url, open, setOpen }) {
+  function close() {
+    setOpen(false)
+  }
+
+  return (
+    <Dialog className="px-8 py-3" isOpen={open} onDismiss={close}>
+      <header className="mb-2 flex justify-between items-baseline">
+        <p className="text-lg text-gray-500 font-medium">Editar imagen</p>
+        <Button small onClick={close} type="button" hasIcon="only">
+          <CloseIcon width={20} height={20} />
+        </Button>
+      </header>
+      <div className="relative bg-gray-100">
+        <img className="mx-auto" alt="" src={url} />
+      </div>
+    </Dialog>
+  )
+}
+
 function ImageEditor({ url, file, onRemove = () => {} }) {
   const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
 
   if (!file) {
     return null
@@ -24,9 +46,10 @@ function ImageEditor({ url, file, onRemove = () => {} }) {
 
   return (
     <div className="group">
+      <ImageDialog url={url} open={dialogOpen} setOpen={setDialogOpen} />
       <FsLightbox toggler={lightboxOpen} sources={[url]} />
       <Image className="z-10 rounded-md" alt="" src={url} layout="fill" objectFit="cover" />
-      <div className="group-hover:opacity-100 opacity-0 transition-opacity duration-300 rounded-md flex flex-col z-20 absolute inset-0 bg-gradient-to-b from-transparent to-red-900">
+      <div className="focus-within:opacity-100 group-hover:opacity-100 opacity-0 transition-opacity duration-300 rounded-md flex flex-col z-20 absolute inset-0 bg-gradient-to-b from-transparent to-red-900">
         <div className="flex-grow flex items-center justify-center space-x-6">
           <Button
             aria-label="Ampliar"
@@ -55,6 +78,7 @@ function ImageEditor({ url, file, onRemove = () => {} }) {
             aria-label="Editar"
             title="Editar"
             type="button"
+            onClick={() => setDialogOpen(true)}
             hasIcon="only"
             border="border-2 border-red-100 hover:border-red-200"
             className="rounded-full shadow-lg">

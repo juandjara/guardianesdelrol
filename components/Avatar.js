@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Skeleton from 'react-loading-skeleton'
 import useGravatar from '@/lib/useGravatar'
-import imageKitLoader from '@/lib/imageKitLoader'
+import ImageKit from './ImageKit'
 
 export default function Avatar({
   user,
@@ -10,14 +10,7 @@ export default function Avatar({
   size = 64,
   border = 'border-gray-100'
 }) {
-  const loader = preview || user?.avatartype === 'gravatar' ? undefined : imageKitLoader
-  let src = useGravatar({ email: user?.email, size })
-  if (user?.avatartype !== 'gravatar') {
-    src = `/avatar/${user?.id}`
-  }
-  if (preview) {
-    src = preview
-  }
+  const gravatar = useGravatar({ email: user?.email, size })
 
   const CN = `${border} ${className} bg-white relative flex-shrink-0 rounded-full border-2`
   const style = { width: size + 4, height: size + 4 }
@@ -34,11 +27,35 @@ export default function Avatar({
     )
   }
 
-  return user ? (
-    <div className={CN} style={style}>
-      <Image className="rounded-full" loader={loader} src={src} width={size} height={size} />
-    </div>
-  ) : (
-    <Skeleton className={className} width={style.width} height={style.height} circle />
-  )
+  if (!user) {
+    return <Skeleton className={className} width={style.width} height={style.height} circle />
+  }
+
+  if (preview) {
+    return (
+      <div className={CN} style={style}>
+        <img alt="" className="rounded-full w-full h-full object-cover" src={preview} />
+      </div>
+    )
+  }
+
+  if (user.avatartype === 'gravatar') {
+    return (
+      <div className={CN} style={style}>
+        <img alt="" className="rounded-full" src={gravatar} />
+      </div>
+    )
+  } else {
+    return (
+      <div className={CN} style={style}>
+        <ImageKit
+          alt=""
+          className="rounded-full"
+          src={`avatar/${user?.id}`}
+          width={size * 2}
+          height={size * 2}
+        />
+      </div>
+    )
+  }
 }

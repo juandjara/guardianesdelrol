@@ -25,8 +25,8 @@ export default function MailSentScreen() {
             height={400}
             alt="dibujo de bandeja de entrada"
             className="opacity-75"
-            priority
             src="/img/illustration_email.png"
+            priority
           />
         </div>
         <div className="max-w-md flex flex-col justify-center text-left md:px-6 px-4 py-4">

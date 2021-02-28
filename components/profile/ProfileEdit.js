@@ -109,22 +109,24 @@ export default function ProfileEdit() {
         />
         <Label name="challenge" margin="ml-2" text="Disponible para retos" />
       </div>
-      <Button
-        type="submit"
-        disabled={loading || !user}
-        hasIcon={loading ? 'left' : null}
-        className="block ml-auto border-none"
-        color="text-white"
-        background="bg-red-500 hover:bg-red-600 hover:shadow-md">
-        {loading ? (
-          <>
-            <Spinner size={5} color="white" />
-            <span>Guardar</span>
-          </>
-        ) : (
-          'Guardar'
-        )}
-      </Button>
+      <div className="flex justify-end">
+        <Button
+          type="submit"
+          disabled={loading || !user}
+          hasIcon={loading ? 'left' : null}
+          border="border-none"
+          color="text-white"
+          background="bg-red-500 hover:bg-red-600 hover:shadow-md">
+          {loading ? (
+            <>
+              <Spinner size={5} color="white" />
+              <span>Guardar</span>
+            </>
+          ) : (
+            'Guardar'
+          )}
+        </Button>
+      </div>
     </form>
   )
 }

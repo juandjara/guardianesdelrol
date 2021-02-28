@@ -129,7 +129,7 @@ export default function CredentialsEdit() {
             type="submit"
             disabled={loading || !newPassword || !passwordValid}
             hasIcon={loading ? 'left' : null}
-            className="block ml-auto border-none"
+            border="border-none"
             color="text-white"
             background="bg-red-500 hover:bg-red-600 hover:shadow-md">
             {loading ? (

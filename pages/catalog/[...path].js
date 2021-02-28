@@ -1,7 +1,5 @@
-import imageKitLoader from '@/lib/imageKitLoader'
 // import useAuthGuard from '@/lib/useAuthGuard'
 import useGameDetail from '@/lib/data/useGameDetail'
-import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
@@ -12,6 +10,7 @@ import AvatarList from '@/components/AvatarList'
 import FsLightbox from 'fslightbox-react'
 import BackButton from '@/components/BackButton'
 import Title from '@/components/Title'
+import ImageKit from '@/components/ImageKit'
 
 function PostListItem({ post }) {
   const numplayers = post.players?.length || 0
@@ -82,14 +81,7 @@ export default function GameDetail() {
           onClick={() => setLightboxOpen(!lightboxOpen)}
           className="h-64 relative clip-vertical bg-gray-100 rounded-t-lg">
           {image && (
-            <Image
-              className="rounded-t-lg"
-              loader={imageKitLoader}
-              src={'/' + image}
-              alt=""
-              layout="fill"
-              objectFit="cover"
-            />
+            <ImageKit alt="" src={image} className="w-full h-full object-cover rounded-t-lg" />
           )}
         </div>
         <header className="px-4 my-4">

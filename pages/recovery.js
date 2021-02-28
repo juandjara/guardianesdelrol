@@ -168,8 +168,8 @@ export default function Recovery() {
             title="Ojo! Cuidado, la seguridad es tema serio"
             alt="dibujo sobre seguridad. Ojo! Cuidado, la seguridad es tema serio"
             className="opacity-75"
-            priority
             src="/img/illustration_security.png"
+            priority
           />
         </div>
         {form === 'email' && <EmailForm style={formStyle} className={formCN} header={header} />}

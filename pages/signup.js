@@ -58,8 +58,8 @@ export default function SignUp() {
             title="Hola! Me alegro de verte"
             alt="mano que dice Hola! Me alegro de verte"
             className="opacity-75"
-            priority
             src="/img/illustration_hello.png"
+            priority
           />
         </div>
         <form

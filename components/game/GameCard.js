@@ -1,8 +1,7 @@
-import imageKitLoader from '@/lib/imageKitLoader'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useRef } from 'react'
 import Skeleton from 'react-loading-skeleton'
+import ImageKit from '../ImageKit'
 
 export default function GameCard({ game }) {
   const linkRef = useRef()
@@ -18,24 +17,19 @@ export default function GameCard({ game }) {
       role="presentation"
       onClick={triggerLink}
       className="cursor-pointer flex flex-col md:flex-row bg-white text-gray-700 rounded-lg ring-red-500 hover:ring-4 focus-within:ring-4 transition-shadow duration-500">
-      {game ? (
-        <div className="h-44 md:w-80 md:flex-shrink-0 relative clip-horizontal">
-          {image && (
-            <Image
-              className="rounded-t-lg md:rounded-t-none md:rounded-l-lg"
-              loader={imageKitLoader}
-              src={'/' + image}
+      <div className="bg-gray-100 h-44 md:w-80 w-full md:flex-shrink-0 clip-horizontal rounded-t-lg md:rounded-t-none md:rounded-l-lg">
+        {game ? (
+          image && (
+            <ImageKit
+              className="w-full h-full object-cover rounded-t-lg md:rounded-t-none md:rounded-l-lg"
+              src={image}
               alt=""
-              layout="fill"
-              objectFit="cover"
             />
-          )}
-        </div>
-      ) : (
-        <div className="h-44 md:w-80">
-          <Skeleton height={43 * 4} className="clip-horizontal" />
-        </div>
-      )}
+          )
+        ) : (
+          <Skeleton height={43 * 4} />
+        )}
+      </div>
       <div className="max-w-prose p-3 flex flex-col flex-grow justify-center">
         <h2 className="text-lg font-bold truncate text-red-700">
           {game ? (
