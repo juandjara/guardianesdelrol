@@ -149,7 +149,7 @@ export default function PostDetails() {
       {post && (
         <FsLightbox
           toggler={lightboxOpen}
-          sources={[`https://ik.imagekit.io/juandjara/${post.image}`]}
+          sources={[`${process.env.NEXT_PUBLIC_IMAGEKIT_URL}/${post.image}`]}
         />
       )}
       <div className="bg-white text-gray-700 pb-6 rounded-lg relative">

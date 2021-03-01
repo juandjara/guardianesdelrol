@@ -47,7 +47,6 @@ export default function GameDetail() {
     }
   }, [router, slug, game])
 
-  const image = game?.posts?.find(p => p.image)?.image
   const numplayers = game?.players.items.length || 0
   const numdms = game?.narrators.items.length || 0
   const numposts = game?.posts.length || 0
@@ -57,10 +56,10 @@ export default function GameDetail() {
   return (
     <main className="flex-auto mx-auto p-3 max-w-4xl w-full">
       <Title title={game?.name} />
-      {image && (
+      {game?.image && (
         <FsLightbox
           toggler={lightboxOpen}
-          sources={[`https://ik.imagekit.io/juandjara/${image}`]}
+          sources={[`${process.env.NEXT_PUBLIC_IMAGEKIT_URL}/${game.image}`]}
         />
       )}
       <div className="bg-white text-gray-700 pb-6 rounded-lg relative">
@@ -80,8 +79,8 @@ export default function GameDetail() {
           onKeyUp={ev => ev.key === 'Enter' && setLightboxOpen(!lightboxOpen)}
           onClick={() => setLightboxOpen(!lightboxOpen)}
           className="aspect-w-7 aspect-h-3 relative clip-vertical bg-gray-100 rounded-t-lg">
-          {image && (
-            <ImageKit alt="" src={image} className="w-full h-full object-cover rounded-t-lg" />
+          {game?.image && (
+            <ImageKit alt="" src={game.image} className="w-full h-full object-cover rounded-t-lg" />
           )}
         </div>
         <header className="px-4 my-4">

@@ -5,7 +5,6 @@ import ImageKit from '../ImageKit'
 
 export default function GameCard({ game }) {
   const linkRef = useRef()
-  const image = game && game.posts.find(p => p.image)?.image
 
   function triggerLink(ev) {
     const link = linkRef.current
@@ -19,11 +18,11 @@ export default function GameCard({ game }) {
       className="cursor-pointer flex flex-col md:flex-row bg-white text-gray-700 rounded-lg ring-red-500 hover:ring-4 focus-within:ring-4 transition-shadow duration-500">
       <div className="bg-gray-100 md:h-44 md:aspect-none aspect-w-7 aspect-h-3 md:w-80 w-full md:flex-shrink-0 clip-horizontal rounded-t-lg md:rounded-t-none md:rounded-l-lg">
         {game ? (
-          image && (
+          game.image && (
             <ImageKit
               style={{ width: '100%', height: '100%' }}
               className="object-cover rounded-t-lg md:rounded-t-none md:rounded-l-lg"
-              src={image}
+              src={game.image}
               alt=""
             />
           )

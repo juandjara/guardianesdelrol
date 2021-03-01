@@ -1,50 +1,21 @@
 import { useRef, useState } from 'react'
-import Image from 'next/image'
 import Button from './Button'
 import CloseIcon from './icons/CloseIcon'
 import FilterIcon from './icons/FilterIcon'
 import FsLightbox from 'fslightbox-react'
 import Dialog from '@reach/dialog'
-
-function formatSize(n) {
-  if (n < 1024) {
-    return `${n} B`
-  }
-  if (n < 1024 * 1024) {
-    return `${(n / 1024).toFixed(2)} KB`
-  }
-  return `${(n / 1024 / 1024).toFixed(2)} MB`
-}
+import useStateEffect from '@/lib/useStateEffect'
 
 const POSITION_OPTIONS = [
-  { value: 'top', label: 'Arriba' },
-  { value: 'bottom', label: 'Abajo' },
-  { value: 'center', label: 'Centro' },
-  { value: 'custom', label: 'Otro:' }
+  { value: 'top', label: 'Por arriba' },
+  { value: 'bottom', label: 'Por abajo' },
+  { value: 'center', label: 'Centrado' }
 ]
-
-function getLinePosition(opt, custom, rectHeight) {
-  const top = `${rectHeight / 2}px`
-  if (opt === 'top') return top
-
-  const bottom = `calc(100% - ${rectHeight / 2}px)`
-  if (opt === 'bottom') return bottom
-  if (opt === 'center') return '50%'
-  if (opt === 'custom') return `clamp(${top}, ${custom}%, ${bottom})`
-}
-
-function getRectHeight(node) {
-  if (!node) return 0
-  return node.getBoundingClientRect().height
-}
 
 function ImageDialog({ url, open, setOpen, position, onConfirm }) {
   const inputRef = useRef(null)
-  const rectangleRef = useRef(null)
   const [positionOption, setPositionOption] = useState('center')
-  const [customPosition, setCustomPosition] = useState(position)
-  const rectHeight = getRectHeight(rectangleRef.current)
-  const linePosition = getLinePosition(positionOption, customPosition, rectHeight)
+  const [customPosition, setCustomPosition] = useStateEffect(position)
 
   function close() {
     setOpen(false)
@@ -74,27 +45,29 @@ function ImageDialog({ url, open, setOpen, position, onConfirm }) {
 
   return (
     <Dialog
+      aria-labelledby="image-dialog-label"
       initialFocusRef={inputRef}
-      className="rounded-md px-4 py-3 mx-3 md:mx-auto my-6 max-w-xl w-auto flex flex-col"
+      className="rounded-md px-4 py-3 mx-auto max-w-3xl w-auto flex flex-col"
       isOpen={open}
       onDismiss={close}>
       <header className="mb-2 flex justify-between items-baseline">
-        <p className="text-lg text-gray-700 font-medium">Editar imagen</p>
+        <p id="image-dialog-label" className="text-lg text-gray-700 font-medium">
+          Editar imagen
+        </p>
         <Button small border="border-none" onClick={close} type="button" hasIcon="only">
           <CloseIcon width={20} height={20} />
         </Button>
       </header>
-      <div className="relative bg-gray-100 overflow-hidden">
-        <div
-          ref={rectangleRef}
-          style={{ top: linePosition }}
-          className="transform -translate-y-1/2 absolute w-full left-0 border border-red-900 bg-white bg-opacity-30">
-          <div className="w-full aspect-w-7 aspect-h-3"></div>
-        </div>
-        <img className="object-contain w-full h-full" alt="" src={url} />
+      <div className="aspect-w-7 aspect-h-3">
+        <img
+          alt=""
+          src={url}
+          className="rounded-md object-cover w-full h-full"
+          style={{ objectPosition: `0 ${customPosition}%` }}
+        />
       </div>
       <form className="mt-6 mb-3" onSubmit={handleSubmit}>
-        <p className="text-sm text-gray-700 font-medium">Linea de recorte</p>
+        <p className="text-sm text-gray-700 font-medium">Recorte</p>
         <div className="md:flex flex-wrap items-center md:space-x-6">
           {POSITION_OPTIONS.map((opt, i) => (
             <label key={opt.value} className="my-4 md:my-2 flex items-center">
@@ -110,20 +83,33 @@ function ImageDialog({ url, open, setOpen, position, onConfirm }) {
               <span className="ml-2 text-gray-700">{opt.label}</span>
             </label>
           ))}
-          {positionOption === 'custom' && (
-            <div className="space-x-2 my-2">
+          <div className="flex items-center space-x-4 my-2">
+            <label className="flex items-center">
               <input
-                className="inline w-24 rounded-md"
-                name="custom_pos"
-                type="number"
-                min="0"
-                max="100"
-                value={customPosition}
-                onChange={ev => setCustomPosition(ev.target.value)}
+                type="radio"
+                name="position_option"
+                value="custom"
+                checked={positionOption === 'custom'}
+                onChange={ev => handlePositionOption(ev.target.value)}
+                className="h-5 w-5 text-red-500"
               />
-              <span>%</span>
-            </div>
-          )}
+              <span className="ml-2 text-gray-700">Otro: </span>
+            </label>
+            {positionOption === 'custom' && (
+              <div className="space-x-2">
+                <input
+                  className="inline w-24 rounded-md"
+                  name="custom_pos"
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={customPosition}
+                  onChange={ev => setCustomPosition(ev.target.value)}
+                />
+                <span>%</span>
+              </div>
+            )}
+          </div>
         </div>
         <div className="flex justify-end mt-8 space-x-2">
           <Button onClick={close} type="button" background="" border="border-none">
@@ -143,12 +129,11 @@ function ImageDialog({ url, open, setOpen, position, onConfirm }) {
   )
 }
 
-function ImageEditor({ url, file, onRemove = () => {} }) {
+function ImageEditor({ url, filename, position, setPosition, onRemove = () => {} }) {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
-  const [position, setPosition] = useState(50)
 
-  if (!file) {
+  if (!url) {
     return null
   }
 
@@ -162,16 +147,14 @@ function ImageEditor({ url, file, onRemove = () => {} }) {
         onConfirm={setPosition}
       />
       <FsLightbox toggler={lightboxOpen} sources={[url]} />
-      <Image
-        className="z-10 rounded-md"
+      <img
         alt=""
         src={url}
-        layout="fill"
-        objectFit="cover"
-        objectPosition={`0 ${position}%`}
+        className="z-10 rounded-md object-cover w-full h-full"
+        style={{ objectPosition: `0 ${position}%` }}
       />
-      <div className="rounded-md flex flex-col z-20 absolute inset-0 bg-gradient-to-b from-transparent to-red-900">
-        <div className="flex-grow flex items-center justify-center space-x-6">
+      <div className="rounded-md z-20 absolute inset-0">
+        <div className="h-full flex items-center justify-center space-x-6">
           <Button
             aria-label="Ampliar"
             title="Ampliar"
@@ -216,44 +199,23 @@ function ImageEditor({ url, file, onRemove = () => {} }) {
             <CloseIcon width={20} height={20} />
           </Button>
         </div>
-        <p className="p-3 absolute bottom-0 left-0">
-          <span className="text-base text-white font-medium">{file.name} </span>
-          <span className="text-sm text-gray-300"> · {formatSize(file.size)}</span>
+        <p className="p-3 pt-12 absolute bottom-0 right-0 left-0 text-white font-medium bg-gradient-to-b from-transparent to-red-900">
+          {filename}
         </p>
       </div>
     </div>
   )
 }
 
-export default function ImageUploader() {
-  const [imageURL, setImageURL] = useState(null)
-  const [file, setFile] = useState(null)
+function ImageUploader({ onFileChange }) {
   const [isDragging, setIsDragging] = useState(false)
-
-  function handleFile(file) {
-    const reader = new FileReader()
-    setFile({
-      name: file.name,
-      size: file.size,
-      type: file.type
-    })
-    reader.onload = function handleImgLoad(ev) {
-      const url = ev.target.result
-      setImageURL(url)
-    }
-    reader.readAsDataURL(file)
-  }
-
-  function handleRemove() {
-    setImageURL(null)
-  }
 
   function handleDrop(ev) {
     setIsDragging(false)
     ev.preventDefault()
     const file = ev.dataTransfer.files[0]
     if (file.type.split('/')[0] === 'image') {
-      handleFile(file)
+      onFileChange(file)
     }
   }
 
@@ -264,11 +226,7 @@ export default function ImageUploader() {
 
   const dropzoneStyle = `${
     isDragging ? 'bg-red-50' : ''
-  } px-6 pt-10 pb-8 space-y-1 flex flex-col justify-center items-center border-2 border-gray-300 border-dashed rounded-md`
-
-  if (imageURL) {
-    return <ImageEditor url={imageURL} file={file} onRemove={handleRemove} />
-  }
+  } space-y-1 flex flex-col justify-center items-center border-2 border-gray-300 border-dashed rounded-md`
 
   return (
     <div className="mt-1 aspect-w-7 aspect-h-3">
@@ -301,7 +259,7 @@ export default function ImageUploader() {
               type="file"
               accept="image/*"
               className="sr-only"
-              onChange={ev => handleFile(ev.target.files[0])}
+              onChange={ev => onFileChange(ev.target.files[0])}
             />
           </label>
           <p className="pl-1">or drag and drop</p>
@@ -312,5 +270,42 @@ export default function ImageUploader() {
         </Button>
       </div>
     </div>
+  )
+}
+
+export default function ImageInput({
+  filename,
+  setFilename,
+  url,
+  setUrl,
+  position,
+  setPosition,
+  setDirty
+}) {
+  function handleFile(file) {
+    const reader = new FileReader()
+    setFilename(file.name)
+    reader.onload = function handleImgLoad(ev) {
+      const url = ev.target.result
+      setUrl(url)
+      setDirty(true)
+    }
+    reader.readAsDataURL(file)
+  }
+
+  function handleRemove() {
+    setUrl(null)
+  }
+
+  return url ? (
+    <ImageEditor
+      url={url}
+      filename={filename}
+      position={position}
+      setPosition={setPosition}
+      onRemove={handleRemove}
+    />
+  ) : (
+    <ImageUploader onFileChange={handleFile} />
   )
 }

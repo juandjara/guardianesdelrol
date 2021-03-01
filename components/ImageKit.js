@@ -1,5 +1,5 @@
 export default function ImageKit({ style, className = '', src, width, height, alt }) {
-  let url = `https://ik.imagekit.io/juandjara/${src}`
+  let url = `${process.env.NEXT_PUBLIC_IMAGEKIT_URL}/${src}`
   let url1x = ''
   let url2x = ''
   const size = []
