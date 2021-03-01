@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import Image from 'next/image'
 import Button from './Button'
 import CloseIcon from './icons/CloseIcon'
@@ -16,22 +16,129 @@ function formatSize(n) {
   return `${(n / 1024 / 1024).toFixed(2)} MB`
 }
 
-function ImageDialog({ url, open, setOpen }) {
+const POSITION_OPTIONS = [
+  { value: 'top', label: 'Arriba' },
+  { value: 'bottom', label: 'Abajo' },
+  { value: 'center', label: 'Centro' },
+  { value: 'custom', label: 'Otro:' }
+]
+
+function getLinePosition(opt, custom, rectHeight) {
+  const top = `${rectHeight / 2}px`
+  if (opt === 'top') return top
+
+  const bottom = `calc(100% - ${rectHeight / 2}px)`
+  if (opt === 'bottom') return bottom
+  if (opt === 'center') return '50%'
+  if (opt === 'custom') return `clamp(${top}, ${custom}%, ${bottom})`
+}
+
+function getRectHeight(node) {
+  if (!node) return 0
+  return node.getBoundingClientRect().height
+}
+
+function ImageDialog({ url, open, setOpen, onConfirm }) {
+  const inputRef = useRef(null)
+  const rectangleRef = useRef(null)
+  const [positionOption, setPositionOption] = useState('center')
+  const [customPosition, setCustomPosition] = useState(0)
+  const rectHeight = getRectHeight(rectangleRef.current)
+  const linePosition = getLinePosition(positionOption, customPosition, rectHeight)
+
   function close() {
     setOpen(false)
   }
 
+  function handleSubmit(ev) {
+    ev.preventDefault()
+  }
+
+  function handlePositionOption(opt) {
+    setPositionOption(opt)
+    if (opt === 'top') {
+      setCustomPosition(0)
+    }
+    if (opt === 'center') {
+      setCustomPosition(50)
+    }
+    if (opt === 'bottom') {
+      setCustomPosition(100)
+    }
+  }
+
+  function confirm() {
+    close()
+    onConfirm(customPosition)
+  }
+
   return (
-    <Dialog className="px-8 py-3" isOpen={open} onDismiss={close}>
+    <Dialog
+      initialFocusRef={inputRef}
+      className="rounded-md px-4 py-3 mx-3 md:mx-auto my-6 max-w-xl w-auto flex flex-col"
+      isOpen={open}
+      onDismiss={close}>
       <header className="mb-2 flex justify-between items-baseline">
-        <p className="text-lg text-gray-500 font-medium">Editar imagen</p>
-        <Button small onClick={close} type="button" hasIcon="only">
+        <p className="text-lg text-gray-700 font-medium">Editar imagen</p>
+        <Button small border="border-none" onClick={close} type="button" hasIcon="only">
           <CloseIcon width={20} height={20} />
         </Button>
       </header>
-      <div className="relative bg-gray-100">
-        <img className="mx-auto" alt="" src={url} />
+      <div className="relative bg-gray-100 overflow-hidden">
+        <div
+          ref={rectangleRef}
+          style={{ top: linePosition }}
+          className="transform -translate-y-1/2 absolute w-full left-0 border border-red-900 bg-white bg-opacity-30">
+          <div className="w-full aspect-w-7 aspect-h-3"></div>
+        </div>
+        <img className="object-contain w-full h-full" alt="" src={url} />
       </div>
+      <form className="mt-6 mb-3" onSubmit={handleSubmit}>
+        <p className="text-sm text-gray-700 font-medium">Linea de recorte</p>
+        <div className="md:flex flex-wrap items-center md:space-x-6">
+          {POSITION_OPTIONS.map((opt, i) => (
+            <label key={opt.value} className="my-4 md:my-2 flex items-center">
+              <input
+                ref={i === 0 ? inputRef : null}
+                type="radio"
+                name="position_option"
+                value={opt.value}
+                checked={positionOption === opt.value}
+                onChange={ev => handlePositionOption(ev.target.value)}
+                className="h-5 w-5 text-red-500"
+              />
+              <span className="ml-2 text-gray-700">{opt.label}</span>
+            </label>
+          ))}
+          {positionOption === 'custom' && (
+            <div className="space-x-2 my-2">
+              <input
+                className="inline w-24 rounded-md"
+                name="custom_pos"
+                type="number"
+                min="0"
+                max="100"
+                value={customPosition}
+                onChange={ev => setCustomPosition(ev.target.value)}
+              />
+              <span>%</span>
+            </div>
+          )}
+        </div>
+        <div className="flex justify-end mt-8 space-x-2">
+          <Button onClick={close} type="button" background="" border="border-none">
+            Cancelar
+          </Button>
+          <Button
+            onClick={confirm}
+            type="button"
+            background="bg-red-500 hover:bg-red-600"
+            color="text-white"
+            border="border-none">
+            Confirmar
+          </Button>
+        </div>
+      </form>
     </Dialog>
   )
 }
@@ -39,17 +146,25 @@ function ImageDialog({ url, open, setOpen }) {
 function ImageEditor({ url, file, onRemove = () => {} }) {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [position, setPosition] = useState(50)
 
   if (!file) {
     return null
   }
 
   return (
-    <div className="group">
-      <ImageDialog url={url} open={dialogOpen} setOpen={setDialogOpen} />
+    <div className="group aspect-w-7 aspect-h-3">
+      <ImageDialog url={url} open={dialogOpen} setOpen={setDialogOpen} onConfirm={setPosition} />
       <FsLightbox toggler={lightboxOpen} sources={[url]} />
-      <Image className="z-10 rounded-md" alt="" src={url} layout="fill" objectFit="cover" />
-      <div className="focus-within:opacity-100 group-hover:opacity-100 opacity-0 transition-opacity duration-300 rounded-md flex flex-col z-20 absolute inset-0 bg-gradient-to-b from-transparent to-red-900">
+      <Image
+        className="z-10 rounded-md"
+        alt=""
+        src={url}
+        layout="fill"
+        objectFit="cover"
+        objectPosition={`0 ${position}%`}
+      />
+      <div className="rounded-md flex flex-col z-20 absolute inset-0 bg-gradient-to-b from-transparent to-red-900">
         <div className="flex-grow flex items-center justify-center space-x-6">
           <Button
             aria-label="Ampliar"
@@ -95,12 +210,10 @@ function ImageEditor({ url, file, onRemove = () => {} }) {
             <CloseIcon width={20} height={20} />
           </Button>
         </div>
-        <div className="p-3 absolute bottom-0 left-0">
-          <p className="text-white font-medium text-sm">{file.name}</p>
-          <p className="text-gray-300 text-xs">
-            {formatSize(file.size)} · {file.type}
-          </p>
-        </div>
+        <p className="p-3 absolute bottom-0 left-0">
+          <span className="text-base text-white font-medium">{file.name} </span>
+          <span className="text-sm text-gray-300"> · {formatSize(file.size)}</span>
+        </p>
       </div>
     </div>
   )
@@ -145,11 +258,14 @@ export default function ImageUploader() {
 
   const dropzoneStyle = `${
     isDragging ? 'bg-red-50' : ''
-  } px-6 pt-10 pb-8 space-y-1 flex flex-col items-center border-2 border-gray-300 border-dashed rounded-md`
+  } px-6 pt-10 pb-8 space-y-1 flex flex-col justify-center items-center border-2 border-gray-300 border-dashed rounded-md`
+
+  if (imageURL) {
+    return <ImageEditor url={imageURL} file={file} onRemove={handleRemove} />
+  }
 
   return (
-    <div className="mt-1 relative">
-      {imageURL ? <ImageEditor url={imageURL} file={file} onRemove={handleRemove} /> : null}
+    <div className="mt-1 aspect-w-7 aspect-h-3">
       <div
         onDrop={handleDrop}
         onDragOver={ev => handleDrag(ev, true)}

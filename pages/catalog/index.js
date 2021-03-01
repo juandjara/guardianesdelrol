@@ -4,7 +4,7 @@ import AddIcon from '@/components/icons/AddIcon'
 import Pagination from '@/components/Pagination'
 import SearchBox from '@/components/SearchBox'
 import Tag from '@/components/Tag'
-import useAuthGuard from '@/lib/auth/useAuthGuard'
+// import useAuthGuard from '@/lib/auth/useAuthGuard'
 import useGames, { DEFAULT_RPP } from '@/lib/data/useGames'
 import { useQueryParams } from '@/lib/useQueryParams'
 import { useRouter } from 'next/router'
@@ -41,7 +41,7 @@ function GameListHeader({ count }) {
 }
 
 export default function GameList() {
-  useAuthGuard()
+  // useAuthGuard()
   const router = useRouter()
   const { query, params } = useQueryParams()
   const { games, count, loading } = useGames(query)
