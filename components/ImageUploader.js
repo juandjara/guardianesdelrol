@@ -38,11 +38,11 @@ function getRectHeight(node) {
   return node.getBoundingClientRect().height
 }
 
-function ImageDialog({ url, open, setOpen, onConfirm }) {
+function ImageDialog({ url, open, setOpen, position, onConfirm }) {
   const inputRef = useRef(null)
   const rectangleRef = useRef(null)
   const [positionOption, setPositionOption] = useState('center')
-  const [customPosition, setCustomPosition] = useState(0)
+  const [customPosition, setCustomPosition] = useState(position)
   const rectHeight = getRectHeight(rectangleRef.current)
   const linePosition = getLinePosition(positionOption, customPosition, rectHeight)
 
@@ -154,7 +154,13 @@ function ImageEditor({ url, file, onRemove = () => {} }) {
 
   return (
     <div className="group aspect-w-7 aspect-h-3">
-      <ImageDialog url={url} open={dialogOpen} setOpen={setDialogOpen} onConfirm={setPosition} />
+      <ImageDialog
+        url={url}
+        open={dialogOpen}
+        setOpen={setDialogOpen}
+        position={position}
+        onConfirm={setPosition}
+      />
       <FsLightbox toggler={lightboxOpen} sources={[url]} />
       <Image
         className="z-10 rounded-md"

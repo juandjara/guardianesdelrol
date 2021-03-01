@@ -17,12 +17,12 @@
 }
 
 .editor-wrapper {
-  min-height: 124px;
+  min-height: 190px;
 }
 
 .editor-wrapper .ql-editor {
   @apply text-base;
-  min-height: 80px;
+  min-height: 125px;
   padding: 8px 16px;
 }
 
