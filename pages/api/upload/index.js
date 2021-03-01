@@ -29,7 +29,6 @@ export default async function uploadEndpoint(req, res) {
     }
 
     const formData = new FormData()
-    formData.append('folder', 'games')
     formData.append('fileName', filename)
     formData.append('file', file)
     formData.append('useUniqueFileName', 'false')

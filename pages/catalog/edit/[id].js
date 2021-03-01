@@ -35,7 +35,7 @@ export default function CatalogEdit() {
     formData.set('file', imageURL)
     formData.set('filename', imageName)
     formData.set('token', session.access_token)
-    return await axios.post('/api/upload/games', formData)
+    return await axios.post('/api/upload', formData)
   }
 
   async function handleSubmit(ev) {
