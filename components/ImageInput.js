@@ -4,7 +4,6 @@ import CloseIcon from './icons/CloseIcon'
 import FilterIcon from './icons/FilterIcon'
 import FsLightbox from 'fslightbox-react'
 import Dialog from '@reach/dialog'
-import useStateEffect from '@/lib/useStateEffect'
 
 const POSITION_OPTIONS = [
   { value: 'top', label: 'Por arriba' },
@@ -12,18 +11,15 @@ const POSITION_OPTIONS = [
   { value: 'center', label: 'Centrado' }
 ]
 
-function ImageDialog({ url, open, setOpen, position, onConfirm }) {
+function ImageDialog({ url, position, onClose, onConfirm }) {
   const inputRef = useRef(null)
-  const [positionOption, setPositionOption] = useState('center')
-  const [customPosition, setCustomPosition] = useStateEffect(position)
-
-  function close() {
-    setOpen(false)
-  }
-
-  function handleSubmit(ev) {
-    ev.preventDefault()
-  }
+  const [positionOption, setPositionOption] = useState(() => {
+    if (position === 0) return 'top'
+    if (position === 50) return 'center'
+    if (position === 100) return 'bottom'
+    return 'custom'
+  })
+  const [customPosition, setCustomPosition] = useState(position)
 
   function handlePositionOption(opt) {
     setPositionOption(opt)
@@ -39,7 +35,7 @@ function ImageDialog({ url, open, setOpen, position, onConfirm }) {
   }
 
   function confirm() {
-    close()
+    onClose()
     onConfirm(customPosition)
   }
 
@@ -48,13 +44,13 @@ function ImageDialog({ url, open, setOpen, position, onConfirm }) {
       aria-labelledby="image-dialog-label"
       initialFocusRef={inputRef}
       className="rounded-md px-4 py-3 mx-auto max-w-3xl w-auto flex flex-col"
-      isOpen={open}
-      onDismiss={close}>
+      isOpen={true}
+      onDismiss={onClose}>
       <header className="mb-2 flex justify-between items-baseline">
         <p id="image-dialog-label" className="text-lg text-gray-700 font-medium">
           Editar imagen
         </p>
-        <Button small border="border-none" onClick={close} type="button" hasIcon="only">
+        <Button small border="border-none" onClick={onClose} type="button" hasIcon="only">
           <CloseIcon width={20} height={20} />
         </Button>
       </header>
@@ -66,7 +62,7 @@ function ImageDialog({ url, open, setOpen, position, onConfirm }) {
           style={{ objectPosition: `0 ${customPosition}%` }}
         />
       </div>
-      <form className="mt-6 mb-3" onSubmit={handleSubmit}>
+      <div className="mt-6 mb-3">
         <p className="text-sm text-gray-700 font-medium">Recorte</p>
         <div className="md:flex flex-wrap items-center md:space-x-6">
           {POSITION_OPTIONS.map((opt, i) => (
@@ -112,7 +108,7 @@ function ImageDialog({ url, open, setOpen, position, onConfirm }) {
           </div>
         </div>
         <div className="flex justify-end mt-8 space-x-2">
-          <Button onClick={close} type="button" background="" border="border-none">
+          <Button onClick={onClose} type="button" background="" border="border-none">
             Cancelar
           </Button>
           <Button
@@ -124,7 +120,7 @@ function ImageDialog({ url, open, setOpen, position, onConfirm }) {
             Confirmar
           </Button>
         </div>
-      </form>
+      </div>
     </Dialog>
   )
 }
@@ -139,13 +135,14 @@ function ImageEditor({ url, filename, position, setPosition, onRemove = () => {}
 
   return (
     <div className="group aspect-w-7 aspect-h-3">
-      <ImageDialog
-        url={url}
-        open={dialogOpen}
-        setOpen={setDialogOpen}
-        position={position}
-        onConfirm={setPosition}
-      />
+      {dialogOpen && (
+        <ImageDialog
+          url={url}
+          position={position}
+          onConfirm={setPosition}
+          onClose={() => setDialogOpen(false)}
+        />
+      )}
       <FsLightbox toggler={lightboxOpen} sources={[url]} />
       <img
         alt=""
@@ -273,28 +270,29 @@ function ImageUploader({ onFileChange }) {
   )
 }
 
-export default function ImageInput({
-  filename,
-  setFilename,
-  url,
-  setUrl,
-  position,
-  setPosition,
-  setDirty
-}) {
+export default function ImageInput({ state, dispatch }) {
+  const { url, filename, position } = state
+
   function handleFile(file) {
     const reader = new FileReader()
-    setFilename(file.name)
     reader.onload = function handleImgLoad(ev) {
-      const url = ev.target.result
-      setUrl(url)
-      setDirty(true)
+      dispatch({
+        type: 'SET_IMAGE',
+        payload: {
+          url: ev.target.result,
+          filename: file.name
+        }
+      })
     }
     reader.readAsDataURL(file)
   }
 
   function handleRemove() {
-    setUrl(null)
+    dispatch({ type: 'REMOVE_IMAGE' })
+  }
+
+  function setPosition(pos) {
+    dispatch({ type: 'UPDATE_IMAGE_POSITION', payload: pos })
   }
 
   return url ? (

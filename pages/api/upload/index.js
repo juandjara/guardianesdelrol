@@ -31,7 +31,7 @@ export default async function uploadEndpoint(req, res) {
     const formData = new FormData()
     formData.append('fileName', filename)
     formData.append('file', file)
-    formData.append('useUniqueFileName', 'false')
+    formData.append('useUniqueFileName', 'true')
 
     try {
       const { data } = await axios.post(uploadURL, formData, {

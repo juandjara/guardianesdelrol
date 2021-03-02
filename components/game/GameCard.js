@@ -20,7 +20,11 @@ export default function GameCard({ game }) {
         {game ? (
           game.image && (
             <ImageKit
-              style={{ width: '100%', height: '100%' }}
+              style={{
+                objectPosition: `0 ${game.image_position || 50}%`,
+                width: '100%',
+                height: '100%'
+              }}
               className="object-cover rounded-t-lg md:rounded-t-none md:rounded-l-lg"
               src={game.image}
               alt=""

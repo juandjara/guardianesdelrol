@@ -80,7 +80,12 @@ export default function GameDetail() {
           onClick={() => setLightboxOpen(!lightboxOpen)}
           className="aspect-w-7 aspect-h-3 relative clip-vertical bg-gray-100 rounded-t-lg">
           {game?.image && (
-            <ImageKit alt="" src={game.image} className="w-full h-full object-cover rounded-t-lg" />
+            <ImageKit
+              alt=""
+              src={game.image}
+              style={{ objectPosition: `0 ${game.image_position || 50}%` }}
+              className="w-full h-full object-cover rounded-t-lg"
+            />
           )}
         </div>
         <header className="px-4 my-4">
