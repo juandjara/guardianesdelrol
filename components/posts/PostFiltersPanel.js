@@ -8,7 +8,6 @@ import Select from '../Select'
 import { addWeeks, startOfWeek, endOfWeek } from 'date-fns'
 import es from 'date-fns/locale/es'
 import { DEFAULT_RPP } from '@/lib/data/usePosts'
-import useStateEffect from '@/lib/useStateEffect'
 import BackIcon from '../icons/BackIcon'
 
 const SORT_OPTIONS = [
@@ -20,6 +19,20 @@ const SORT_TYPES = [
   { label: 'De mayor a menor', value: null },
   { label: 'De menor a mayor', value: 'asc' }
 ]
+
+function initialFilterState(params) {
+  return {
+    section: Number(params.s),
+    typePresential: !params.t || params.t === 'presencial',
+    typeOnline: !params.t || params.t === 'online',
+    onlyFreeSeats: !!params.ofs,
+    startDate: params.sd,
+    endDate: params.ed,
+    rpp: params.rpp || DEFAULT_RPP,
+    sortKey: params.sk || SORT_OPTIONS[0].value,
+    sortType: params.st || SORT_TYPES[0].value
+  }
+}
 
 export default function PostFiltersPanel() {
   const router = useRouter()
@@ -37,25 +50,33 @@ export default function PostFiltersPanel() {
       params.st
   )
 
-  const { sections } = useSections()
-  const initialSectionId = Number(params.s)
-  const [section, setSection] = useStateEffect(initialSectionId)
-
-  const sectionOptions = sections.map(s => ({ value: s.id, label: s.name }))
-  const selectedSection = sectionOptions.find(s => s.value === section)
-
-  const [typePresential, setTypePresential] = useStateEffect(!params.t || params.t === 'presencial')
-  const [typeOnline, setTypeOnline] = useStateEffect(!params.t || params.t === 'online')
-
-  const [onlyFreeSeats, setOnlyFreeSeats] = useStateEffect(!!params.ofs)
-  const [startDate, setStartDate] = useStateEffect(params.sd)
-  const [endDate, setEndDate] = useStateEffect(params.ed)
-  const [rpp, setRpp] = useStateEffect(params.rpp || DEFAULT_RPP)
-  const [sortKey, setSortKey] = useStateEffect(params.sk || SORT_OPTIONS[0].value)
-  const [sortType, setSortType] = useStateEffect(params.st || SORT_TYPES[0].value)
+  const [filters, setFilters] = useState(() => initialFilterState(params))
+  const {
+    section,
+    typePresential,
+    typeOnline,
+    onlyFreeSeats,
+    startDate,
+    endDate,
+    rpp,
+    sortKey,
+    sortType
+  } = filters
 
   const selectedSortKey = SORT_OPTIONS.find(s => s.value === sortKey)
   const selectedSortType = SORT_TYPES.find(s => s.value === sortType)
+
+  const { sections } = useSections()
+  const sectionOptions = sections.map(s => ({ value: s.id, label: s.name }))
+  const selectedSection = sectionOptions.find(s => s.value === section)
+
+  function update(key, value) {
+    setFilters(state => ({ ...state, [key]: value }))
+  }
+
+  useEffect(() => {
+    setFilters(initialFilterState(params))
+  }, [params])
 
   useEffect(
     function handleClickOutside() {
@@ -112,18 +133,18 @@ export default function PostFiltersPanel() {
 
   function selectThisWeek() {
     const newStartDate = startOfWeek(new Date(), { locale: es })
-    setStartDate(newStartDate.toJSON().split('T')[0])
+    update('startDate', newStartDate.toJSON().split('T')[0])
 
     const newEndDate = endOfWeek(new Date(), { locale: es })
-    setEndDate(newEndDate.toJSON().split('T')[0])
+    update('endDate', newEndDate.toJSON().split('T')[0])
   }
 
   function selectNextWeek() {
     const newStartDate = startOfWeek(new Date(), { locale: es })
-    setStartDate(addWeeks(newStartDate, 1).toJSON().split('T')[0])
+    update('startDate', addWeeks(newStartDate, 1).toJSON().split('T')[0])
 
     const newEndDate = endOfWeek(new Date(), { locale: es })
-    setEndDate(addWeeks(newEndDate, 1).toJSON().split('T')[0])
+    update('endDate', addWeeks(newEndDate, 1).toJSON().split('T')[0])
   }
 
   return (
@@ -186,7 +207,7 @@ export default function PostFiltersPanel() {
                 <input
                   type="date"
                   value={startDate}
-                  onChange={ev => setStartDate(ev.target.value)}
+                  onChange={ev => update('startDate', ev.target.value)}
                   className="bg-red-200 text-gray-700 block w-full h-10 pl-3 pr-2 text-base placeholder-gray-500 border border-none rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
                 />
               </div>
@@ -195,7 +216,7 @@ export default function PostFiltersPanel() {
                 <input
                   type="date"
                   value={endDate}
-                  onChange={ev => setEndDate(ev.target.value)}
+                  onChange={ev => update('endDate', ev.target.value)}
                   className="bg-red-200 text-gray-700 block w-full h-10 pl-3 pr-2 text-base placeholder-gray-500 border border-none rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
                 />
               </div>
@@ -224,7 +245,7 @@ export default function PostFiltersPanel() {
           className="w-64"
           options={sectionOptions}
           selected={selectedSection}
-          onChange={ev => setSection(ev.value)}
+          onChange={ev => update('section', ev.value)}
         />
         <section>
           <p className="text-sm text-gray-100 mb-1">Resultados por p&aacute;gina</p>
@@ -233,7 +254,7 @@ export default function PostFiltersPanel() {
             step="1"
             min="1"
             value={rpp}
-            onChange={ev => setRpp(ev.target.value)}
+            onChange={ev => update('rpp', ev.target.value)}
             className="bg-red-200 text-gray-700 block w-full h-10 pl-3 pr-2 text-base placeholder-gray-500 border border-none rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
           />
         </section>
@@ -244,13 +265,13 @@ export default function PostFiltersPanel() {
               className="flex-grow"
               options={SORT_OPTIONS}
               selected={selectedSortKey}
-              onChange={ev => setSortKey(ev.value)}
+              onChange={ev => update('sortKey', ev.value)}
             />
             <Select
               className="flex-grow"
               options={SORT_TYPES}
               selected={selectedSortType}
-              onChange={ev => setSortType(ev.value)}
+              onChange={ev => update('sortType', ev.value)}
             />
           </div>
         </section>
@@ -260,7 +281,7 @@ export default function PostFiltersPanel() {
               type="checkbox"
               className="rounded-sm text-red-500 border-red-300"
               checked={onlyFreeSeats}
-              onChange={ev => setOnlyFreeSeats(ev.target.checked)}
+              onChange={ev => update('onlyFreeSeats', ev.target.checked)}
             />
             <span>Solo partidas con plazas libres</span>
           </label>
@@ -273,7 +294,7 @@ export default function PostFiltersPanel() {
                 type="checkbox"
                 className="rounded-sm text-red-500 border-red-300"
                 checked={typeOnline}
-                onChange={ev => setTypeOnline(ev.target.checked)}
+                onChange={ev => update('typeOnline', ev.target.checked)}
               />
               <span>Online</span>
             </label>
@@ -282,7 +303,7 @@ export default function PostFiltersPanel() {
                 type="checkbox"
                 className="rounded-sm text-red-500 border-red-300"
                 checked={typePresential}
-                onChange={ev => setTypePresential(ev.target.checked)}
+                onChange={ev => update('typePresential', ev.target.checked)}
               />
               <span>Presencial</span>
             </label>
