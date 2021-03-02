@@ -1,6 +1,5 @@
 import { DEFAULT_RPP } from '@/lib/data/useGames'
 import { useQueryParams } from '@/lib/useQueryParams'
-import useStateEffect from '@/lib/useStateEffect'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import Button from '../Button'
@@ -17,6 +16,14 @@ const SORT_TYPES = [
   { label: 'De menor a mayor', value: 'asc' }
 ]
 
+function initialFilterState(params) {
+  return {
+    rpp: params.rpp || DEFAULT_RPP,
+    sortKey: params.sk || SORT_OPTIONS[0].value,
+    sortType: params.st || SORT_TYPES[0].value
+  }
+}
+
 export default function GameFiltersPanel() {
   const router = useRouter()
   const { params } = useQueryParams()
@@ -26,12 +33,15 @@ export default function GameFiltersPanel() {
     Number(params.rpp || DEFAULT_RPP) !== DEFAULT_RPP || params.sk || params.st
   )
 
-  const [rpp, setRpp] = useStateEffect(params.rpp || DEFAULT_RPP)
-  const [sortKey, setSortKey] = useStateEffect(params.sk || SORT_OPTIONS[0].value)
-  const [sortType, setSortType] = useStateEffect(params.st || SORT_TYPES[0].value)
+  const [filters, setFilters] = useState(() => initialFilterState(params))
+  const { rpp, sortKey, sortType } = filters
 
   const selectedSortKey = SORT_OPTIONS.find(s => s.value === sortKey)
   const selectedSortType = SORT_TYPES.find(s => s.value === sortType)
+
+  useEffect(() => {
+    setFilters(initialFilterState(params))
+  }, [params])
 
   useEffect(
     function handleClickOutside() {
@@ -49,6 +59,10 @@ export default function GameFiltersPanel() {
     },
     [open]
   )
+
+  function update(key, value) {
+    setFilters(state => ({ ...state, [key]: value }))
+  }
 
   function apply() {
     router.push({
@@ -130,7 +144,7 @@ export default function GameFiltersPanel() {
             step="1"
             min="1"
             value={rpp}
-            onChange={ev => setRpp(ev.target.value)}
+            onChange={ev => update('rpp', ev.target.value)}
             className="bg-red-200 text-gray-700 block w-full h-10 pl-3 pr-2 text-base placeholder-gray-500 border border-none rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
           />
         </section>
@@ -141,13 +155,13 @@ export default function GameFiltersPanel() {
               className="flex-grow"
               options={SORT_OPTIONS}
               selected={selectedSortKey}
-              onChange={ev => setSortKey(ev.value)}
+              onChange={ev => update('sortKey', ev.value)}
             />
             <Select
               className="flex-grow"
               options={SORT_TYPES}
               selected={selectedSortType}
-              onChange={ev => setSortType(ev.value)}
+              onChange={ev => update('sortType', ev.value)}
             />
           </div>
         </section>
