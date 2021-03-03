@@ -50,8 +50,9 @@ export default function GameDetail() {
   const numplayers = game?.players.items.length || 0
   const numdms = game?.narrators.items.length || 0
   const numposts = game?.posts.length || 0
-  const updateTime = new Date(game?.updated_at || Date.now()).toLocaleTimeString()
-  const updateDate = new Date(game?.updated_at || Date.now()).toLocaleDateString()
+  const updateTime = new Date(game?.updated_at || 0).toLocaleTimeString()
+  const updateDate = new Date(game?.updated_at || 0).toLocaleDateString()
+  const position = game.image_position || game.image_position === 0 ? game.image_position : 50
 
   return (
     <main className="flex-auto mx-auto p-3 max-w-4xl w-full">
@@ -83,7 +84,7 @@ export default function GameDetail() {
             <ImageKit
               alt=""
               src={game.image}
-              style={{ objectPosition: `0 ${game.image_position || 50}%` }}
+              style={{ objectPosition: `0 ${position}%` }}
               className="w-full h-full object-cover rounded-t-lg"
             />
           )}

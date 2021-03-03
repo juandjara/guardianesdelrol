@@ -11,6 +11,8 @@ export default function GameCard({ game }) {
     if (link && link !== ev.target) link.click()
   }
 
+  const position = game.image_position || game.image_position === 0 ? game.image_position : 50
+
   return (
     <li
       role="presentation"
@@ -21,7 +23,7 @@ export default function GameCard({ game }) {
           game.image && (
             <ImageKit
               style={{
-                objectPosition: `0 ${game.image_position || 50}%`,
+                objectPosition: `0 ${position}%`,
                 width: '100%',
                 height: '100%'
               }}

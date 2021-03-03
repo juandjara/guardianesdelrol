@@ -11,6 +11,7 @@ import axios from 'axios'
 import { useAlert } from '@/components/AlertContext'
 import { mutate } from 'swr'
 import dynamic from 'next/dynamic'
+import CloseIcon from '@/components/icons/CloseIcon'
 
 const TextEditor = dynamic(() => import('@/components/TextEditor'), { ssr: false })
 
@@ -90,7 +91,8 @@ export default function CatalogEdit() {
     formData.set('file', url)
     formData.set('filename', filename)
     formData.set('token', session.access_token)
-    await axios.post('/api/upload', formData)
+    const imageResult = await axios.post('/api/upload', formData)
+    return imageResult.data.name
   }
 
   async function handleSubmit(ev) {
@@ -98,17 +100,18 @@ export default function CatalogEdit() {
     setLoading(true)
 
     try {
+      let image = imageState.filename
       if (imageState.dirty) {
-        await uploadImage()
+        image = await uploadImage()
       }
 
       const body = {
-        id,
         name: form.name,
         description: form.description,
-        image: imageState.filename,
-        image_position: imageState.position
+        image_position: imageState.position,
+        image
       }
+      if (id) body.id = id
 
       const { data, error } = await supabase
         .from('games')
@@ -120,7 +123,9 @@ export default function CatalogEdit() {
       }
 
       const result = data[0]
-      mutate(`game-detail/${result.id}`, game ? { ...game, ...result } : result, false)
+      if (game) {
+        mutate(`game-detail/${result.id}`, { ...game, ...result }, false)
+      }
       router.push(`/catalog/${result.id}/${result.slug}`)
     } catch (err) {
       console.error(err)
@@ -128,6 +133,21 @@ export default function CatalogEdit() {
     }
 
     setLoading(false)
+  }
+
+  async function handleDelete() {
+    const confirmation = window.confirm('¿Estas seguro de que quieres borrar este juego?')
+    if (!confirmation) {
+      return
+    }
+
+    const { error } = await supabase.from('games').delete().match({ id })
+    if (error) {
+      console.error(error)
+      setAlert(error.message)
+    } else {
+      router.replace('/catalog')
+    }
   }
 
   const title = id ? `Editar ${game?.name}` : 'Nuevo juego'
@@ -164,6 +184,20 @@ export default function CatalogEdit() {
           <TextEditor value={game?.description} onChange={updateEditor} />
         </div>
         <div className="flex justify-end items-center space-x-2">
+          {id && (
+            <Button
+              hasIcon="left"
+              tabIndex="-1"
+              onClick={handleDelete}
+              disabled={loading}
+              type="button"
+              border="border-none"
+              color="text-red-900">
+              <CloseIcon aria-hidden="true" height={20} width={20} />
+              <p>Eliminar</p>
+            </Button>
+          )}
+          <div className="flex-grow"></div>
           <Button
             onClick={() => router.back()}
             disabled={loading}
