@@ -22,7 +22,7 @@ function GameListHeader({ count }) {
       <div className="flex-grow"></div>
       <SearchBox route="/catalog" />
       <GameFiltersPanel />
-      <Link href="/posts/edit/new">
+      <Link href="/catalog/edit/new">
         <a className="hover:no-underline">
           <Button
             small
