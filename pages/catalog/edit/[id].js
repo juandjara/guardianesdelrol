@@ -94,8 +94,7 @@ export default function CatalogEdit() {
     setLoading(true)
 
     try {
-      const { dirty } = state.image.url
-      if (dirty) {
+      if (state.image.dirty) {
         await uploadImage()
       }
 

@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import CustomImageFactory from '@/lib/CustomImage'
 import 'quill/dist/quill.snow.css'
 
-export default function TextEditor({ value }) {
+export default function TextEditor({ value, onChange }) {
   const wrapperRef = useRef(null)
   const editor = useRef(null)
 
@@ -35,16 +35,23 @@ export default function TextEditor({ value }) {
           ]
         }
       })
+
+      editor.current.on('text-change', function onTextChange(newDelta, oldDelta, source) {
+        if (source === 'user') {
+          onChange(editor.current.root.innerHTML)
+        }
+      })
     }
     if (!editor.current) {
       wrapperRef.current.ready = true
       renderEditor()
     }
+    // eslint-disable-next-line
   }, [])
 
   return (
     <div ref={wrapperRef}>
-      <span dangerouslySetInnerHTML={{ __html: value }}></span>
+      <div dangerouslySetInnerHTML={{ __html: value }}></div>
     </div>
   )
 }
