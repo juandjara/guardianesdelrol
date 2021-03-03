@@ -5615,6 +5615,11 @@ react-loading-skeleton@^2.1.1:
   dependencies:
     "@emotion/core" "^10.0.22"
 
+react-quilljs@^1.2.13:
+  version "1.2.13"
+  resolved "https://registry.yarnpkg.com/react-quilljs/-/react-quilljs-1.2.13.tgz#4a1ecac26c6f759aea2179e0581f81bbedbcc74b"
+  integrity sha512-CizhuoHjrb8OSj78VO3Ld37oqQYb5irZtpF3PJBHA4JcBIrK3dwSJG+gP9eQAkWsUwJ6Wv6fyJpKB/nhYuxw6Q==
+
 react-refresh@0.8.3:
   version "0.8.3"
   resolved "https://registry.npmjs.org/react-refresh/-/react-refresh-0.8.3.tgz"

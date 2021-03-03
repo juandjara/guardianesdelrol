@@ -1,57 +1,55 @@
-import { useEffect, useRef } from 'react'
 import CustomImageFactory from '@/lib/CustomImage'
 import 'quill/dist/quill.snow.css'
 
-export default function TextEditor({ value, onChange }) {
-  const wrapperRef = useRef(null)
-  const editor = useRef(null)
+import Quill from 'quill'
+import BlotFormatter from 'quill-blot-formatter-mobile'
+import { useQuill } from 'react-quilljs'
+import { useEffect } from 'react'
+
+Quill.register('modules/blotFormatter', BlotFormatter)
+Quill.register('formats/image', CustomImageFactory(Quill))
+
+export default function TextEditor({ value = '', onChange }) {
+  const { quill, quillRef } = useQuill({
+    theme: 'snow',
+    modules: {
+      blotFormatter: true,
+      toolbar: [
+        [{ size: ['small', false, 'large'] }],
+        [
+          'bold',
+          'italic',
+          'underline',
+          'link',
+          'image',
+          'video',
+          { align: [] },
+          { list: 'ordered' },
+          { list: 'bullet' }
+        ]
+      ]
+    }
+  })
 
   useEffect(() => {
-    async function renderEditor() {
-      const Quill = (await import('quill')).default
-      const BlotFormatter = (await import('quill-blot-formatter-mobile')).default
-
-      Quill.register('modules/blotFormatter', BlotFormatter)
-      Quill.register('formats/image', CustomImageFactory(Quill))
-
-      editor.current = new Quill(wrapperRef.current, {
-        theme: 'snow',
-        // formats: ['size', 'bold', 'italic', 'underline', 'strike', 'list', 'align', 'image', 'link'],
-        modules: {
-          blotFormatter: true,
-          toolbar: [
-            [{ size: ['small', false, 'large'] }],
-            [
-              'bold',
-              'italic',
-              'underline',
-              'link',
-              'image',
-              'video',
-              { align: [] },
-              { list: 'ordered' },
-              { list: 'bullet' }
-            ]
-          ]
-        }
-      })
-
-      editor.current.on('text-change', function onTextChange(newDelta, oldDelta, source) {
+    if (quill) {
+      quill.on('text-change', (newDelta, oldDelta, source) => {
         if (source === 'user') {
-          onChange(editor.current.root.innerHTML)
+          onChange(quill.root.innerHTML)
         }
       })
     }
-    if (!editor.current) {
-      wrapperRef.current.ready = true
-      renderEditor()
+  }, [quill, onChange])
+
+  useEffect(() => {
+    if (quill) {
+      quill.clipboard.dangerouslyPasteHTML(value)
     }
-    // eslint-disable-next-line
-  }, [])
+  }, [quill, value])
 
   return (
-    <div ref={wrapperRef}>
-      <div dangerouslySetInnerHTML={{ __html: value }}></div>
+    <div>
+      <div ref={quillRef}></div>
     </div>
   )
 }

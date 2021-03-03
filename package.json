@@ -32,6 +32,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-loading-skeleton": "^2.1.1",
+    "react-quilljs": "^1.2.13",
     "swr": "^0.3.11",
     "tailwindcss": "^2.0.2",
     "zxcvbn": "^4.4.2"
