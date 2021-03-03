@@ -11,7 +11,7 @@ export default function GameCard({ game }) {
     if (link && link !== ev.target) link.click()
   }
 
-  const position = game.image_position || game.image_position === 0 ? game.image_position : 50
+  const position = game?.image_position || game?.image_position === 0 ? game?.image_position : 50
 
   return (
     <li

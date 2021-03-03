@@ -52,7 +52,7 @@ export default function GameDetail() {
   const numposts = game?.posts.length || 0
   const updateTime = new Date(game?.updated_at || 0).toLocaleTimeString()
   const updateDate = new Date(game?.updated_at || 0).toLocaleDateString()
-  const position = game.image_position || game.image_position === 0 ? game.image_position : 50
+  const position = game?.image_position || game?.image_position === 0 ? game?.image_position : 50
 
   return (
     <main className="flex-auto mx-auto p-3 max-w-4xl w-full">
