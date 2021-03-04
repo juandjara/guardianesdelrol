@@ -36,6 +36,8 @@ export default function PostCard({ post }) {
     if (link && link !== ev.target) link.click()
   }
 
+  const position = post?.image_position || post?.image_position === 0 ? post?.image_position : 50
+
   return (
     <li
       role="presentation"
@@ -44,7 +46,12 @@ export default function PostCard({ post }) {
       <div className="aspect-w-7 aspect-h-3 bg-gray-100 w-full clip-vertical rounded-t-lg">
         {post ? (
           post.image && (
-            <ImageKit alt="" src={post.image} className="w-full h-full rounded-t-lg object-cover" />
+            <ImageKit
+              alt=""
+              src={post.image}
+              style={{ objectPosition: `0 ${position}%` }}
+              className="w-full h-full rounded-t-lg object-cover"
+            />
           )
         ) : (
           <Skeleton className="aspect-w-7 aspect-h-3" />
