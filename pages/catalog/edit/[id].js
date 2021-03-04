@@ -10,7 +10,6 @@ import { useCallback, useEffect, useReducer, useState } from 'react'
 import { useAlert } from '@/components/AlertContext'
 import { mutate } from 'swr'
 import dynamic from 'next/dynamic'
-import CloseIcon from '@/components/icons/CloseIcon'
 import { defaultImageState, imageReducer } from '@/lib/imageReducer'
 import uploadImage from '@/lib/uploadImage'
 
@@ -97,7 +96,7 @@ export default function CatalogEdit() {
     }
   }
 
-  const title = id ? `Editar ${game?.name}` : 'Nuevo juego'
+  const title = id ? `Editar juego` : 'Nuevo juego'
   const updateEditor = useCallback(value => update('description', value), [])
 
   return (
@@ -133,15 +132,13 @@ export default function CatalogEdit() {
         <div className="flex justify-end items-center space-x-2">
           {id && (
             <Button
-              hasIcon="left"
-              tabIndex="-1"
               onClick={handleDelete}
               disabled={loading}
               type="button"
               border="border-none"
-              color="text-red-900">
-              <CloseIcon aria-hidden="true" height={20} width={20} />
-              <p>Eliminar</p>
+              background="hover:bg-gray-100"
+              color="text-gray-600">
+              Eliminar
             </Button>
           )}
           <div className="flex-grow"></div>

@@ -1,7 +1,6 @@
 import { useAlert } from '@/components/AlertContext'
 import BackButton from '@/components/BackButton'
 import Button from '@/components/Button'
-import CloseIcon from '@/components/icons/CloseIcon'
 import ImageInput from '@/components/ImageInput'
 import Label from '@/components/Label'
 import Title from '@/components/Title'
@@ -27,7 +26,7 @@ export default function PostEdit() {
   const router = useRouter()
   const id = router.query.id === 'new' ? null : router.query.id
   const { data: post } = usePostDetail(id)
-  const title = id ? `Editar ${post?.name}` : 'Nueva partida'
+  const title = id ? `Editar partida` : 'Nueva partida'
   const updateEditor = useCallback(value => update('description', value), [])
 
   const { setAlert } = useAlert()
@@ -143,15 +142,13 @@ export default function PostEdit() {
         <div className="flex justify-end items-center space-x-2">
           {id && (
             <Button
-              hasIcon="left"
-              tabIndex="-1"
               onClick={handleDelete}
               disabled={loading}
               type="button"
               border="border-none"
-              color="text-red-900">
-              <CloseIcon aria-hidden="true" height={20} width={20} />
-              <p>Eliminar</p>
+              background="hover:bg-gray-100"
+              color="text-gray-600">
+              Eliminar
             </Button>
           )}
           <div className="flex-grow"></div>
