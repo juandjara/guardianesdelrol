@@ -94,8 +94,8 @@ export default function PostDetails() {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const updateTime = new Date(post?.updated_at || Date.now()).toLocaleTimeString()
-  const updateDate = new Date(post?.updated_at || Date.now()).toLocaleDateString()
+  const updateTime = post?.updated_at && new Date(post?.updated_at).toLocaleTimeString()
+  const updateDate = post?.updated_at && new Date(post?.updated_at).toLocaleDateString()
 
   useEffect(() => {
     if (post && post.slug && post.slug !== slug) {
@@ -152,7 +152,7 @@ export default function PostDetails() {
           sources={[`${process.env.NEXT_PUBLIC_IMAGEKIT_URL}/${post.image}`]}
         />
       )}
-      <div className="bg-white text-gray-700 pb-6 rounded-lg relative">
+      <div className="bg-white text-gray-700 pb-4 rounded-lg relative">
         <div className="z-20 w-full absolute top-0 left-0 p-2 flex items-start justify-between">
           <BackButton colors="bg-opacity-50 text-white bg-gray-500 hover:bg-opacity-75" />
           <Link href={`/post/edit/{id}`}>
@@ -220,11 +220,13 @@ export default function PostDetails() {
         <div
           className="hyphens text-justify font-serif leading-relaxed px-6 mt-8 mb-4 mx-auto max-w-prose"
           dangerouslySetInnerHTML={{ __html: post?.description }}></div>
-        <div>
-          <p className="mt-8 px-6 text-sm text-gray-400">
-            Actualizado el {updateDate} a las {updateTime}
-          </p>
-        </div>
+        {post?.updated_at && (
+          <div>
+            <p className="mt-8 px-4 text-sm text-gray-400">
+              Actualizado el {updateDate} a las {updateTime}
+            </p>
+          </div>
+        )}
       </div>
     </main>
   )

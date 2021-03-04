@@ -50,8 +50,8 @@ export default function GameDetail() {
   const numplayers = game?.players.items.length || 0
   const numdms = game?.narrators.items.length || 0
   const numposts = game?.posts.length || 0
-  const updateTime = new Date(game?.updated_at || 0).toLocaleTimeString()
-  const updateDate = new Date(game?.updated_at || 0).toLocaleDateString()
+  const updateTime = game?.updated_at && new Date(game?.updated_at).toLocaleTimeString()
+  const updateDate = game?.updated_at && new Date(game?.updated_at).toLocaleDateString()
   const position = game?.image_position || game?.image_position === 0 ? game?.image_position : 50
 
   return (
@@ -123,11 +123,13 @@ export default function GameDetail() {
               </ul>
             )}
           </div>
-          <div>
-            <p className="mt-8 text-sm text-gray-400">
-              Actualizado el {updateDate} a las {updateTime}
-            </p>
-          </div>
+          {game?.updated_at && (
+            <div>
+              <p className="mt-8 text-sm text-gray-400">
+                Actualizado el {updateDate} a las {updateTime}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </main>
