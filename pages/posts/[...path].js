@@ -96,6 +96,7 @@ export default function PostDetails() {
 
   const updateTime = post?.updated_at && new Date(post?.updated_at).toLocaleTimeString()
   const updateDate = post?.updated_at && new Date(post?.updated_at).toLocaleDateString()
+  const position = post?.image_position || post?.image_position === 0 ? post?.image_position : 50
 
   useEffect(() => {
     if (post && post.slug && post.slug !== slug) {
@@ -155,7 +156,7 @@ export default function PostDetails() {
       <div className="bg-white text-gray-700 pb-4 md:rounded-lg relative">
         <div className="z-10 w-full absolute top-0 left-0 p-2 flex items-start justify-between">
           <BackButton colors="bg-opacity-50 text-white bg-gray-500 hover:bg-opacity-75" />
-          <Link href={`/post/edit/{id}`}>
+          <Link href={`/posts/edit/${id}`}>
             <a className="hover:no-underline">
               <Button small>Editar</Button>
             </a>
@@ -172,6 +173,7 @@ export default function PostDetails() {
           {post?.image && (
             <ImageKit
               className="w-full h-full object-cover md:rounded-t-lg"
+              style={{ objectPosition: `0 ${position}%` }}
               src={post?.image}
               alt=""
             />

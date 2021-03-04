@@ -7,57 +7,19 @@ import { supabase } from '@/lib/data/supabase'
 import useGameDetail from '@/lib/data/useGameDetail'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useReducer, useState } from 'react'
-import axios from 'axios'
 import { useAlert } from '@/components/AlertContext'
 import { mutate } from 'swr'
 import dynamic from 'next/dynamic'
 import CloseIcon from '@/components/icons/CloseIcon'
+import { defaultImageState, imageReducer } from '@/lib/imageReducer'
+import uploadImage from '@/lib/uploadImage'
 
 const TextEditor = dynamic(() => import('@/components/TextEditor'), { ssr: false })
-
-function imageReducer(state, { type, payload }) {
-  switch (type) {
-    case 'SET_IMAGE':
-      return {
-        url: payload.url,
-        filename: payload.filename,
-        dirty: true,
-        position: 50
-      }
-    case 'UPDATE_IMAGE_POSITION':
-      return { ...state, position: payload }
-    case 'REMOVE_IMAGE':
-      return {
-        url: null,
-        filename: null,
-        position: 50,
-        dirty: false
-      }
-    case 'RESET':
-      return {
-        url: payload.url,
-        filename: payload.filename,
-        position: payload.position,
-        dirty: false
-      }
-    default:
-      return state
-  }
-}
 
 function defaultFormState(game) {
   return {
     name: game?.name || '',
     description: game?.description || ''
-  }
-}
-
-function defaultImageState(game) {
-  return {
-    url: game?.image && `${process.env.NEXT_PUBLIC_IMAGEKIT_URL}/${game?.image}`,
-    filename: game?.image,
-    position: game?.image_position ?? 50,
-    dirty: false
   }
 }
 
@@ -80,21 +42,6 @@ export default function CatalogEdit() {
     setForm(form => ({ ...form, [key]: value }))
   }
 
-  async function uploadImage() {
-    const { url, filename } = imageState
-    if (!url) {
-      return null
-    }
-
-    const session = supabase.auth.session()
-    const formData = new FormData()
-    formData.set('file', url)
-    formData.set('filename', filename)
-    formData.set('token', session.access_token)
-    const imageResult = await axios.post('/api/upload', formData)
-    return imageResult.data.name
-  }
-
   async function handleSubmit(ev) {
     ev.preventDefault()
     setLoading(true)
@@ -102,7 +49,7 @@ export default function CatalogEdit() {
     try {
       let image = imageState.filename
       if (imageState.dirty) {
-        image = await uploadImage()
+        image = await uploadImage(imageState)
       }
 
       const body = {
