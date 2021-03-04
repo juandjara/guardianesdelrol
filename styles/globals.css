@@ -2,6 +2,7 @@
 @import './editor.css';
 @import '~nprogress/nprogress.css';
 @import '~@reach/dialog/styles.css';
+@import '~@reach/slider/styles.css';
 
 @tailwind base;
 @tailwind components;
@@ -82,4 +83,12 @@ label[for] {
 
 [data-reach-dialog-overlay] {
   z-index: 40;
+}
+
+[data-reach-slider-range] {
+  @apply bg-red-700;
+}
+
+[data-reach-slider-handle] {
+  @apply bg-red-900;
 }

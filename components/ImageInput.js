@@ -4,35 +4,11 @@ import CloseIcon from './icons/CloseIcon'
 import FilterIcon from './icons/FilterIcon'
 import FsLightbox from 'fslightbox-react'
 import Dialog from '@reach/dialog'
-
-const POSITION_OPTIONS = [
-  { value: 'top', label: 'Por arriba' },
-  { value: 'bottom', label: 'Por abajo' },
-  { value: 'center', label: 'Centrado' }
-]
+import { Slider } from '@reach/slider'
 
 function ImageDialog({ url, position, onClose, onConfirm }) {
   const inputRef = useRef(null)
-  const [positionOption, setPositionOption] = useState(() => {
-    if (position === 0) return 'top'
-    if (position === 50) return 'center'
-    if (position === 100) return 'bottom'
-    return 'custom'
-  })
-  const [customPosition, setCustomPosition] = useState(position)
-
-  function handlePositionOption(opt) {
-    setPositionOption(opt)
-    if (opt === 'top') {
-      setCustomPosition(0)
-    }
-    if (opt === 'center') {
-      setCustomPosition(50)
-    }
-    if (opt === 'bottom') {
-      setCustomPosition(100)
-    }
-  }
+  const [customPosition, setCustomPosition] = useState(Number(position))
 
   function confirm() {
     onClose()
@@ -65,46 +41,25 @@ function ImageDialog({ url, position, onClose, onConfirm }) {
       <div className="mt-6 mb-3">
         <p className="text-sm text-gray-700 font-medium">Recorte</p>
         <div className="md:flex flex-wrap items-center md:space-x-6">
-          {POSITION_OPTIONS.map((opt, i) => (
-            <label key={opt.value} className="my-4 md:my-2 flex items-center">
-              <input
-                ref={i === 0 ? inputRef : null}
-                type="radio"
-                name="position_option"
-                value={opt.value}
-                checked={positionOption === opt.value}
-                onChange={ev => handlePositionOption(ev.target.value)}
-                className="h-5 w-5 text-red-500"
-              />
-              <span className="ml-2 text-gray-700">{opt.label}</span>
-            </label>
-          ))}
-          <div className="flex items-center space-x-4 my-2">
-            <label className="flex items-center">
-              <input
-                type="radio"
-                name="position_option"
-                value="custom"
-                checked={positionOption === 'custom'}
-                onChange={ev => handlePositionOption(ev.target.value)}
-                className="h-5 w-5 text-red-500"
-              />
-              <span className="ml-2 text-gray-700">Otro: </span>
-            </label>
-            {positionOption === 'custom' && (
-              <div className="space-x-2">
-                <input
-                  className="inline w-24 rounded-md"
-                  name="custom_pos"
-                  type="number"
-                  min="0"
-                  max="100"
-                  value={customPosition}
-                  onChange={ev => setCustomPosition(ev.target.value)}
-                />
-                <span>%</span>
-              </div>
-            )}
+          <Slider
+            min={0}
+            max={100}
+            step={1}
+            className="flex-grow"
+            value={customPosition}
+            onChange={setCustomPosition}
+          />
+          <div className="space-x-2">
+            <input
+              className="inline w-24 rounded-md"
+              name="custom_pos"
+              type="number"
+              min="0"
+              max="100"
+              value={customPosition}
+              onChange={ev => setCustomPosition(ev.target.value)}
+            />
+            <span>%</span>
           </div>
         </div>
         <div className="flex justify-end mt-8 space-x-2">
