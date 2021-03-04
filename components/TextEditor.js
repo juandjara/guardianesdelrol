@@ -43,7 +43,11 @@ export default function TextEditor({ value = '', onChange }) {
 
   useEffect(() => {
     if (quill) {
-      quill.clipboard.dangerouslyPasteHTML(value)
+      if (typeof value === 'string') {
+        quill.clipboard.dangerouslyPasteHTML(value)
+      } else {
+        quill.setContents(value)
+      }
     }
   }, [quill, value])
 
