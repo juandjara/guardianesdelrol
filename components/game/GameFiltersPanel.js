@@ -20,7 +20,8 @@ function initialFilterState(params) {
   return {
     rpp: params.rpp || DEFAULT_RPP,
     sortKey: params.sk || SORT_OPTIONS[0].value,
-    sortType: params.st || SORT_TYPES[0].value
+    sortType: params.st || SORT_TYPES[0].value,
+    onlyWithPosts: !!params.owp
   }
 }
 
@@ -30,11 +31,11 @@ export default function GameFiltersPanel() {
   const [open, setOpen] = useState(false)
   const wrapperRef = useRef(null)
   const hasFilters = Boolean(
-    Number(params.rpp || DEFAULT_RPP) !== DEFAULT_RPP || params.sk || params.st
+    Number(params.rpp || DEFAULT_RPP) !== DEFAULT_RPP || params.sk || params.st || params.owp
   )
 
   const [filters, setFilters] = useState(() => initialFilterState(params))
-  const { rpp, sortKey, sortType } = filters
+  const { rpp, sortKey, sortType, onlyWithPosts } = filters
 
   const selectedSortKey = SORT_OPTIONS.find(s => s.value === sortKey)
   const selectedSortType = SORT_TYPES.find(s => s.value === sortType)
@@ -72,7 +73,8 @@ export default function GameFiltersPanel() {
         page: 0,
         rpp,
         sk: sortKey,
-        st: sortType
+        st: sortType,
+        owp: onlyWithPosts ? '1' : undefined
       }
     })
   }
@@ -82,6 +84,7 @@ export default function GameFiltersPanel() {
     delete query.rpp
     delete query.sk
     delete query.st
+    delete query.owp
 
     router.push({ pathname: router.pathname, query })
   }
@@ -138,8 +141,11 @@ export default function GameFiltersPanel() {
           </Button>
         </header>
         <section>
-          <p className="text-sm text-gray-100 mb-1">Resultados por p&aacute;gina</p>
+          <label htmlFor="rpp" className="text-sm text-gray-100 mb-1">
+            Resultados por p&aacute;gina
+          </label>
           <input
+            name="rpp"
             type="number"
             step="1"
             min="1"
@@ -164,6 +170,17 @@ export default function GameFiltersPanel() {
               onChange={ev => update('sortType', ev.value)}
             />
           </div>
+        </section>
+        <section>
+          <label className="inline-flex space-x-1 items-center">
+            <input
+              type="checkbox"
+              className="rounded-sm text-red-500 border-red-300"
+              checked={onlyWithPosts}
+              onChange={ev => update('onlyWithPosts', ev.target.checked)}
+            />
+            <span>Solo juegos con partidas</span>
+          </label>
         </section>
       </div>
     </div>
