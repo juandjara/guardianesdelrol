@@ -13,12 +13,17 @@ import { useRouter } from 'next/router'
 import { useCallback, useEffect, useReducer, useState } from 'react'
 import { mutate } from 'swr'
 
+const inputStyles =
+  'w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700'
 const TextEditor = dynamic(() => import('@/components/TextEditor'), { ssr: false })
 
 function defaultFormState(post) {
   return {
     name: post?.name || '',
-    description: post?.description || ''
+    description: post?.description || '',
+    date: post?.date || '',
+    time: post?.time || '',
+    place: post?.place || ''
   }
 }
 
@@ -53,22 +58,24 @@ export default function PostEdit() {
         image = await uploadImage(imageState)
       }
 
+      const session = supabase.auth.session()
       const body = {
         name: form.name,
         description: form.description,
         image_position: imageState.position,
         image,
-        tags: post?.tags || [],
-        seats: post?.seats,
         date: post?.date,
         time: post?.time,
+        narrator_id: session.user.id,
+        // TODO
+        tags: post?.tags || [],
+        seats: post?.seats,
         section: post?.section?.id,
         type: post?.type,
         place: post?.place,
         place_link: post?.place_link,
-        game: post?.game?.id,
-        narrator_id: post?.narrator?.id,
-        guest_narrator: post?.guest_narrator
+        game: post?.game?.id
+        // guest_narrator: post?.guest_narrator
       }
       if (id) body.id = id
 
@@ -128,18 +135,54 @@ export default function PostEdit() {
           <input
             id="name"
             type="text"
-            className="w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
+            className={inputStyles}
             placeholder="Nombre"
             value={form.name}
             onChange={ev => update('name', ev.target.value)}
             required
           />
         </div>
+        <div className="flex flex-wrap">
+          <div className="flex-grow mb-4 mr-2">
+            <Label name="place" text="Lugar" />
+            <input
+              id="place"
+              type="text"
+              className={inputStyles}
+              placeholder=""
+              value={form.place}
+              onChange={ev => update('place', ev.target.value)}
+            />
+          </div>
+          <div className="flex-grow mb-4 mr-2">
+            <Label name="date" text="Fecha" />
+            <input
+              id="date"
+              type="date"
+              className={inputStyles}
+              placeholder="DD/MM/AAAA"
+              value={form.date}
+              onChange={ev => update('date', ev.target.value)}
+              required
+            />
+          </div>
+          <div className="flex-grow mb-4">
+            <Label name="time" text="Hora" />
+            <input
+              id="time"
+              type="text"
+              className={inputStyles}
+              placeholder="HH:mm"
+              value={form.time}
+              onChange={ev => update('time', ev.target.value)}
+            />
+          </div>
+        </div>
         <div className="h-full editor-wrapper">
           <Label name="" text="Descripción" />
           <TextEditor value={post?.description} onChange={updateEditor} />
         </div>
-        <div className="flex justify-end items-center space-x-2">
+        <section className="flex justify-end items-center space-x-2">
           {id && (
             <Button
               onClick={handleDelete}
@@ -168,7 +211,7 @@ export default function PostEdit() {
             background="bg-red-500 hover:bg-red-600">
             Guardar
           </Button>
-        </div>
+        </section>
       </form>
     </main>
   )

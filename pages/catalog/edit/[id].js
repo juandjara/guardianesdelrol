@@ -129,7 +129,7 @@ export default function CatalogEdit() {
           <Label name="" text="Descripción" />
           <TextEditor value={game?.description} onChange={updateEditor} />
         </div>
-        <div className="flex justify-end items-center space-x-2">
+        <section className="flex justify-end items-center space-x-2">
           {id && (
             <Button
               onClick={handleDelete}
@@ -158,7 +158,7 @@ export default function CatalogEdit() {
             background="bg-red-500 hover:bg-red-600">
             Guardar
           </Button>
-        </div>
+        </section>
       </form>
     </main>
   )
