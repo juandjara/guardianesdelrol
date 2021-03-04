@@ -154,15 +154,15 @@ export default function CatalogEdit() {
   const updateEditor = useCallback(value => update('description', value), [])
 
   return (
-    <main className="flex-auto p-3 mx-auto max-w-4xl w-full">
+    <main className="flex-auto py-3 mx-auto max-w-4xl w-full">
       <Title title={title} />
-      <header className="flex items-center space-x-4">
+      <header className="flex items-center pl-2 space-x-4">
         <BackButton colors="bg-opacity-20 text-white bg-gray-50 hover:bg-opacity-50" />
         <h1 className="text-xl font-semibold">{title}</h1>
       </header>
       <form
         onSubmit={handleSubmit}
-        className="bg-white text-gray-700 space-y-6 mt-2 p-4 pt-6 rounded-lg relative">
+        className="bg-white text-gray-700 space-y-6 mt-2 p-4 pt-6 md:rounded-lg relative">
         <div>
           <Label text="Imagen" />
           <ImageInput state={imageState} dispatch={dispatch} />

@@ -144,7 +144,7 @@ export default function PostDetails() {
   }
 
   return (
-    <main className="flex-auto mx-auto p-3 max-w-4xl w-full">
+    <main className="flex-auto mx-auto py-3 max-w-4xl w-full">
       <Title title={post?.name} />
       {post && (
         <FsLightbox
@@ -152,8 +152,8 @@ export default function PostDetails() {
           sources={[`${process.env.NEXT_PUBLIC_IMAGEKIT_URL}/${post.image}`]}
         />
       )}
-      <div className="bg-white text-gray-700 pb-4 rounded-lg relative">
-        <div className="z-20 w-full absolute top-0 left-0 p-2 flex items-start justify-between">
+      <div className="bg-white text-gray-700 pb-4 md:rounded-lg relative">
+        <div className="z-10 w-full absolute top-0 left-0 p-2 flex items-start justify-between">
           <BackButton colors="bg-opacity-50 text-white bg-gray-500 hover:bg-opacity-75" />
           <Link href={`/post/edit/{id}`}>
             <a className="hover:no-underline">
@@ -168,10 +168,10 @@ export default function PostDetails() {
           title="Ver imagen completa"
           onKeyUp={ev => ev.key === 'Enter' && setLightboxOpen(!lightboxOpen)}
           onClick={() => setLightboxOpen(!lightboxOpen)}
-          className="aspect-w-7 aspect-h-3 relative clip-vertical bg-gray-100 rounded-t-lg">
+          className="aspect-w-7 aspect-h-3 relative clip-vertical bg-gray-100 md:rounded-t-lg">
           {post?.image && (
             <ImageKit
-              className="w-full h-full object-cover rounded-t-lg"
+              className="w-full h-full object-cover md:rounded-t-lg"
               src={post?.image}
               alt=""
             />

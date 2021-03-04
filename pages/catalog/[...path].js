@@ -55,7 +55,7 @@ export default function GameDetail() {
   const position = game?.image_position || game?.image_position === 0 ? game?.image_position : 50
 
   return (
-    <main className="flex-auto mx-auto p-3 max-w-4xl w-full">
+    <main className="flex-auto mx-auto py-3 max-w-4xl w-full">
       <Title title={game?.name} />
       {game?.image && (
         <FsLightbox
@@ -63,8 +63,8 @@ export default function GameDetail() {
           sources={[`${process.env.NEXT_PUBLIC_IMAGEKIT_URL}/${game.image}`]}
         />
       )}
-      <div className="bg-white text-gray-700 pb-6 rounded-lg relative">
-        <div className="z-20 w-full absolute top-0 left-0 p-2 flex items-start justify-between">
+      <div className="bg-white text-gray-700 pb-6 md:rounded-lg relative">
+        <div className="z-10 w-full absolute top-0 left-0 p-2 flex items-start justify-between">
           <BackButton colors="bg-opacity-50 text-white bg-gray-500 hover:bg-opacity-75" />
           <Link href={`/catalog/edit/${id}`}>
             <a className="hover:no-underline">
@@ -79,13 +79,13 @@ export default function GameDetail() {
           title="Ver imagen completa"
           onKeyUp={ev => ev.key === 'Enter' && setLightboxOpen(!lightboxOpen)}
           onClick={() => setLightboxOpen(!lightboxOpen)}
-          className="aspect-w-7 aspect-h-3 relative clip-vertical bg-gray-100 rounded-t-lg">
+          className="aspect-w-7 aspect-h-3 relative clip-vertical bg-gray-100 md:rounded-t-lg">
           {game?.image && (
             <ImageKit
               alt=""
               src={game.image}
               style={{ objectPosition: `0 ${position}%` }}
-              className="w-full h-full object-cover rounded-t-lg"
+              className="w-full h-full object-cover md:rounded-t-lg"
             />
           )}
         </div>

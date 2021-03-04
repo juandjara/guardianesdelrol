@@ -35,7 +35,7 @@ export default function RoleEdit() {
   return (
     <>
       <h2 className="text-xl font-medium mb-2">Permisos</h2>
-      <form onSubmit={handleSubmit} className="md:flex space-y-2 items-end justify-between">
+      <form onSubmit={handleSubmit} className="md:flex space-y-6 items-end justify-between">
         <div className="space-y-4">
           <label className="flex items-center mt-3">
             <input
