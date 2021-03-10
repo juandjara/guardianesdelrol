@@ -1,6 +1,6 @@
 import { useAlert } from '@/components/AlertContext'
 import { updateProfile } from '@/lib/auth/authService'
-import { supabase } from '@/lib/data/supabase'
+import { supabase } from '@/lib/db-client/supabase'
 import useProfile from '@/lib/data/useProfile'
 import axios from 'axios'
 import { useRouter } from 'next/router'

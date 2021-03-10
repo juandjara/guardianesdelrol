@@ -1,7 +1,7 @@
 import MenuLink from './MenuLink'
 import { Menu, Transition } from '@headlessui/react'
 import { useRouter } from 'next/router'
-import { supabase } from '@/lib/data/supabase'
+import { supabase } from '@/lib/db-client/supabase'
 import RoleTags from './RoleTags'
 import useProfile from '@/lib/data/useProfile'
 import Avatar from './Avatar'

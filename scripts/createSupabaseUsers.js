@@ -2,7 +2,7 @@
 
 require('dotenv').config({ path: `${__dirname}/../.env.local` })
 const profiles = require('../dump/profiles.json')
-const supabase = require('../lib/data/supabaseAdmin')
+const supabase = require('../lib/db-client/supabaseAdmin')
 
 async function main() {
   // for (const profile of profiles) {

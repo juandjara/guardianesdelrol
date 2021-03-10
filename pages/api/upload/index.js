@@ -1,7 +1,7 @@
 import formidable from 'formidable'
 import axios from 'axios'
 import FormData from 'form-data'
-import supabase from '@/lib/data/supabaseAdmin'
+import supabase from '@/lib/db-client/supabaseAdmin'
 
 export const config = {
   api: {

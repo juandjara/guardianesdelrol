@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 require('dotenv').config({ path: `${__dirname}/../.env.local` })
-const admin = require('../lib/data/firebase')
+const admin = require('../lib/db-client/firebase')
 const storage = admin.storage()
 const profiles = require('../dump/profiles.json')
 

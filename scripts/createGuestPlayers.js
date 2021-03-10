@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 require('dotenv').config({ path: `${__dirname}/../.env.local` })
-const supabase = require('../lib/data/supabaseAdmin')
+const supabase = require('../lib/db-client/supabaseAdmin')
 
 async function main() {
   const { data: posts } = await supabase.from('posts').select('*')
