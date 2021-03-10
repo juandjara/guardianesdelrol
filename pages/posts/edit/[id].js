@@ -20,7 +20,7 @@ import AvatarList from '@/components/AvatarList'
 import TagsInput from '@/components/TagsInput'
 import { fetchUsers } from '@/lib/users/useUsers'
 import { addPlayer, removePlayer } from '@/lib/posts/postActions'
-import CloseIcon from '@/components/icons/CloseIcon'
+import { Transition } from '@headlessui/react'
 
 const inputStyles =
   'w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700'
@@ -277,9 +277,9 @@ export default function PostEdit() {
             <Label name="place" text="Lugar" />
             <button
               type="button"
-              onClick={() => setPlaceURLOpen(true)}
+              onClick={() => setPlaceURLOpen(!placeURLOpen)}
               className="hover:underline text-blue-500 text-sm">
-              Añadir enlace
+              {placeURLOpen ? 'Ocultar enlace' : 'Mostrar enlace'}
             </button>
           </div>
           <input
@@ -290,30 +290,23 @@ export default function PostEdit() {
             value={form.place}
             onChange={ev => update('place', ev.target.value)}
           />
-          {placeURLOpen && (
-            <div className="relative">
-              <input
-                id="place_link"
-                type="url"
-                className={`mt-1 ${inputStyles}`}
-                placeholder="URL"
-                value={form.place_link}
-                onChange={ev => update('place_link', ev.target.value)}
-              />
-              <Button
-                small
-                title="Cerrar"
-                aria-label="Cerrar"
-                onClick={() => setPlaceURLOpen(false)}
-                hasIcon="only"
-                color="text-gray-400 hover:text-gray-700"
-                background="bg-transparent"
-                border="border-none"
-                className="absolute top-2 right-1">
-                <CloseIcon aria-hidden height={20} width={20} />
-              </Button>
-            </div>
-          )}
+          <Transition
+            show={placeURLOpen}
+            enter="origin-top transition transform duration-200 ease-out"
+            enterFrom="scale-y-50 opacity-0"
+            enterTo="scale-y-100 opacity-100"
+            leave="origin-top transition transform duration-200 ease-out"
+            leaveFrom="scale-y-100 opacity-100"
+            leaveTo="scale-y-50 opacity-0">
+            <input
+              id="place_link"
+              type="url"
+              className={`mt-1 ${inputStyles}`}
+              placeholder="URL"
+              value={form.place_link}
+              onChange={ev => update('place_link', ev.target.value)}
+            />
+          </Transition>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="col-span-2 md:col-span-1">
