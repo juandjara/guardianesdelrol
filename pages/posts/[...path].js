@@ -10,13 +10,12 @@ import AvatarList from '@/components/AvatarList'
 import { useSession } from '@/lib/auth/AuthContext'
 import FsLightbox from 'fslightbox-react'
 import { useAlert } from '@/components/AlertContext'
-import { mutate } from 'swr'
-import { supabase } from '@/lib/db-client/supabase'
 import UserGroupIcon from '@/components/icons/UserGroupIcon'
 import PostDetailTags from '@/components/posts/PostDetailTags'
 import BackButton from '@/components/BackButton'
 import Title from '@/components/Title'
 import ImageKit from '@/components/ImageKit'
+import { addPlayer, removePlayer } from '@/lib/posts/postActions'
 
 function ActionButton({ post, onAdd, onDelete, loading }) {
   const session = useSession()
@@ -107,16 +106,7 @@ export default function PostDetails() {
   async function handleAddPlayer(userId) {
     setLoading(true)
     try {
-      await mutate(`post-detail/${id}`, async () => {
-        const { error } = await supabase
-          .from('players')
-          .insert([{ post_id: post.id, user_id: userId }])
-          .single()
-
-        if (error) {
-          throw error
-        }
-      })
+      await addPlayer({ userId, postId: id })
     } catch (err) {
       console.error(err)
       setAlert(err.message)
@@ -127,16 +117,7 @@ export default function PostDetails() {
   async function handleRemovePlayer(userId) {
     setLoading(true)
     try {
-      await mutate(`post-detail/${id}`, async () => {
-        const { error } = await supabase
-          .from('players')
-          .delete()
-          .match({ post_id: post.id, user_id: userId })
-
-        if (error) {
-          throw error
-        }
-      })
+      await removePlayer({ userId, postId: id })
     } catch (err) {
       console.error(err)
       setAlert(err.message)
