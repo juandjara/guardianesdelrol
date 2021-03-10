@@ -307,7 +307,7 @@ export default function PostEdit() {
         </div>
         <div>
           <div className="mb-4 flex space-x-2 items-baseline">
-            <Label margin="" text="Jugadores" />
+            <Label name="seats" margin="" text="Jugadores" />
             <span className="flex-shrink-0">{post?.players.length} /</span>
             <div className="w-20">
               <input
@@ -322,7 +322,7 @@ export default function PostEdit() {
             </div>
           </div>
           <AvatarList onItemClick={u => handleRemovePlayer(u.id)} users={post?.players} />
-          <AddUserInput onAdd={handleAddPlayer} />
+          {post?.players.length < form.seats && <AddUserInput onAdd={handleAddPlayer} />}
         </div>
         <div className="pt-4 h-full editor-wrapper">
           <Label name="" text="Descripción" />
