@@ -19,6 +19,7 @@ import { mutate } from 'swr'
 import AvatarList from '@/components/AvatarList'
 import TagsInput from '@/components/TagsInput'
 import { fetchUsers } from '@/lib/users/useUsers'
+import { addPlayer, removePlayer } from '@/lib/posts/postActions'
 
 const inputStyles =
   'w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700'
@@ -48,8 +49,14 @@ async function fetchUsersForSelect(query) {
   }
 }
 
-function AddUserInput() {
+function AddUserInput({ onAdd }) {
   const [newUser, setNewUser] = useState(null)
+
+  function handleClick() {
+    const id = newUser.id
+    setNewUser(null)
+    onAdd(id)
+  }
 
   return (
     <div className="mt-2 max-w-sm flex items-center">
@@ -63,6 +70,8 @@ function AddUserInput() {
       />
       <Button
         small
+        disabled={!newUser}
+        onClick={handleClick}
         type="button"
         hasIcon="left"
         background="bg-gray-100"
@@ -112,6 +121,28 @@ export default function PostEdit() {
 
   function update(key, value) {
     setForm(form => ({ ...form, [key]: value }))
+  }
+
+  async function handleAddPlayer(userId) {
+    setLoading(true)
+    try {
+      await addPlayer({ userId, postId: id })
+    } catch (err) {
+      console.error(err)
+      setAlert(err.message)
+    }
+    setLoading(false)
+  }
+
+  async function handleRemovePlayer(userId) {
+    setLoading(true)
+    try {
+      await removePlayer({ userId, postId: id })
+    } catch (err) {
+      console.error(err)
+      setAlert(err.message)
+    }
+    setLoading(false)
   }
 
   async function handleSubmit(ev) {
@@ -290,8 +321,8 @@ export default function PostEdit() {
               />
             </div>
           </div>
-          <AvatarList users={post?.players} />
-          <AddUserInput />
+          <AvatarList onItemClick={u => handleRemovePlayer(u.id)} users={post?.players} />
+          <AddUserInput onAdd={handleAddPlayer} />
         </div>
         <div className="pt-4 h-full editor-wrapper">
           <Label name="" text="Descripción" />
