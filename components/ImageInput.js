@@ -45,7 +45,7 @@ function ImageDialog({ url, position, onClose, onConfirm }) {
             min={0}
             max={100}
             step={1}
-            className="flex-grow"
+            className="flex-grow cursor-pointer"
             value={customPosition}
             onChange={setCustomPosition}
           />
