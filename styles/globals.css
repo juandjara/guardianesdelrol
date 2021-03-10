@@ -92,3 +92,7 @@ label[for] {
 [data-reach-slider-handle] {
   @apply bg-red-900;
 }
+
+.react-select input[type="text"]:focus {
+  box-shadow: none;
+}
