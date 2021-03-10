@@ -9,7 +9,7 @@ import { useEffect } from 'react'
 Quill.register('modules/blotFormatter', BlotFormatter)
 Quill.register('formats/image', CustomImageFactory(Quill))
 
-export default function TextEditor({ value = '', onChange }) {
+export default function TextEditor({ className = '', value = '', onChange }) {
   const { quill, quillRef } = useQuill({
     theme: 'snow',
     modules: {
@@ -52,7 +52,7 @@ export default function TextEditor({ value = '', onChange }) {
   }, [quill, value])
 
   return (
-    <div>
+    <div className={className}>
       <div ref={quillRef}></div>
     </div>
   )
