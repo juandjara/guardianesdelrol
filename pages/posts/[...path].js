@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Button from '@/components/Button'
-import usePostDetail from '@/lib/data/usePostDetail'
+import usePostDetail from '@/lib/data-fetch/usePostDetail'
 // import useAuthGuard from '@/lib/useAuthGuard'
 import Link from 'next/link'
 import Skeleton from 'react-loading-skeleton'

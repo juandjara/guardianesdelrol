@@ -1,4 +1,4 @@
-import useProfile from '@/lib/data/useProfile'
+import useProfile from '@/lib/data-fetch/useProfile'
 import { useRouter } from 'next/router'
 import { useRef, useState } from 'react'
 import Avatar from '../Avatar'

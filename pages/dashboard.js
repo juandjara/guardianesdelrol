@@ -1,8 +1,8 @@
 import Avatar from '@/components/Avatar'
 import PostCard from '@/components/posts/PostCard'
 import useAuthGuard from '@/lib/auth/useAuthGuard'
-import usePostsForUser from '@/lib/data/usePostsForUsers'
-import useProfile from '@/lib/data/useProfile'
+import usePostsForUser from '@/lib/data-fetch/usePostsForUsers'
+import useProfile from '@/lib/data-fetch/useProfile'
 import Link from 'next/link'
 
 export default function Dashboard() {

@@ -3,7 +3,7 @@ import MenuIcon from './icons/MenuIcon'
 import CloseIcon from './icons/CloseIcon'
 import { Menu, Transition } from '@headlessui/react'
 import NavLink from './NavLink'
-import useProfile from '@/lib/data/useProfile'
+import useProfile from '@/lib/data-fetch/useProfile'
 
 function TransitionMenuIcon({ as: Component, show }) {
   return (

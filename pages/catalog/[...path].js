@@ -1,5 +1,5 @@
 // import useAuthGuard from '@/lib/useAuthGuard'
-import useGameDetail from '@/lib/data/useGameDetail'
+import useGameDetail from '@/lib/data-fetch/useGameDetail'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'

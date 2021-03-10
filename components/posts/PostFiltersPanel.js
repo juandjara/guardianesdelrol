@@ -1,4 +1,4 @@
-import useSections from '@/lib/data/useSections'
+import useSections from '@/lib/data-fetch/useSections'
 import { useQueryParams } from '@/lib/useQueryParams'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
@@ -7,7 +7,7 @@ import FilterIcon from '../icons/FilterIcon'
 import Select from '../Select'
 import { addWeeks, startOfWeek, endOfWeek } from 'date-fns'
 import es from 'date-fns/locale/es'
-import { DEFAULT_RPP } from '@/lib/data/usePosts'
+import { DEFAULT_RPP } from '@/lib/data-fetch/usePosts'
 import BackIcon from '../icons/BackIcon'
 
 const SORT_OPTIONS = [
