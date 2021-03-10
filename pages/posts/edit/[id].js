@@ -20,24 +20,11 @@ import AvatarList from '@/components/AvatarList'
 import TagsInput from '@/components/TagsInput'
 import { fetchUsers } from '@/lib/users/useUsers'
 import { addPlayer, removePlayer } from '@/lib/posts/postActions'
+import CloseIcon from '@/components/icons/CloseIcon'
 
 const inputStyles =
   'w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700'
 const TextEditor = dynamic(() => import('@/components/TextEditor'), { ssr: false })
-
-function defaultFormState(post) {
-  return {
-    name: post?.name || '',
-    description: post?.description || '',
-    date: post?.date || '',
-    time: post?.time || '',
-    place: post?.place || '',
-    seats: post?.seats || 0,
-    game: post?.game,
-    section: post?.section && { label: post?.section?.name, value: post?.section?.id },
-    tags: (post?.tags || []).map(t => ({ label: t, value: t }))
-  }
-}
 
 async function fetchUsersForSelect(query) {
   const { rows } = await fetchUsers(query)
@@ -99,6 +86,21 @@ function AddUserInput({ onAdd }) {
   )
 }
 
+function defaultFormState(post) {
+  return {
+    name: post?.name || '',
+    description: post?.description || '',
+    date: post?.date || '',
+    time: post?.time || '',
+    place: post?.place || '',
+    seats: post?.seats || 0,
+    game: post?.game,
+    section: post?.section && { label: post?.section?.name, value: post?.section?.id },
+    tags: (post?.tags || []).map(t => ({ label: t, value: t })),
+    place_link: post?.place_link || ''
+  }
+}
+
 export default function PostEdit() {
   const router = useRouter()
   const id = router.query.id === 'new' ? null : router.query.id
@@ -113,6 +115,7 @@ export default function PostEdit() {
 
   const { sections } = useSections()
   const sectionOptions = sections.map(s => ({ value: s.id, label: s.name }))
+  const [placeURLOpen, setPlaceURLOpen] = useState(false)
 
   useEffect(() => {
     setForm(defaultFormState(post))
@@ -169,9 +172,9 @@ export default function PostEdit() {
         game: form?.game?.id,
         section: form?.section?.value,
         tags: (form?.tags || []).map(t => t.label),
+        place_link: form?.place_link
         // TODO
         // type: post?.type,
-        place_link: post?.place_link
         // guest_narrator: post?.guest_narrator
       }
       if (id) body.id = id
@@ -270,15 +273,47 @@ export default function PostEdit() {
           />
         </div>
         <div className="max-w-lg">
-          <Label name="place" text="Lugar" />
+          <div className="flex items-center justify-between">
+            <Label name="place" text="Lugar" />
+            <button
+              type="button"
+              onClick={() => setPlaceURLOpen(true)}
+              className="hover:underline text-blue-500 text-sm">
+              Añadir enlace
+            </button>
+          </div>
           <input
             id="place"
             type="text"
             className={inputStyles}
-            placeholder=""
+            placeholder="Lugar"
             value={form.place}
             onChange={ev => update('place', ev.target.value)}
           />
+          {placeURLOpen && (
+            <div className="relative">
+              <input
+                id="place_link"
+                type="url"
+                className={`mt-1 ${inputStyles}`}
+                placeholder="URL"
+                value={form.place_link}
+                onChange={ev => update('place_link', ev.target.value)}
+              />
+              <Button
+                small
+                title="Cerrar"
+                aria-label="Cerrar"
+                onClick={() => setPlaceURLOpen(false)}
+                hasIcon="only"
+                color="text-gray-400 hover:text-gray-700"
+                background="bg-transparent"
+                border="border-none"
+                className="absolute top-2 right-1">
+                <CloseIcon aria-hidden height={20} width={20} />
+              </Button>
+            </div>
+          )}
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="col-span-2 md:col-span-1">
