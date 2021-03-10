@@ -4,7 +4,7 @@ import Spinner from '@/components/Spinner'
 import { updatePermissions } from '@/lib/auth/authService'
 import { useAlert } from '@/components/AlertContext'
 import { useRouter } from 'next/router'
-import useProfile from '@/lib/data-fetch/useProfile'
+import useProfile from '@/lib/auth/useProfile'
 import { mutate } from 'swr'
 
 export default function RoleEdit() {

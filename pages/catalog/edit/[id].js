@@ -4,14 +4,14 @@ import Label from '@/components/Label'
 import Title from '@/components/Title'
 import ImageInput from '@/components/ImageInput'
 import { supabase } from '@/lib/db-client/supabase'
-import useGameDetail from '@/lib/data-fetch/useGameDetail'
+import useGameDetail from '@/lib/games/useGameDetail'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useReducer, useState } from 'react'
 import { useAlert } from '@/components/AlertContext'
 import { mutate } from 'swr'
 import dynamic from 'next/dynamic'
-import { defaultImageState, imageReducer } from '@/lib/imageReducer'
-import uploadImage from '@/lib/uploadImage'
+import { defaultImageState, imageReducer } from '@/lib/images/imageReducer'
+import uploadImage from '@/lib/images/uploadImage'
 
 const TextEditor = dynamic(() => import('@/components/TextEditor'), { ssr: false })
 

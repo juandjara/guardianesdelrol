@@ -1,4 +1,4 @@
-import CustomImageFactory from '@/lib/CustomImage'
+import CustomImageFactory from '@/lib/images/CustomImage'
 import 'quill/dist/quill.snow.css'
 
 import Quill from 'quill'

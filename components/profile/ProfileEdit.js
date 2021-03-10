@@ -1,7 +1,7 @@
 import { useAlert } from '@/components/AlertContext'
 import { updateProfile } from '@/lib/auth/authService'
 import { supabase } from '@/lib/db-client/supabase'
-import useProfile from '@/lib/data-fetch/useProfile'
+import useProfile from '@/lib/auth/useProfile'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useState } from 'react'

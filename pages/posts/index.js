@@ -1,6 +1,6 @@
 import PostCard from '@/components/posts/PostCard'
 import useAuthGuard from '@/lib/auth/useAuthGuard'
-import usePosts, { DEFAULT_RPP } from '@/lib/data-fetch/usePosts'
+import usePosts, { DEFAULT_RPP } from '@/lib/posts/usePosts'
 import Tag from '@/components/Tag'
 import Button from '@/components/Button'
 import AddIcon from '@/components/icons/AddIcon'

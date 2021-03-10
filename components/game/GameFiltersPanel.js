@@ -1,4 +1,4 @@
-import { DEFAULT_RPP } from '@/lib/data-fetch/useGames'
+import { DEFAULT_RPP } from '@/lib/games/useGames'
 import { useQueryParams } from '@/lib/useQueryParams'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'

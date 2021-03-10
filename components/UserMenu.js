@@ -3,7 +3,7 @@ import { Menu, Transition } from '@headlessui/react'
 import { useRouter } from 'next/router'
 import { supabase } from '@/lib/db-client/supabase'
 import RoleTags from './RoleTags'
-import useProfile from '@/lib/data-fetch/useProfile'
+import useProfile from '@/lib/auth/useProfile'
 import Avatar from './Avatar'
 import { buttonFocusStyle } from './Button'
 

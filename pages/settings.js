@@ -2,7 +2,7 @@ import useAuthGuard from '@/lib/auth/useAuthGuard'
 import ProfileEdit from '@/components/profile/ProfileEdit'
 import CredentialsEdit from '@/components/profile/CredentialsEdit'
 import RoleEdit from '@/components/profile/RoleEdit'
-import useProfile from '@/lib/data-fetch/useProfile'
+import useProfile from '@/lib/auth/useProfile'
 import BackButton from '@/components/BackButton'
 
 export default function Settings() {
