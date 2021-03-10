@@ -5066,6 +5066,11 @@ normalize-range@^0.1.2:
   resolved "https://registry.npmjs.org/normalize-range/-/normalize-range-0.1.2.tgz"
   integrity sha1-LRDAa9/TEuqXd2laTShDlFa3WUI=
 
+normalize-url@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-4.5.0.tgz#453354087e6ca96957bd8f5baf753f5982142129"
+  integrity sha512-2s47yzUxdexf1OhyRi4Em83iQk0aPvwTddtFz4hnSSw9dCEsLEGf6SwIO8ss/19S9iBb5sJaOuTvTGDeZI00BQ==
+
 npm-run-path@^4.0.0, npm-run-path@^4.0.1:
   version "4.0.1"
   resolved "https://registry.npmjs.org/npm-run-path/-/npm-run-path-4.0.1.tgz"
@@ -5636,6 +5641,14 @@ quill-delta@^3.6.2:
     deep-equal "^1.0.1"
     extend "^3.0.2"
     fast-diff "1.1.2"
+
+quill-magic-url@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/quill-magic-url/-/quill-magic-url-3.0.1.tgz#7ac79c12ccfdaba03f57c9d668dc4b8fff343b0e"
+  integrity sha512-ukgR1+J/oOXLAwKUIbGoIO+WVi3KLtfNLw4uPDcHY3dqB0LBb6eLN5JrhqCT+7cl9mLnCn4WTkSTCZ1LP3fE6Q==
+  dependencies:
+    normalize-url "^4.5.0"
+    quill-delta "^3.6.2"
 
 quill@^1.3.7:
   version "1.3.7"

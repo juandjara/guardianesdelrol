@@ -1,11 +1,13 @@
-import CustomImageFactory from '@/lib/images/CustomImage'
-import 'quill/dist/quill.snow.css'
-
 import Quill from 'quill'
+import MagicUrl from 'quill-magic-url'
 import BlotFormatter from 'quill-blot-formatter-mobile'
+import CustomImageFactory from '@/lib/images/CustomImage'
 import { useQuill } from 'react-quilljs'
 import { useEffect } from 'react'
 
+import 'quill/dist/quill.snow.css'
+
+Quill.register('modules/magicUrl', MagicUrl)
 Quill.register('modules/blotFormatter', BlotFormatter)
 Quill.register('formats/image', CustomImageFactory(Quill))
 
@@ -13,6 +15,7 @@ export default function TextEditor({ className = '', value = '', onChange }) {
   const { quill, quillRef } = useQuill({
     theme: 'snow',
     modules: {
+      magicUrl: true,
       blotFormatter: true,
       toolbar: [
         [{ size: ['small', false, 'large'] }],
