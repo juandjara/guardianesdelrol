@@ -79,6 +79,8 @@ export default function TextEditor({ imageEditorPath = '', className = '', value
       } else {
         quill.setContents(value)
       }
+      quill.blur()
+      window.scrollTo(0, 0)
     }
   }, [quill, value])
 
