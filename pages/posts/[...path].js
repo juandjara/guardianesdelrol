@@ -125,8 +125,12 @@ export default function PostDetails() {
     setLoading(false)
   }
 
+  function gameLink(game) {
+    return `/catalog/${game?.id}/${game?.slug}`
+  }
+
   return (
-    <main className="flex-auto mx-auto py-3 max-w-4xl w-full">
+    <main className="flex-auto mx-auto py-3 max-w-3xl w-full">
       <Title title={post?.name} />
       {post?.image && (
         <FsLightbox
@@ -164,7 +168,9 @@ export default function PostDetails() {
           <h1 className="text-red-700 text-xl font-semibold mr-2 mb-1">
             {post?.name || <Skeleton />}
           </h1>
-          <p className="text-base text-gray-500">{post?.game?.name || <Skeleton />}</p>
+          <Link href={gameLink(post?.game)}>
+            <a className="text-base text-gray-500">{post?.game?.name || <Skeleton />}</a>
+          </Link>
         </header>
         <div className="mt-4 mb-6 px-4">
           <p className="text-sm text-gray-500 mb-3">
@@ -201,7 +207,7 @@ export default function PostDetails() {
           </div>
         </div>
         <div
-          className="max-w-prose text-base ql-editor hyphens font-serif leading-relaxed px-6 py-0 mt-8 mb-4 mx-auto"
+          className="text-base ql-editor hyphens font-serif leading-relaxed px-4 py-0 my-4"
           dangerouslySetInnerHTML={{ __html: post?.description }}></div>
         {post?.updated_at && (
           <div>

@@ -79,7 +79,7 @@ export default function CatalogEdit() {
   const updateEditor = useCallback(value => update('description', value), [])
 
   return (
-    <main className="flex-auto py-3 mx-auto max-w-4xl w-full">
+    <main className="flex-auto py-3 mx-auto max-w-3xl w-full">
       <Title title={title} />
       <header className="flex items-center pl-2 space-x-4">
         <BackButton colors="bg-opacity-20 text-white bg-gray-50 hover:bg-opacity-50" />

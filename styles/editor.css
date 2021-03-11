@@ -13,8 +13,11 @@
 .editor-wrapper .ql-editor {
   @apply text-base;
   @apply font-serif;
+  @apply py-4;
+  @apply focus:outline-none;
+  @apply focus:ring-1;
+  @apply rounded-b-md;
   min-height: 125px;
-  padding: 16px;
 }
 
 .editor-wrapper .ql-size {
