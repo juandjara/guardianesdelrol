@@ -302,7 +302,7 @@ export default function PostEdit() {
               id="place_link"
               type="url"
               className={`mt-1 ${inputStyles}`}
-              placeholder="URL"
+              placeholder="Añadir enlace aquí"
               value={form.place_link}
               onChange={ev => update('place_link', ev.target.value)}
             />
@@ -336,7 +336,7 @@ export default function PostEdit() {
         <div>
           <div className="mb-4 flex space-x-2 items-baseline">
             <Label name="seats" margin="" text="Jugadores" />
-            <span className="flex-shrink-0">{post?.players.length} /</span>
+            <span className="flex-shrink-0">{post?.players.length || 0} /</span>
             <div className="w-20">
               <input
                 id="seats"
