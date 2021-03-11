@@ -3,7 +3,6 @@ import Button from '@/components/Button'
 import Label from '@/components/Label'
 import Title from '@/components/Title'
 import ImageInput from '@/components/ImageInput'
-import { supabase } from '@/lib/db-client/supabase'
 import useGameDetail from '@/lib/games/useGameDetail'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useReducer, useState } from 'react'
@@ -12,15 +11,10 @@ import { mutate } from 'swr'
 import dynamic from 'next/dynamic'
 import { defaultImageState, imageReducer } from '@/lib/images/imageReducer'
 import uploadImage from '@/lib/images/uploadImage'
+import TagsInput from '@/components/TagsInput'
+import { deleteGame, gameToForm, upsertGame } from '@/lib/games/gameActions'
 
 const TextEditor = dynamic(() => import('@/components/TextEditor'), { ssr: false })
-
-function defaultFormState(game) {
-  return {
-    name: game?.name || '',
-    description: game?.description || ''
-  }
-}
 
 export default function CatalogEdit() {
   const router = useRouter()
@@ -29,11 +23,11 @@ export default function CatalogEdit() {
 
   const { setAlert } = useAlert()
   const [loading, setLoading] = useState(false)
-  const [form, setForm] = useState(() => defaultFormState(game))
+  const [form, setForm] = useState(() => gameToForm(game))
   const [imageState, dispatch] = useReducer(imageReducer, defaultImageState(game))
 
   useEffect(() => {
-    setForm(defaultFormState(game))
+    setForm(gameToForm(game))
     dispatch({ type: 'RESET', payload: defaultImageState(game) })
   }, [game])
 
@@ -51,28 +45,16 @@ export default function CatalogEdit() {
         image = await uploadImage(imageState)
       }
 
-      const body = {
-        name: form.name,
-        description: form.description,
-        image_position: imageState.position,
-        image
-      }
-      if (id) body.id = id
+      const newGame = await upsertGame(id, {
+        ...form,
+        image,
+        image_position: imageState.position
+      })
 
-      const { data, error } = await supabase
-        .from('games')
-        .insert(body, { upsert: true })
-        .match({ id: id || '' })
-
-      if (error) {
-        throw error
-      }
-
-      const result = data[0]
       if (game) {
-        mutate(`game-detail/${result.id}`, { ...game, ...result }, false)
+        mutate(`game-detail/${newGame.id}`, { ...game, ...newGame }, false)
       }
-      router.push(`/catalog/${result.id}/${result.slug}`)
+      router.push(`/catalog/${newGame.id}/${newGame.slug}`)
     } catch (err) {
       console.error(err)
       setAlert(err.message)
@@ -82,18 +64,15 @@ export default function CatalogEdit() {
   }
 
   async function handleDelete() {
-    const confirmation = window.confirm('¿Estas seguro de que quieres borrar este juego?')
-    if (!confirmation) {
-      return
-    }
-
-    const { error } = await supabase.from('games').delete().match({ id })
-    if (error) {
+    setLoading(true)
+    try {
+      await deleteGame(id)
+      router.replace('/catalog')
+    } catch (error) {
       console.error(error)
       setAlert(error.message)
-    } else {
-      router.replace('/catalog')
     }
+    setLoading(false)
   }
 
   const title = id ? `Editar juego` : 'Nuevo juego'
@@ -113,7 +92,7 @@ export default function CatalogEdit() {
           <Label text="Imagen" />
           <ImageInput state={imageState} dispatch={dispatch} />
         </div>
-        <div>
+        <div className="max-w-lg">
           <Label name="name" text="Nombre" />
           <input
             id="name"
@@ -123,6 +102,14 @@ export default function CatalogEdit() {
             value={form.name}
             onChange={ev => update('name', ev.target.value)}
             required
+          />
+        </div>
+        <div className="max-w-lg">
+          <Label text="Etiquetas" />
+          <TagsInput
+            value={form.tags}
+            onChange={ev => update('tags', ev)}
+            placeholder="Introduce etiquetas separadas por comas"
           />
         </div>
         <div className="h-full editor-wrapper">

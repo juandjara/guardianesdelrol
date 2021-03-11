@@ -18,7 +18,7 @@ import { mutate } from 'swr'
 import AvatarList from '@/components/AvatarList'
 import TagsInput from '@/components/TagsInput'
 import { fetchUsers } from '@/lib/users/useUsers'
-import { deletePost, upsertPost } from '@/lib/posts/postActions'
+import { deletePost, postToForm, upsertPost } from '@/lib/posts/postActions'
 import { Transition } from '@headlessui/react'
 
 const inputStyles =
@@ -84,23 +84,6 @@ function AddUserInput({ onAdd }) {
   )
 }
 
-function defaultFormState(post) {
-  return {
-    name: post?.name || '',
-    description: post?.description || '',
-    date: post?.date || '',
-    time: post?.time || '',
-    place: post?.place || '',
-    seats: post?.seats || 0,
-    game: post?.game,
-    section: post?.section && { label: post?.section?.name, value: post?.section?.id },
-    tags: (post?.tags || []).map(t => ({ label: t, value: t })),
-    place_link: post?.place_link || '',
-    narrator_id: post?.narrator_id,
-    players: post?.players || []
-  }
-}
-
 export default function PostEdit() {
   const router = useRouter()
   const id = router.query.id === 'new' ? null : router.query.id
@@ -110,7 +93,7 @@ export default function PostEdit() {
 
   const { setAlert } = useAlert()
   const [loading, setLoading] = useState(false)
-  const [form, setForm] = useState(() => defaultFormState(post))
+  const [form, setForm] = useState(() => postToForm(post))
   const [imageState, dispatch] = useReducer(imageReducer, defaultImageState(post))
 
   const { sections } = useSections()
@@ -119,7 +102,7 @@ export default function PostEdit() {
   const formValid = form.name && form.date && form.game
 
   useEffect(() => {
-    setForm(defaultFormState(post))
+    setForm(postToForm(post))
     dispatch({ type: 'RESET', payload: defaultImageState(post) })
   }, [post])
 
@@ -155,16 +138,16 @@ export default function PostEdit() {
         image = await uploadImage(imageState)
       }
 
-      const result = await upsertPost(id, {
+      const newPost = await upsertPost(id, {
         ...form,
         image,
         image_position: imageState.position
       })
 
       if (post) {
-        mutate(`post-detail/${result.id}`, { ...post, ...result }, false)
+        mutate(`post-detail/${newPost.id}`, { ...post, ...newPost }, false)
       }
-      router.push(`/posts/${result.id}/${result.slug}`)
+      router.push(`/posts/${newPost.id}/${newPost.slug}`)
     } catch (err) {
       console.error(err)
       setAlert(err.message)
