@@ -127,7 +127,11 @@ export default function CatalogEdit() {
         </div>
         <div className="h-full editor-wrapper">
           <Label name="" text="Descripción" />
-          <TextEditor value={game?.description} onChange={updateEditor} />
+          <TextEditor
+            imageEditorPath="/editor/games"
+            value={game?.description}
+            onChange={updateEditor}
+          />
         </div>
         <section className="flex justify-end items-center space-x-2">
           {id && (

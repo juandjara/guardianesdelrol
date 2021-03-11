@@ -22,6 +22,7 @@ export default async function uploadEndpoint(req, res) {
     const token = fields['token']
     const file = files['file'] || fields['file']
     const filename = fields['filename']
+    const folder = fields['folder']
     const { error } = await supabase.auth.api.getUser(token)
     if (error) {
       res.status(401).json({ description: 'Error validating user token', error: error.message })
@@ -32,6 +33,9 @@ export default async function uploadEndpoint(req, res) {
     formData.append('fileName', filename)
     formData.append('file', file)
     formData.append('useUniqueFileName', 'true')
+    if (folder) {
+      formData.append('folder', folder)
+    }
 
     try {
       const { data } = await axios.post(uploadURL, formData, {

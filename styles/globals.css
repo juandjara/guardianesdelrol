@@ -3,6 +3,7 @@
 @import '~nprogress/nprogress.css';
 @import '~@reach/dialog/styles.css';
 @import '~@reach/slider/styles.css';
+@import '~quill/dist/quill.snow.css';
 
 @tailwind base;
 @tailwind components;

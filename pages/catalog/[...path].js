@@ -92,7 +92,7 @@ export default function GameDetail() {
         <header className="px-4 my-4">
           <h1 className="text-red-700 text-xl font-semibold">{game?.name || <Skeleton />}</h1>
           <div
-            className="max-w-prose text-base mt-2"
+            className="max-w-prose text-base mt-2 ql-editor p-0"
             dangerouslySetInnerHTML={{ __html: game?.description }}></div>
         </header>
         <div className="space-y-6 p-4 pb-0">

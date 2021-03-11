@@ -12,6 +12,7 @@
 
 .editor-wrapper .ql-editor {
   @apply text-base;
+  @apply font-serif;
   min-height: 125px;
   padding: 16px;
 }

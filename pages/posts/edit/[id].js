@@ -354,7 +354,11 @@ export default function PostEdit() {
         </div>
         <div className="pt-4 h-full editor-wrapper">
           <Label name="" text="Descripción" />
-          <TextEditor value={post?.description} onChange={updateEditor} />
+          <TextEditor
+            imageEditorPath="/editor/posts"
+            value={post?.description}
+            onChange={updateEditor}
+          />
         </div>
         <section className="flex justify-end items-center space-x-2">
           {id && (

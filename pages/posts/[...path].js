@@ -201,7 +201,7 @@ export default function PostDetails() {
           </div>
         </div>
         <div
-          className="hyphens text-justify font-serif leading-relaxed px-6 mt-8 mb-4 mx-auto max-w-prose"
+          className="max-w-prose text-base ql-editor hyphens font-serif leading-relaxed px-6 py-0 mt-8 mb-4 mx-auto"
           dangerouslySetInnerHTML={{ __html: post?.description }}></div>
         {post?.updated_at && (
           <div>
