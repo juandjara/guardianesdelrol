@@ -128,7 +128,7 @@ export default function PostDetails() {
   return (
     <main className="flex-auto mx-auto py-3 max-w-4xl w-full">
       <Title title={post?.name} />
-      {post && (
+      {post?.image && (
         <FsLightbox
           toggler={lightboxOpen}
           sources={[`${process.env.NEXT_PUBLIC_IMAGEKIT_URL}/${post.image}`]}

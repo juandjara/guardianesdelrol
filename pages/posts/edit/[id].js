@@ -6,7 +6,6 @@ import ImageInput from '@/components/ImageInput'
 import Label from '@/components/Label'
 import Select from 'react-select'
 import Title from '@/components/Title'
-import { supabase } from '@/lib/db-client/supabase'
 import { fetchGames } from '@/lib/games/useGames'
 import usePostDetail from '@/lib/posts/usePostDetail'
 import useSections from '@/lib/useSections'
@@ -19,7 +18,7 @@ import { mutate } from 'swr'
 import AvatarList from '@/components/AvatarList'
 import TagsInput from '@/components/TagsInput'
 import { fetchUsers } from '@/lib/users/useUsers'
-import { addPlayer, removePlayer } from '@/lib/posts/postActions'
+import { deletePost, upsertPost } from '@/lib/posts/postActions'
 import { Transition } from '@headlessui/react'
 
 const inputStyles =
@@ -40,9 +39,8 @@ function AddUserInput({ onAdd }) {
   const [newUser, setNewUser] = useState(null)
 
   function handleClick() {
-    const id = newUser.id
+    onAdd(newUser)
     setNewUser(null)
-    onAdd(id)
   }
 
   return (
@@ -97,7 +95,9 @@ function defaultFormState(post) {
     game: post?.game,
     section: post?.section && { label: post?.section?.name, value: post?.section?.id },
     tags: (post?.tags || []).map(t => ({ label: t, value: t })),
-    place_link: post?.place_link || ''
+    place_link: post?.place_link || '',
+    narrator_id: post?.narrator_id,
+    players: post?.players || []
   }
 }
 
@@ -116,6 +116,7 @@ export default function PostEdit() {
   const { sections } = useSections()
   const sectionOptions = sections.map(s => ({ value: s.id, label: s.name }))
   const [placeURLOpen, setPlaceURLOpen] = useState(false)
+  const formValid = form.name && form.date && form.game
 
   useEffect(() => {
     setForm(defaultFormState(post))
@@ -126,30 +127,26 @@ export default function PostEdit() {
     setForm(form => ({ ...form, [key]: value }))
   }
 
-  async function handleAddPlayer(userId) {
-    setLoading(true)
-    try {
-      await addPlayer({ userId, postId: id })
-    } catch (err) {
-      console.error(err)
-      setAlert(err.message)
-    }
-    setLoading(false)
+  function handleAddPlayer(user) {
+    setForm(form => ({
+      ...form,
+      players: form.players.concat(user)
+    }))
   }
 
-  async function handleRemovePlayer(userId) {
-    setLoading(true)
-    try {
-      await removePlayer({ userId, postId: id })
-    } catch (err) {
-      console.error(err)
-      setAlert(err.message)
-    }
-    setLoading(false)
+  function handleRemovePlayer(user) {
+    setForm(form => ({
+      ...form,
+      players: form.players.filter(u => u.id !== user.id)
+    }))
   }
 
   async function handleSubmit(ev) {
     ev.preventDefault()
+    if (!formValid) {
+      return
+    }
+
     setLoading(true)
 
     try {
@@ -158,37 +155,12 @@ export default function PostEdit() {
         image = await uploadImage(imageState)
       }
 
-      const session = supabase.auth.session()
-      const body = {
-        name: form.name,
-        description: form.description,
-        image_position: imageState.position,
+      const result = await upsertPost(id, {
+        ...form,
         image,
-        date: form?.date,
-        time: form?.time,
-        narrator_id: post?.narrator_id || session.user.id,
-        seats: form?.seats,
-        place: form?.place,
-        game: form?.game?.id,
-        section: form?.section?.value,
-        tags: (form?.tags || []).map(t => t.label),
-        place_link: form?.place_link
-        // TODO
-        // type: post?.type,
-        // guest_narrator: post?.guest_narrator
-      }
-      if (id) body.id = id
+        image_position: imageState.position
+      })
 
-      const { data, error } = await supabase
-        .from('posts')
-        .insert(body, { upsert: true })
-        .match({ id: id || '' })
-
-      if (error) {
-        throw error
-      }
-
-      const result = data[0]
       if (post) {
         mutate(`post-detail/${result.id}`, { ...post, ...result }, false)
       }
@@ -202,18 +174,26 @@ export default function PostEdit() {
   }
 
   async function handleDelete() {
-    const confirmation = window.confirm('¿Estas seguro de que quieres borrar esta partida?')
-    if (!confirmation) {
-      return
-    }
-
-    const { error } = await supabase.from('posts').delete().match({ id })
-    if (error) {
+    setLoading(true)
+    try {
+      await deletePost(id)
+      router.replace('/posts')
+    } catch (error) {
       console.error(error)
       setAlert(error.message)
-    } else {
-      router.replace('/posts')
     }
+    setLoading(false)
+  }
+
+  function required(text) {
+    return (
+      <>
+        <span>{text}</span>
+        <span title="Obligatorio" className="text-gray-400 ml-0.5">
+          *
+        </span>
+      </>
+    )
   }
 
   return (
@@ -231,7 +211,7 @@ export default function PostEdit() {
           <ImageInput state={imageState} dispatch={dispatch} />
         </div>
         <div className="max-w-lg">
-          <Label name="name" text="Nombre" />
+          <Label name="name" text={required('Nombre')} />
           <input
             id="name"
             type="text"
@@ -243,7 +223,7 @@ export default function PostEdit() {
           />
         </div>
         <div className="max-w-lg">
-          <Label name="game" text="Juego" />
+          <Label name="game" text={required('Juego')} />
           <Autocomplete
             id="game"
             placeholder="Seleccione un juego..."
@@ -253,23 +233,26 @@ export default function PostEdit() {
           />
         </div>
         <div className="max-w-lg">
-          <Label text="Evento" />
-          <Select
-            isClearable
-            className="react-select"
-            options={sectionOptions}
-            onChange={ev => update('section', ev)}
-            value={form.section}
-            noOptionsMessage={() => 'Ningún juego para esta búsqueda'}
-            placeholder="Selecciona un evento"
+          <Label name="date" text={required('Fecha')} />
+          <input
+            id="date"
+            type="date"
+            className={inputStyles}
+            placeholder="DD/MM/AAAA"
+            value={form.date}
+            onChange={ev => update('date', ev.target.value)}
+            required
           />
         </div>
         <div className="max-w-lg">
-          <Label text="Etiquetas" />
-          <TagsInput
-            value={form.tags}
-            onChange={ev => update('tags', ev)}
-            placeholder="Escribe etiquetas separadas por comas"
+          <Label name="time" text="Hora" />
+          <input
+            id="time"
+            type="text"
+            className={inputStyles}
+            placeholder="HH:mm"
+            value={form.time}
+            onChange={ev => update('time', ev.target.value)}
           />
         </div>
         <div className="max-w-lg">
@@ -308,36 +291,31 @@ export default function PostEdit() {
             />
           </Transition>
         </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="col-span-2 md:col-span-1">
-            <Label name="date" text="Fecha" />
-            <input
-              id="date"
-              type="date"
-              className={inputStyles}
-              placeholder="DD/MM/AAAA"
-              value={form.date}
-              onChange={ev => update('date', ev.target.value)}
-              required
-            />
-          </div>
-          <div className="col-span-2 md:col-span-1">
-            <Label name="time" text="Hora" />
-            <input
-              id="time"
-              type="text"
-              className={inputStyles}
-              placeholder="HH:mm"
-              value={form.time}
-              onChange={ev => update('time', ev.target.value)}
-            />
-          </div>
+        <div className="max-w-lg">
+          <Label text="Evento" />
+          <Select
+            isClearable
+            className="react-select"
+            options={sectionOptions}
+            onChange={ev => update('section', ev)}
+            value={form.section}
+            noOptionsMessage={() => 'Ningún juego para esta búsqueda'}
+            placeholder="Selecciona un evento"
+          />
+        </div>
+        <div className="max-w-lg">
+          <Label text="Etiquetas" />
+          <TagsInput
+            value={form.tags}
+            onChange={ev => update('tags', ev)}
+            placeholder="Introduce etiquetas separadas por comas"
+          />
         </div>
         <div>
           <div className="mb-4 flex space-x-2 items-baseline">
             <Label name="seats" margin="" text="Jugadores" />
-            <span className="flex-shrink-0">{post?.players.length || 0} /</span>
-            <div className="w-20">
+            <span className="flex-shrink-0">{form?.players.length || 0} /</span>
+            <div className="w-20" title="Plazas totales">
               <input
                 id="seats"
                 type="text"
@@ -349,8 +327,8 @@ export default function PostEdit() {
               />
             </div>
           </div>
-          <AvatarList onItemClick={u => handleRemovePlayer(u.id)} users={post?.players} />
-          {post?.players.length < form.seats && <AddUserInput onAdd={handleAddPlayer} />}
+          <AvatarList onItemClick={handleRemovePlayer} users={form?.players} />
+          {form?.players.length < form.seats && <AddUserInput onAdd={handleAddPlayer} />}
         </div>
         <div className="pt-4 h-full editor-wrapper">
           <Label name="" text="Descripción" />
@@ -381,14 +359,16 @@ export default function PostEdit() {
             color="text-red-900">
             Cancelar
           </Button>
-          <Button
-            disabled={loading}
-            type="submit"
-            border="border-none"
-            color="text-white"
-            background="bg-red-500 hover:bg-red-600">
-            Guardar
-          </Button>
+          <span title="Rellena nombre, juego y fecha para guardar">
+            <Button
+              disabled={loading || !formValid}
+              type="submit"
+              border="border-none"
+              color="text-white"
+              background="bg-red-500 hover:bg-red-600">
+              Guardar
+            </Button>
+          </span>
         </section>
       </form>
     </main>
