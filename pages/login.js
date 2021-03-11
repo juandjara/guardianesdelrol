@@ -46,7 +46,10 @@ export default function Login() {
   async function handleSubmit(ev) {
     ev.preventDefault()
     setLoading(true)
-    const { error } = await supabase.auth.signIn({ email, password })
+    const { error } = await supabase.auth.signIn(
+      { email, password },
+      { redirectTo: window.location.origin }
+    )
     if (error) {
       console.error(error)
       setAlert(translateErrorMessage(error.message))

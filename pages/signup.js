@@ -40,7 +40,10 @@ export default function SignUp() {
     ev.preventDefault()
 
     setLoading(true)
-    const { error } = await supabase.auth.signUp({ email, password })
+    const { error } = await supabase.auth.signUp(
+      { email, password },
+      { redirectTo: window.location.origin }
+    )
     if (error) {
       console.error(error)
       setAlert(translateErrorMessage(error.message))
