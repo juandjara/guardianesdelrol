@@ -12,7 +12,6 @@ RETURNS jsonb[] AS $$
       'seats', seats,
       'date', date,
       'time', time,
-      'type', type,
       'image', image,
       'place', place,
       'place_link', place_link,

@@ -23,8 +23,6 @@ const SORT_TYPES = [
 function initialFilterState(params) {
   return {
     section: Number(params.s),
-    typePresential: !params.t || params.t === 'presencial',
-    typeOnline: !params.t || params.t === 'online',
     onlyFreeSeats: !!params.ofs,
     startDate: params.sd,
     endDate: params.ed,
@@ -51,17 +49,7 @@ export default function PostFiltersPanel() {
   )
 
   const [filters, setFilters] = useState(() => initialFilterState(params))
-  const {
-    section,
-    typePresential,
-    typeOnline,
-    onlyFreeSeats,
-    startDate,
-    endDate,
-    rpp,
-    sortKey,
-    sortType
-  } = filters
+  const { section, onlyFreeSeats, startDate, endDate, rpp, sortKey, sortType } = filters
 
   const selectedSortKey = SORT_OPTIONS.find(s => s.value === sortKey)
   const selectedSortType = SORT_TYPES.find(s => s.value === sortType)
@@ -96,17 +84,12 @@ export default function PostFiltersPanel() {
   )
 
   function apply() {
-    let type = null
-    if (typeOnline !== typePresential) {
-      type = typeOnline ? 'online' : 'presencial'
-    }
     router.push({
       pathname: router.pathname,
       query: {
         ...router.query,
         page: 0,
         s: section || undefined,
-        t: type || undefined,
         ofs: onlyFreeSeats ? '1' : undefined,
         sd: startDate || undefined,
         ed: endDate || undefined,
@@ -285,29 +268,6 @@ export default function PostFiltersPanel() {
             />
             <span>Solo partidas con plazas libres</span>
           </label>
-        </section>
-        <section>
-          <p className="text-sm text-gray-100 mb-1">Tipo</p>
-          <div className="space-x-6">
-            <label className="inline-flex space-x-1 items-center">
-              <input
-                type="checkbox"
-                className="rounded-sm text-red-500 border-red-300"
-                checked={typeOnline}
-                onChange={ev => update('typeOnline', ev.target.checked)}
-              />
-              <span>Online</span>
-            </label>
-            <label className="inline-flex space-x-1 items-center">
-              <input
-                type="checkbox"
-                className="rounded-sm text-red-500 border-red-300"
-                checked={typePresential}
-                onChange={ev => update('typePresential', ev.target.checked)}
-              />
-              <span>Presencial</span>
-            </label>
-          </div>
         </section>
       </div>
     </div>
