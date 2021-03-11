@@ -13,7 +13,7 @@ export default function PostDetailTags({ post }) {
       {tag}
     </Tag>
   ))
-  const redTags = [post.type, post.section?.name].filter(Boolean).map(tag => (
+  const redTags = [post.section?.name].filter(Boolean).map(tag => (
     <Tag key={tag} color="red">
       {tag}
     </Tag>
