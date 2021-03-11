@@ -15,7 +15,7 @@ export default function TagsInput({ placeholder, value = [], onChange }) {
     if (!inputValue) return
     switch (ev.key) {
       case 'Enter':
-      case 'Tab':
+      case ',':
         ev.stopPropagation()
         ev.preventDefault()
         onChange([...value, { label: inputValue, value: inputValue }])

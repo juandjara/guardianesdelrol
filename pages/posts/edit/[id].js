@@ -269,7 +269,7 @@ export default function PostEdit() {
           <TagsInput
             value={form.tags}
             onChange={ev => update('tags', ev)}
-            placeholder="Escribe una etiqueta y pulsa Enter o Tab"
+            placeholder="Escribe etiquetas separadas por comas"
           />
         </div>
         <div className="max-w-lg">
