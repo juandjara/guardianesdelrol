@@ -5,7 +5,7 @@ import { supabase } from '@/lib/db-client/supabase'
 import Link from 'next/link'
 
 /*
- * TODO: hace mas claro el proposito de esta web en esta pagina
+ * TODO: hacer mas claro el proposito de esta web en esta pagina
  * el proposito final de esta plataforma es
  * "unir a narradores que buscan jugadores con jugadores que busquen partidas"
  * y de ahi nace todo lo demas

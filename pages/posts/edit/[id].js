@@ -147,7 +147,7 @@ export default function PostEdit() {
       if (post) {
         mutate(`post-detail/${newPost.id}`, { ...post, ...newPost }, false)
       }
-      router.push(`/posts/${newPost.id}/${newPost.slug}`)
+      return router.push(`/posts/${newPost.id}/${newPost.slug}`)
     } catch (err) {
       console.error(err)
       setAlert(err.message)
@@ -160,7 +160,7 @@ export default function PostEdit() {
     setLoading(true)
     try {
       await deletePost(id)
-      router.replace('/posts')
+      return router.replace('/posts')
     } catch (error) {
       console.error(error)
       setAlert(error.message)

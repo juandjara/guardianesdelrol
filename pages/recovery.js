@@ -36,7 +36,7 @@ function EmailForm({ header, className, style }) {
       console.error(error)
       setAlert(translateErrorMessage(error.message))
     } else {
-      router.push({
+      return router.push({
         pathname: 'mailSent',
         query: {
           action: 'recovery',
@@ -106,7 +106,7 @@ function PasswordForm({ header, className, style }) {
       setAlert(translateErrorMessage(error.message))
     } else {
       setAlert({ type: 'success', text: 'Contraseña actualizada correctamente' })
-      router.push('/dashboard')
+      return router.push('/dashboard')
     }
     setLoading(false)
   }

@@ -55,7 +55,7 @@ export default function Login() {
       setAlert(translateErrorMessage(error.message))
     } else {
       if (!password) {
-        router.push({
+        return router.push({
           pathname: 'mailSent',
           query: {
             action: 'login',

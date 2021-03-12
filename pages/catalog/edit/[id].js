@@ -54,7 +54,7 @@ export default function CatalogEdit() {
       if (game) {
         mutate(`game-detail/${newGame.id}`, { ...game, ...newGame }, false)
       }
-      router.push(`/catalog/${newGame.id}/${newGame.slug}`)
+      return router.push(`/catalog/${newGame.id}/${newGame.slug}`)
     } catch (err) {
       console.error(err)
       setAlert(err.message)
@@ -67,7 +67,7 @@ export default function CatalogEdit() {
     setLoading(true)
     try {
       await deleteGame(id)
-      router.replace('/catalog')
+      return router.replace('/catalog')
     } catch (error) {
       console.error(error)
       setAlert(error.message)
