@@ -11,7 +11,7 @@ import { useSession } from '@/lib/auth/AuthContext'
 import FsLightbox from 'fslightbox-react'
 import { useAlert } from '@/components/AlertContext'
 import UserGroupIcon from '@/components/icons/UserGroupIcon'
-import PostDetailTags from '@/components/posts/PostDetailTags'
+import PostDetailTagLine from '@/components/posts/PostDetailTagLine'
 import BackButton from '@/components/BackButton'
 import Title from '@/components/Title'
 import ImageKit from '@/components/ImageKit'
@@ -200,7 +200,7 @@ export default function PostDetails() {
           />
         </div>
         <div className="px-4 mt-6">
-          <PostDetailTags post={post} />
+          <PostDetailTagLine post={post} />
           <div className="mb-4 flex items-center space-x-2 p-2 bg-gray-50 rounded-md">
             <Avatar user={post?.narrator} size={32} />
             <span className="text-sm">{post?.narrator?.display_name}</span>

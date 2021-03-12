@@ -3,7 +3,31 @@ import CalendarIcon from '../icons/CalendarIcon'
 import PlaceIcon from '../icons/PlaceIcon'
 import Tag from '../Tag'
 
-export default function PostDetailTags({ post }) {
+function PlaceLink({ post }) {
+  if (!post.place) {
+    return null
+  }
+
+  const className = 'my-1 flex items-center text-sm font-normal'
+  return post.place_link ? (
+    <a
+      href={post.place_link}
+      target="_blank"
+      title="abrir enlace del lugar"
+      rel="noopener noreferrer"
+      className={`text-blue-500 ${className}`}>
+      <PlaceIcon className="mr-1 text-blue-400" height={16} width={16} />
+      <span>{post.place}</span>
+    </a>
+  ) : (
+    <p className={`text-gray-500 ${className}`}>
+      <PlaceIcon className="mr-1 text-gray-400" height={16} width={16} />
+      <span>{post.place}</span>
+    </p>
+  )
+}
+
+export default function PostDetailTagLine({ post }) {
   if (!post) {
     return <Skeleton />
   }
@@ -31,17 +55,7 @@ export default function PostDetailTags({ post }) {
       {blueTags}
       {redTags}
       <span className="flex-grow-0 md:flex-grow"></span>
-      {post.place && (
-        <a
-          href={post.place_link}
-          target="_blank"
-          title="ver mapa"
-          rel="noopener noreferrer"
-          className="my-1 flex items-center text-sm text-gray-500 font-normal">
-          <PlaceIcon className="mr-1 text-gray-400" height={16} width={16} />
-          <span>{post.place}</span>
-        </a>
-      )}
+      <PlaceLink post={post} />
     </div>
   )
 }
