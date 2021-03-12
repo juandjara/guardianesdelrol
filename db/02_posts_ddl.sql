@@ -11,12 +11,12 @@ CREATE TABLE posts (
   date date,
   time varchar,
   place text,
-  external_link text,
-  main_image text,
+  place_link text,
+  image varchar,
+  image_position varchar,
   game int REFERENCES games(id)
-  guest_players text[] NOT NULL,
-  narrator uuid REFERENCES users(id),
-  guest_narrator text
+  narrator_id uuid REFERENCES users(id),
+  guest_narrator varchar
 );
 
 CREATE EXTENSION IF NOT EXISTS moddatetime SCHEMA extensions;
