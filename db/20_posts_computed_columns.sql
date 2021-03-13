@@ -5,7 +5,7 @@ RETURNS jsonb AS $$
             'id', coalesce(u.id::text, concat('anon-dm-', slugify(p.guest_narrator))),
             'display_name', coalesce(u.display_name, p.guest_narrator),
             'email', u.email,
-            'avatartype', coalesce(u.avatartype, 'gravatar'),
+            'avatar', u.avatar,
             'anon', (p.narrator_id is null)
         )
     from posts p
@@ -23,7 +23,7 @@ from (
         'id', u.id::text,
         'email', u.email,
         'display_name', u.display_name,
-        'avatartype', u.avatartype,
+        'avatar', u.avatar,
         'anon', false
     )
     from posts p
@@ -38,7 +38,7 @@ from (
         'id', concat('anon-player-', slugify(gp.name)),
         'email', null,
         'display_name', gp.name,
-        'avatartype', 'gravatar',
+        'avatar', null,
         'anon', true
     )
     from posts p

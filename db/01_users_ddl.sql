@@ -5,6 +5,6 @@ CREATE TABLE users (
   challengeable boolean default false not null,
   bio text,
   last_sign_in_at timestamp with time zone,
-  avatartype character varying default 'gravatar' not null,
+  avatar character varying,
   role character varying default 'authenticated' not null
 )

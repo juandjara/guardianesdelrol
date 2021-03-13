@@ -1,23 +1,9 @@
-import useProfile from '@/lib/auth/useProfile'
-import { useRouter } from 'next/router'
 import { useRef, useState } from 'react'
 import Avatar from '../Avatar'
 import Button from '../Button'
-import EditIcon from '../icons/EditIcon'
 
-function getImgOptionValue(imgOption, user) {
-  if (imgOption) {
-    return imgOption
-  }
-  return user ? user.avatartype : 'gravatar'
-}
-
-export default function PhotoEdit({ onChange }) {
+export default function PhotoEdit({ user, onChange }) {
   const inputRef = useRef()
-  const router = useRouter()
-  const { user } = useProfile(router.query.id)
-  const [imgOption, setImgOption] = useState(null)
-  const imgOptionValue = getImgOptionValue(imgOption, user)
   const [previewURL, setPreviewURL] = useState(null)
 
   function toggleFile() {
@@ -32,84 +18,68 @@ export default function PhotoEdit({ onChange }) {
     reader.onload = function handleImgLoad(ev) {
       const url = ev.target.result
       setPreviewURL(url)
-      setImgOption('custom')
-      onChange({
-        type: 'custom',
-        url
-      })
+      onChange({ url, filename: file.name })
     }
     reader.readAsDataURL(file)
   }
 
-  function setGravatar() {
+  function clearAvatar() {
     setPreviewURL(null)
-    setImgOption('gravatar')
-    onChange({
-      type: 'gravatar'
-    })
+    onChange({ url: null })
   }
 
   return (
     <div className="mb-6">
       <p className="text-sm text-gray-700 font-medium mb-2">Avatar</p>
-      <div className="flex items-center relative">
-        <Avatar className="mr-6" size={80} user={user} preview={previewURL} />
-        <div className="flex items-center absolute -top-1 left-14">
-          <input
-            id="profile_picture"
-            className="hidden"
-            type="file"
-            onChange={handleFile}
-            ref={inputRef}
-          />
-          <Button
-            small
-            title="Subir nueva foto de perfil"
-            aria-label="Subir nueva foto de perfil"
-            disabled={!user}
-            onClick={toggleFile}
-            type="button"
-            className="rounded-full"
-            color="text-blue-500"
-            background="bg-white hover:shadow-md"
-            border="border-blue-500 border-2"
-            hasIcon="only">
-            <EditIcon height={20} width={20} />
-          </Button>
+      <div className="flex items-center">
+        <div className="group relative">
+          {user.avatar && (
+            <Button
+              onClick={clearAvatar}
+              type="button"
+              border="border-none"
+              background="bg-red-500 bg-opacity-20"
+              color="text-white"
+              title="Eliminar foto"
+              className="group-hover:opacity-100 opacity-0 absolute inset-0 w-full z-10 rounded-full"
+              hasIcon="only"
+              small>
+              <svg
+                height={24}
+                width={24}
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                />
+              </svg>
+            </Button>
+          )}
+          <Avatar size={64} user={user} preview={previewURL} />
         </div>
-        <div>
-          <label className="flex items-center mt-3">
-            <input
-              type="radio"
-              name="avatartype"
-              value="custom"
-              checked={imgOptionValue === 'custom'}
-              onChange={ev => setImgOption(ev.target.value)}
-              className="h-5 w-5 text-blue-500"
-            />
-            <span className="ml-2 text-gray-700">Personalizado</span>
-          </label>
-          <label className="flex items-center mt-3">
-            <input
-              type="radio"
-              name="avatartype"
-              value="gravatar"
-              checked={imgOptionValue === 'gravatar'}
-              onChange={() => setGravatar()}
-              className="h-5 w-5 text-blue-500"
-            />
-            <div className="ml-2 text-gray-700">
-              <span>Gravatar</span>
-              <a
-                className="text-xs ml-2 text-blue-500"
-                href="https://es.gravatar.com"
-                target="_blank"
-                rel="noreferrer noopener">
-                ¿grava-qu&eacute;?
-              </a>
-            </div>
-          </label>
-        </div>
+        <input
+          id="profile_picture"
+          className="hidden"
+          type="file"
+          onChange={handleFile}
+          ref={inputRef}
+        />
+        <Button
+          small
+          title="Subir nueva foto de perfil"
+          aria-label="Subir nueva foto de perfil"
+          disabled={!user}
+          onClick={toggleFile}
+          type="button"
+          className="ml-2"
+          background="bg-red-50 hover:bg-red-100">
+          <span>Cambiar foto</span>
+        </Button>
       </div>
     </div>
   )
