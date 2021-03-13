@@ -66,8 +66,10 @@ export default function CatalogEdit() {
   async function handleDelete() {
     setLoading(true)
     try {
-      await deleteGame(id)
-      return router.replace('/catalog')
+      const confirmation = await deleteGame(id)
+      if (confirmation) {
+        return router.replace('/catalog')
+      }
     } catch (error) {
       console.error(error)
       setAlert(error.message)

@@ -159,8 +159,10 @@ export default function PostEdit() {
   async function handleDelete() {
     setLoading(true)
     try {
-      await deletePost(id)
-      return router.replace('/posts')
+      const confirmation = await deletePost(id)
+      if (confirmation) {
+        return router.replace('/posts')
+      }
     } catch (error) {
       console.error(error)
       setAlert(error.message)
