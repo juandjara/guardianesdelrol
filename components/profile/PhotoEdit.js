@@ -33,7 +33,7 @@ export default function PhotoEdit({ user, onChange }) {
       <p className="text-sm text-gray-700 font-medium mb-2">Avatar</p>
       <div className="flex items-center">
         <div className="group relative">
-          {user.avatar && (
+          {user?.avatar && (
             <Button
               onClick={clearAvatar}
               type="button"
