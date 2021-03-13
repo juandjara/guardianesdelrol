@@ -4,12 +4,12 @@ import Select from './Select'
 
 export default function Pagination({ count, page, rpp, onChange }) {
   const lastPage = Math.floor(count / rpp)
-  const selectedPage = useMemo(() => ({ label: page, value: page }), [page])
+  const selectedPage = useMemo(() => ({ label: page + 1, value: page }), [page])
   const pageOptions = useMemo(
     () =>
       Array.from({ length: lastPage + 1 })
         .fill(0)
-        .map((_, i) => ({ label: i, value: i })),
+        .map((_, i) => ({ label: i + 1, value: i })),
     [lastPage]
   )
 
@@ -91,7 +91,7 @@ export default function Pagination({ count, page, rpp, onChange }) {
           onChange={handlePageSelect}
           selected={selectedPage}
         />
-        <span>de {lastPage}</span>
+        <span>de {lastPage + 1}</span>
       </div>
       <Button
         small
