@@ -20,9 +20,11 @@ import TagsInput from '@/components/TagsInput'
 import { fetchUsers } from '@/lib/users/useUsers'
 import { deletePost, postToForm, upsertPost } from '@/lib/posts/postActions'
 import { Transition } from '@headlessui/react'
+import { upsertGame } from '@/lib/games/gameActions'
+import useIsMounted from '@/lib/useIsMounted'
 
 const inputStyles =
-  'w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700'
+  'w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500'
 const TextEditor = dynamic(() => import('@/components/TextEditor'), { ssr: false })
 
 async function fetchUsersForSelect(query) {
@@ -44,7 +46,7 @@ function AddUserInput({ onAdd }) {
   }
 
   return (
-    <div className="mt-2 max-w-sm flex items-center">
+    <div className="max-w-sm flex items-center">
       <Autocomplete
         id="new_player"
         placeholder="Buscar usuarios..."
@@ -52,6 +54,7 @@ function AddUserInput({ onAdd }) {
         value={newUser}
         onChange={setNewUser}
         fetcher={fetchUsersForSelect}
+        noDataMessage="Ningún usuario para esta búsqueda"
       />
       <Button
         small
@@ -91,6 +94,7 @@ export default function PostEdit() {
   const title = id ? `Editar partida` : 'Nueva partida'
   const updateEditor = useCallback(value => update('description', value), [])
 
+  const isMountedRef = useIsMounted()
   const { setAlert } = useAlert()
   const [loading, setLoading] = useState(false)
   const [form, setForm] = useState(() => postToForm(post))
@@ -181,6 +185,23 @@ export default function PostEdit() {
     )
   }
 
+  async function handleNewUser() {
+    const name = window.prompt('Introduzca el nombre del usuario invitado')
+    if (!name) return
+  }
+  async function handleNewSection() {
+    const name = window.prompt('Introduzca el nombre del nuevo evento')
+    if (!name) return
+  }
+  async function handleNewGame() {
+    const name = window.prompt('Introduzca el nombre del nuevo juego')
+    if (!name) return
+    const game = await upsertGame(null, { name })
+    if (isMountedRef.current) {
+      update('game', game)
+    }
+  }
+
   return (
     <main className="flex-auto py-3 mx-auto max-w-3xl w-full">
       <Title title={title} />
@@ -208,7 +229,15 @@ export default function PostEdit() {
           />
         </div>
         <div className="max-w-lg">
-          <Label name="game" text={required('Juego')} />
+          <div className="mb-1 flex items-center justify-between">
+            <Label margin="" name="game" text={required('Juego')} />
+            <button
+              type="button"
+              onClick={handleNewGame}
+              className="hover:underline text-blue-500 text-sm">
+              Crear nuevo juego
+            </button>
+          </div>
           <Autocomplete
             id="game"
             placeholder="Seleccione un juego..."
@@ -241,8 +270,8 @@ export default function PostEdit() {
           />
         </div>
         <div className="max-w-lg">
-          <div className="flex items-center justify-between">
-            <Label name="place" text="Lugar" />
+          <div className="mb-1 flex items-center justify-between">
+            <Label margin="" name="place" text="Lugar" />
             <button
               type="button"
               onClick={() => setPlaceURLOpen(!placeURLOpen)}
@@ -277,14 +306,23 @@ export default function PostEdit() {
           </Transition>
         </div>
         <div className="max-w-lg">
-          <Label text="Evento" />
+          <div className="mb-1 flex items-center justify-between">
+            <Label margin="" name="section" text="Evento" />
+            <button
+              type="button"
+              onClick={handleNewSection}
+              className="hover:underline text-blue-500 text-sm">
+              Crear nuevo evento
+            </button>
+          </div>
           <Select
+            name="section"
             isClearable
             className="react-select"
             options={sectionOptions}
             onChange={ev => update('section', ev)}
             value={form.section}
-            noOptionsMessage={() => 'Ningún juego para esta búsqueda'}
+            noOptionsMessage={() => 'Ningún evento para esta búsqueda'}
             placeholder="Selecciona un evento"
           />
         </div>
@@ -313,6 +351,12 @@ export default function PostEdit() {
             </div>
           </div>
           <AvatarList onItemClick={handleRemovePlayer} users={form?.players} />
+          <button
+            type="button"
+            onClick={handleNewUser}
+            className="mt-2 hover:underline text-blue-500 text-sm">
+            Crear usuario invitado
+          </button>
           {form?.players.length < form.seats && <AddUserInput onAdd={handleAddPlayer} />}
         </div>
         <div className="pt-4 h-full editor-wrapper">
