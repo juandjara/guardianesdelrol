@@ -6,7 +6,8 @@ export default function Autocomplete({
   placeholder,
   fetcher,
   value,
-  onChange = () => {}
+  onChange = () => {},
+  noDataMessage = 'Ningún juego para esta búsqueda'
 }) {
   async function loadOptions(q) {
     const query = `autocomplete?q=${encodeURIComponent(q)}&rpp=5`
@@ -29,7 +30,7 @@ export default function Autocomplete({
       getOptionLabel={opt => opt.name}
       getOptionValue={opt => opt.id}
       loadingMessage={() => 'Cargando...'}
-      noOptionsMessage={() => 'Ningún juego para esta búsqueda'}
+      noOptionsMessage={() => noDataMessage}
     />
   )
 }
