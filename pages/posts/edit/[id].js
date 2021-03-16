@@ -22,6 +22,7 @@ import { deletePost, postToForm, upsertPost } from '@/lib/posts/postActions'
 import { Transition } from '@headlessui/react'
 import { upsertGame } from '@/lib/games/gameActions'
 import useIsMounted from '@/lib/useIsMounted'
+import axios from 'axios'
 
 const inputStyles =
   'w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500'
@@ -38,52 +39,88 @@ async function fetchUsersForSelect(query) {
 }
 
 function AddUserInput({ onAdd }) {
+  const { setAlert } = useAlert()
+  const isMountedRef = useIsMounted()
   const [newUser, setNewUser] = useState(null)
+  const [open, setOpen] = useState(false)
 
   function handleClick() {
     onAdd(newUser)
     setNewUser(null)
+    setOpen(false)
+  }
+
+  async function handleNewUser() {
+    const name = window.prompt('Introduzca el nombre del usuario invitado')
+    if (!name) return
+    try {
+      const res = await axios.post('/api/createGuest', { name })
+      if (isMountedRef.current) {
+        onAdd(res.data)
+        setOpen(false)
+      }
+    } catch (err) {
+      console.error(err)
+      setAlert(err.message)
+    }
   }
 
   return (
-    <div className="max-w-sm flex items-center">
-      <Autocomplete
-        id="new_player"
-        placeholder="Buscar usuarios..."
-        className="w-64"
-        value={newUser}
-        onChange={setNewUser}
-        fetcher={fetchUsersForSelect}
-        noDataMessage="Ningún usuario para esta búsqueda"
-      />
-      <Button
-        small
-        disabled={!newUser}
-        onClick={handleClick}
-        type="button"
-        hasIcon="left"
-        background="bg-gray-100"
-        color="text-gray-700"
-        title="Añadir nuevo jugador"
-        border="border-gray-200 border-2 hover:border-gray-300"
-        className="ml-2 pl-2">
-        <svg
-          width={24}
-          height={24}
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+    <>
+      {open ? (
+        <div className="flex items-center">
+          <Autocomplete
+            id="new_player"
+            placeholder="Buscar usuarios..."
+            className="w-64"
+            value={newUser}
+            onChange={setNewUser}
+            fetcher={fetchUsersForSelect}
+            noDataMessage="Ningún usuario para esta búsqueda"
           />
-        </svg>
-        <span>Añadir</span>
-      </Button>
-    </div>
+          <Button
+            small
+            disabled={!newUser}
+            onClick={handleClick}
+            type="button"
+            hasIcon="left"
+            background="bg-gray-100"
+            color="text-gray-700"
+            title="Añadir nuevo jugador"
+            border="border-gray-200 border-2 hover:border-gray-300"
+            className="ml-2 pl-2">
+            <svg
+              width={24}
+              height={24}
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+              />
+            </svg>
+            <span>Añadir</span>
+          </Button>
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="block mt-1 hover:underline text-blue-500 text-sm">
+          Añadir usuario
+        </button>
+      )}
+      <button
+        type="button"
+        onClick={handleNewUser}
+        className="block mt-1 hover:underline text-blue-500 text-sm">
+        Crear usuario invitado
+      </button>
+    </>
   )
 }
 
@@ -185,20 +222,21 @@ export default function PostEdit() {
     )
   }
 
-  async function handleNewUser() {
-    const name = window.prompt('Introduzca el nombre del usuario invitado')
-    if (!name) return
-  }
   async function handleNewSection() {
-    const name = window.prompt('Introduzca el nombre del nuevo evento')
+    const name = window.prompt('Introduzca el nombre del usuario invitado')
     if (!name) return
   }
   async function handleNewGame() {
     const name = window.prompt('Introduzca el nombre del nuevo juego')
     if (!name) return
-    const game = await upsertGame(null, { name })
-    if (isMountedRef.current) {
-      update('game', game)
+    try {
+      const game = await upsertGame(null, { name })
+      if (isMountedRef.current) {
+        update('game', game)
+      }
+    } catch (err) {
+      console.error(err)
+      setAlert(err.message)
     }
   }
 
@@ -351,12 +389,6 @@ export default function PostEdit() {
             </div>
           </div>
           <AvatarList onItemClick={handleRemovePlayer} users={form?.players} />
-          <button
-            type="button"
-            onClick={handleNewUser}
-            className="mt-2 hover:underline text-blue-500 text-sm">
-            Crear usuario invitado
-          </button>
           {form?.players.length < form.seats && <AddUserInput onAdd={handleAddPlayer} />}
         </div>
         <div className="pt-4 h-full editor-wrapper">
