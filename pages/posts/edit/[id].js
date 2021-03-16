@@ -110,7 +110,7 @@ function AddUserInput({ onAdd }) {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="block mt-1 hover:underline text-blue-500 text-sm">
+          className="block mt-1 hover:underline text-indigo-500 text-sm">
           Añadir usuario
         </button>
       )}
@@ -222,10 +222,6 @@ export default function PostEdit() {
     )
   }
 
-  async function handleNewSection() {
-    const name = window.prompt('Introduzca el nombre del usuario invitado')
-    if (!name) return
-  }
   async function handleNewGame() {
     const name = window.prompt('Introduzca el nombre del nuevo juego')
     if (!name) return
@@ -313,7 +309,7 @@ export default function PostEdit() {
             <button
               type="button"
               onClick={() => setPlaceURLOpen(!placeURLOpen)}
-              className="hover:underline text-blue-500 text-sm">
+              className="hover:underline text-indigo-500 text-sm">
               {placeURLOpen ? 'Ocultar enlace' : 'Mostrar enlace'}
             </button>
           </div>
@@ -344,15 +340,7 @@ export default function PostEdit() {
           </Transition>
         </div>
         <div className="max-w-lg">
-          <div className="mb-1 flex items-center justify-between">
-            <Label margin="" name="section" text="Evento" />
-            <button
-              type="button"
-              onClick={handleNewSection}
-              className="hover:underline text-blue-500 text-sm">
-              Crear nuevo evento
-            </button>
-          </div>
+          <Label name="section" text="Evento" />
           <Select
             name="section"
             isClearable
