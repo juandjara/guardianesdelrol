@@ -14,7 +14,7 @@ $$
     INTO n_posts
     FROM posts;
 
-    SELECT count(distinct narrator_id) + count(distinct guest_narrator)
+    SELECT count(distinct narrator_id)
     INTO n_dm_users
     FROM posts;
 

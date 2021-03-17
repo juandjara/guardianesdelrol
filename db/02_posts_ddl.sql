@@ -15,8 +15,7 @@ CREATE TABLE posts (
   image varchar,
   image_position varchar,
   game int REFERENCES games(id)
-  narrator_id uuid REFERENCES users(id),
-  guest_narrator varchar
+  narrator_id uuid REFERENCES users(id)
 );
 
 CREATE EXTENSION IF NOT EXISTS moddatetime SCHEMA extensions;

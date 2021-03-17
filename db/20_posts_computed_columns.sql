@@ -2,8 +2,8 @@ CREATE OR REPLACE FUNCTION narrator(posts)
 RETURNS jsonb AS $$
     select
         jsonb_build_object(
-            'id', coalesce(u.id::text, concat('anon-dm-', slugify(p.guest_narrator))),
-            'display_name', coalesce(u.display_name, p.guest_narrator),
+            'id', u.id,
+            'display_name', u.display_name,
             'email', u.email,
             'avatar', u.avatar,
             'anon', (p.narrator_id is null)

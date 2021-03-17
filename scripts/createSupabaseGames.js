@@ -43,7 +43,6 @@ async function main() {
 
     const narratorEmail = post.narrator.email
     const narrator = users.find(u => u.email == narratorEmail)
-    const guestNarrator = narrator ? null : post.narrator.displayName
 
     postsData.push({
       name: post.title || null,
@@ -57,8 +56,7 @@ async function main() {
       game: game.id,
       section: section.id,
       narrator: narrator?.id || null,
-      guest_players: guests,
-      guest_narrator: guestNarrator
+      guest_players: guests
     })
   }
 
