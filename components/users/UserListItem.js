@@ -11,7 +11,7 @@ function formatDate(n) {
   const date = new Date(n).toLocaleDateString()
   const hours = new Date(n).getHours()
   const minutes = new Date(n).getMinutes()
-  return `${date} ${hours}:${minutes >= 10 ? minutes : `0${minutes}`}`
+  return `${hours}:${minutes >= 10 ? minutes : `0${minutes}`} ${date}`
 }
 
 export default function UserListItem({ user, selected, compact }) {
@@ -45,7 +45,10 @@ export default function UserListItem({ user, selected, compact }) {
         className={`${
           selected ? 'bg-gray-100' : ''
         } hover:bg-gray-100 focus:bg-gray-100 hover:no-underline focus:outline-none text-gray-700 py-2 px-3 md:px-4 flex items-center space-x-3 md:space-x-4`}>
-        <Avatar user={user} border={selected ? 'border-red-500' : 'border-gray-300'} />
+        <Avatar
+          user={user}
+          border={selected ? 'border-red-500' : 'border-red-500 border-opacity-25'}
+        />
         <div className="truncate flex-auto space-y-1">
           <Link href={`/users/${user?.id || ''}`}>
             <a ref={linkRef} className="space-x-1 font-semibold text-gray-700 focus:outline-none">

@@ -19,7 +19,7 @@ export default function UserList({ compact, className, style = {} }) {
       <header
         className={`${borderRadius} px-3 md:px-4 border-b border-gray-300 sticky top-0 z-10 flex space-x-2 md:space-x-4 bg-white`}>
         <p className="text-sm flex-1">Usuarios</p>
-        <p className={`text-sm ${compact ? 'hidden' : 'md:block hidden'}`}>Ultimo login</p>
+        <p className={`text-sm ${compact ? 'hidden' : 'md:block hidden'}`}>Ultimo acceso</p>
       </header>
       <ul>
         {!users && (
