@@ -2,6 +2,7 @@ import Skeleton from 'react-loading-skeleton'
 import ImageKit from './ImageKit'
 
 function getInitials(text = '') {
+  text = text.trim()
   const singleWord = text.indexOf(' ') === -1
   return singleWord
     ? text.slice(0, 2)
