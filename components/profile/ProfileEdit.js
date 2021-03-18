@@ -82,7 +82,7 @@ export default function ProfileEdit() {
         <div className="mb-1 flex items-center justify-between">
           <Label name="bio" text="Bio" />
           <p className="text-xs text-gray-500">
-            {form?.bio.length || 0} / {BIO_MAXLENGTH}
+            {form?.bio?.length || 0} / {BIO_MAXLENGTH}
           </p>
         </div>
         <textarea
