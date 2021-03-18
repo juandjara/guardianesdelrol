@@ -1,4 +1,5 @@
 import Avatar from '@/components/Avatar'
+import Link from 'next/link'
 import Button from './Button'
 import CloseIcon from './icons/CloseIcon'
 
@@ -20,7 +21,11 @@ function AvatarListItem({ onClick, user, count }) {
             <CloseIcon width={24} height={24} />
           </Button>
         )}
-        <Avatar border="border-gray-200" user={user} size={46} />
+        <Link href={`/users/${user?.id}`}>
+          <a>
+            <Avatar border="border-gray-200" user={user} size={46} />
+          </a>
+        </Link>
       </div>
       <div className="px-2 transition-opacity duration-300 opacity-0 group-hover:opacity-100 h-0 group-hover:h-auto overflow-hidden absolute -left-1 bottom-full">
         <div className="p-3 bg-white rounded-xl mb-2 w-40 shadow-md">
