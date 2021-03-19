@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Skeleton from 'react-loading-skeleton'
 import CalendarIcon from '../icons/CalendarIcon'
 import PlaceIcon from '../icons/PlaceIcon'
@@ -37,11 +38,11 @@ export default function PostDetailTagLine({ post }) {
       {tag}
     </Tag>
   ))
-  const redTags = [post.section?.name].filter(Boolean).map(tag => (
-    <Tag key={tag} color="red">
-      {tag}
+  const redTag = post.section ? (
+    <Tag color="red">
+      <Link href={`/posts?s=${post.section.id}`}>{post.section.name}</Link>
     </Tag>
-  ))
+  ) : null
 
   const date = new Date(post.date).toLocaleDateString('es', { dateStyle: 'medium' })
   const datetime = `${date} ${post.time || ''}`
@@ -53,7 +54,7 @@ export default function PostDetailTagLine({ post }) {
         {datetime}
       </span>
       {blueTags}
-      {redTags}
+      {redTag}
       <span className="flex-grow-0 md:flex-grow"></span>
       <PlaceLink post={post} />
     </div>

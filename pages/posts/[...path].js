@@ -202,7 +202,11 @@ export default function PostDetails() {
         <div className="px-4 mt-6">
           <PostDetailTagLine post={post} />
           <div className="mb-4 flex items-center space-x-2 p-2 bg-gray-50 rounded-md">
-            <Avatar user={post?.narrator} size={32} />
+            <Link href={`/users/${post?.narrator?.id}`}>
+              <a>
+                <Avatar user={post?.narrator} size={32} />
+              </a>
+            </Link>
             <span className="text-sm">{post?.narrator?.display_name}</span>
           </div>
         </div>
