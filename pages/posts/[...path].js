@@ -17,7 +17,7 @@ import Title from '@/components/Title'
 import ImageKit from '@/components/ImageKit'
 import { addPlayer, removePlayer } from '@/lib/posts/postActions'
 
-function ActionButton({ post, onAdd, onDelete, loading }) {
+function ActionButton({ margin, post, onAdd, onDelete, loading }) {
   const session = useSession()
   const currentId = session?.user?.id
 
@@ -38,7 +38,7 @@ function ActionButton({ post, onAdd, onDelete, loading }) {
         disabled={loading}
         onClick={() => onDelete(currentId)}
         hasIcon="left"
-        className="mb-2 ml-2"
+        className={margin}
         color="text-red-700"
         border="border border-red-100"
         small>
@@ -65,7 +65,7 @@ function ActionButton({ post, onAdd, onDelete, loading }) {
           color="text-white"
           background="hover:bg-blue-600 bg-blue-500"
           hasIcon="left"
-          className="mb-2 ml-2"
+          className={margin}
           small>
           <svg
             height={20}
@@ -75,7 +75,7 @@ function ActionButton({ post, onAdd, onDelete, loading }) {
             fill="currentColor">
             <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
           </svg>
-          <span>Apuntarse</span>
+          <span>Apuntarme</span>
         </Button>
       )
     }
@@ -172,7 +172,7 @@ export default function PostDetails() {
             <a className="text-base text-gray-500">{post?.game?.name || <Skeleton />}</a>
           </Link>
         </header>
-        <div className="mt-4 mb-6 px-4">
+        <div className="mt-4 mb-8 px-4">
           <p className="text-sm text-gray-500 mb-3">
             {post && (
               <span className="flex items-center">
@@ -189,14 +189,13 @@ export default function PostDetails() {
           <AvatarList
             className={post?.players?.length === 0 ? '-ml-2' : ''}
             users={post?.players}
-            action={
-              <ActionButton
-                loading={loading}
-                post={post}
-                onAdd={handleAddPlayer}
-                onDelete={handleRemovePlayer}
-              />
-            }
+          />
+          <ActionButton
+            margin="mt-2"
+            loading={loading}
+            post={post}
+            onAdd={handleAddPlayer}
+            onDelete={handleRemovePlayer}
           />
         </div>
         <div className="px-4 mt-6">
