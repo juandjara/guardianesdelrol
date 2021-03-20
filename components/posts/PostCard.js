@@ -14,16 +14,16 @@ function Tags({ post }) {
       {tag}
     </Tag>
   ))
-  const redTags = [post?.section?.name].filter(Boolean).map(tag => (
-    <Tag key={tag} color="red">
-      {tag}
+  const redTag = post.section ? (
+    <Tag color="red">
+      <Link href={`/posts?s=${post.section.id}`}>{post.section.name}</Link>
     </Tag>
-  ))
+  ) : null
 
   return (
     <div className="space-x-2 flex flex-wrap items-stretch font-semibold mb-6">
       {blueTags}
-      {redTags}
+      {redTag}
     </div>
   )
 }
