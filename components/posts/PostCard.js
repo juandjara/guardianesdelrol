@@ -14,7 +14,7 @@ function Tags({ post }) {
       {tag}
     </Tag>
   ))
-  const redTag = post.section ? (
+  const redTag = post?.section ? (
     <Tag color="red">
       <Link href={`/posts?s=${post.section.id}`}>{post.section.name}</Link>
     </Tag>

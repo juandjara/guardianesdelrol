@@ -14,7 +14,7 @@ function formatDate(n) {
   return `${hours}:${minutes >= 10 ? minutes : `0${minutes}`} ${date}`
 }
 
-export default function UserListItem({ user, selected, compact }) {
+export default function UserListItem({ showAccessColumn, user, selected }) {
   const liRef = useRef()
   const linkRef = useRef()
 
@@ -58,7 +58,7 @@ export default function UserListItem({ user, selected, compact }) {
           </Link>
           <p className="text-sm truncate text-gray-500">{user ? user.bio : <Skeleton />}</p>
         </div>
-        <p className={`pr-1 text-sm text-right ${compact ? 'hidden' : 'md:block hidden'}`}>
+        <p className={`pr-1 text-sm text-right hidden ${showAccessColumn ? 'md:block' : ''}`}>
           {formatDate(user?.lastSignInTime) || <Skeleton />}
         </p>
       </div>

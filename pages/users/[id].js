@@ -16,7 +16,7 @@ export default function UserDetails() {
           className="flex justify-items-stretch container mx-auto"
           style={{ maxHeight: 'calc(100vh - 120px)' }}>
           <aside className="rounded-l-lg md:border-r border-gray-200 overflow-auto w-full max-w-sm hidden md:block">
-            <UserList compact />
+            <UserList />
           </aside>
           <main className="rounded-r-lg overflow-auto w-full md:w-3/4">
             <UserDetail />
