@@ -3,6 +3,8 @@ import Tag from './Tag'
 export default function RoleTags({ user }) {
   const role = user?.role
   const isDM = user?.is_narrator
+  const isGuest = user?.email === 'guest'
+
   const tags = []
   if (role === 'superadmin') {
     tags.push(
@@ -18,6 +20,13 @@ export default function RoleTags({ user }) {
     tags.push(
       <Tag key="dm" color="yellow">
         DM
+      </Tag>
+    )
+  }
+  if (isGuest) {
+    tags.push(
+      <Tag key="guest" color="gray">
+        Invitado
       </Tag>
     )
   }

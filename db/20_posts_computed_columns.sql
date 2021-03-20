@@ -30,20 +30,6 @@ from (
     join players up on up.post_id = p.id
     join users u on u.id = up.user_id
     where p.id = $1.id
-
-    union all
-
-    select
-    jsonb_build_object(
-        'id', concat('anon-player-', slugify(gp.name)),
-        'email', null,
-        'display_name', gp.name,
-        'avatar', null,
-        'anon', true
-    )
-    from posts p
-    join guest_players gp on gp.post_id = p.id
-    where p.id = $1.id
 ) q
 
 $$ LANGUAGE SQL;
