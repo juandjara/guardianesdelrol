@@ -23,7 +23,9 @@ export default function UserMenu() {
       <div className="flex-1">
         <Link href="/login">
           <a>
-            <Button className="block ml-auto mr-2 mt-2">ENTRAR</Button>
+            <Button small className="block ml-auto mr-2 mt-2">
+              Entrar
+            </Button>
           </a>
         </Link>
       </div>
