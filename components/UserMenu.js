@@ -5,7 +5,8 @@ import { supabase } from '@/lib/db-client/supabase'
 import RoleTags from './RoleTags'
 import useProfile from '@/lib/auth/useProfile'
 import Avatar from './Avatar'
-import { buttonFocusStyle } from './Button'
+import Button, { buttonFocusStyle } from './Button'
+import Link from 'next/link'
 
 export default function UserMenu() {
   const { user } = useProfile()
@@ -18,7 +19,15 @@ export default function UserMenu() {
   }
 
   if (!user) {
-    return <div className="flex-1"></div>
+    return (
+      <div className="flex-1">
+        <Link href="/login">
+          <a>
+            <Button className="block ml-auto mr-2 mt-2">ENTRAR</Button>
+          </a>
+        </Link>
+      </div>
+    )
   }
 
   return (
