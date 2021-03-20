@@ -74,7 +74,7 @@ export default function UserDetail() {
         <div className="mt-8">
           <p className="text-base text-gray-400 mb-4 mr-2">
             <span className="text-2xl text-gray-700 font-medium mr-1">{asdm.length}</span>
-            partida{asdm.length === 1 ? '' : 's'} narradas
+            {asdm.length === 1 ? 'partida narrada' : 'partidas narradas'}
           </p>
           <ul className="space-y-4">
             {asdm.map(post => (
@@ -85,7 +85,7 @@ export default function UserDetail() {
         <div className="mt-8">
           <p className="text-base text-gray-400 mb-4 mr-2">
             <span className="text-2xl text-gray-700 font-medium mr-1">{asplayer.length}</span>
-            partida{asplayer.length === 1 ? '' : 's'} jugadas
+            {asplayer.length === 1 ? 'partida jugada' : 'partidas jugadas'}
           </p>
           <ul className="space-y-4">
             {asplayer.map(post => (
