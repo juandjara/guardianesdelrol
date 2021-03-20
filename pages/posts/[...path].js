@@ -16,6 +16,7 @@ import BackButton from '@/components/BackButton'
 import Title from '@/components/Title'
 import ImageKit from '@/components/ImageKit'
 import { addPlayer, removePlayer } from '@/lib/posts/postActions'
+import useRoleCheck from '@/lib/auth/useRoleCheck'
 
 function ActionButton({ margin, post, onAdd, onDelete, loading }) {
   const session = useSession()
@@ -89,6 +90,7 @@ export default function PostDetails() {
   const { data: post } = usePostDetail(id)
   const numplayers = post?.players?.length || 0
 
+  const roleCheck = useRoleCheck('superadmin', post?.narrator?.id)
   const { setAlert } = useAlert()
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -141,11 +143,13 @@ export default function PostDetails() {
       <div className="bg-white text-gray-700 pb-4 md:rounded-lg relative">
         <div className="z-10 w-full absolute top-0 left-0 p-2 flex items-start justify-between">
           <BackButton colors="bg-opacity-50 text-white bg-gray-500 hover:bg-opacity-75" />
-          <Link href={`/posts/edit/${id}`}>
-            <a className="hover:no-underline">
-              <Button small>Editar</Button>
-            </a>
-          </Link>
+          {roleCheck && (
+            <Link href={`/posts/edit/${id}`}>
+              <a className="hover:no-underline">
+                <Button small>Editar</Button>
+              </a>
+            </Link>
+          )}
         </div>
         <div
           role="button"

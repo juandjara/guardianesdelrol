@@ -7,25 +7,29 @@ function AvatarListItem({ onClick, user, count }) {
   return (
     <li key={user.id} className="group relative -ml-2 mb-2">
       <div className="relative group">
-        {onClick && (
-          <Button
-            onClick={onClick}
-            type="button"
-            border="border-none"
-            background="bg-red-500 bg-opacity-20"
-            color="text-white"
-            title="Eliminar jugaador"
-            className="group-hover:opacity-100 opacity-0 absolute inset-0 w-full z-10 rounded-full"
-            hasIcon="only"
-            small>
-            <CloseIcon width={24} height={24} />
-          </Button>
-        )}
-        <Link href={`/users/${user?.id}`}>
-          <a>
+        {onClick ? (
+          <>
+            <Button
+              onClick={onClick}
+              type="button"
+              border="border-none"
+              background="bg-red-500 bg-opacity-20"
+              color="text-white"
+              title="Eliminar jugaador"
+              className="group-hover:opacity-100 opacity-0 absolute inset-0 w-full z-10 rounded-full"
+              hasIcon="only"
+              small>
+              <CloseIcon width={24} height={24} />
+            </Button>
             <Avatar border="border-gray-200" user={user} size={46} />
-          </a>
-        </Link>
+          </>
+        ) : (
+          <Link href={`/users/${user?.id}`}>
+            <a>
+              <Avatar border="border-gray-200" user={user} size={46} />
+            </a>
+          </Link>
+        )}
       </div>
       <div className="px-2 transition-opacity duration-300 opacity-0 group-hover:opacity-100 h-0 group-hover:h-auto overflow-hidden absolute -left-1 bottom-full">
         <div className="p-3 bg-white rounded-xl mb-2 w-40 shadow-md">
