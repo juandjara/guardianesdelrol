@@ -5,7 +5,7 @@ export default function Users() {
   useAuthGuard()
   return (
     <main className="flex-auto my-4">
-      <UserList />
+      <UserList className="overflow-auto rounded-lg" />
     </main>
   )
 }

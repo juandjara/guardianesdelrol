@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Skeleton from 'react-loading-skeleton'
 import Avatar from '../Avatar'
+import BackButton from '../BackButton'
 import Button, { buttonFocusStyle } from '../Button'
 import CloseIcon from '../icons/CloseIcon'
 import EditIcon from '../icons/EditIcon'
@@ -32,9 +33,9 @@ export default function UserDetail() {
   const roleCheck = useRoleCheck('superadmin', user?.id)
 
   return (
-    <div className="bg-white relative md:rounded-r-lg md:border-l border-gray-200 text-gray-700 pb-4">
-      {roleCheck && (
-        <header className="flex items-center justify-between m-2 absolute top-0 left-0 right-0">
+    <div className="bg-white text-gray-700 relative pb-4">
+      <header className="flex items-center justify-between m-2 absolute top-0 left-0 right-0">
+        {roleCheck ? (
           <Link href="/users">
             <button
               title="Cerrar"
@@ -43,6 +44,10 @@ export default function UserDetail() {
               <CloseIcon height={20} width={20} />
             </button>
           </Link>
+        ) : (
+          <BackButton colors="bg-opacity-20 text-white bg-gray-50 hover:bg-opacity-50" />
+        )}
+        {roleCheck && (
           <Link href={`/settings?id=${user?.id}`}>
             <a>
               <Button
@@ -55,10 +60,10 @@ export default function UserDetail() {
               </Button>
             </a>
           </Link>
-        </header>
-      )}
+        )}
+      </header>
       <div className="mx-4">
-        <div className="-mx-4 h-36 md:rounded-tr-lg w-auto pattern-bg"></div>
+        <div className="-mx-4 h-36 w-auto pattern-bg"></div>
         <div className="relative md:flex items-center">
           <div className="-mt-12">
             <Avatar border="border-gray-100" size={92} user={user} />
