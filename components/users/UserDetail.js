@@ -1,13 +1,17 @@
+import { deleteUser } from '@/lib/auth/authService'
 import useProfile from '@/lib/auth/useProfile'
 import useRoleCheck from '@/lib/auth/useRoleCheck'
 import usePostsForUser from '@/lib/posts/usePostsForUsers'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
+import { useAlert } from '../AlertContext'
 import Avatar from '../Avatar'
 import BackButton from '../BackButton'
 import Button, { buttonFocusStyle } from '../Button'
 import CloseIcon from '../icons/CloseIcon'
+import DeleteIcon from '../icons/DeleteIcon'
 import EditIcon from '../icons/EditIcon'
 import PostListItem from '../posts/PostListItem'
 import RoleTags from '../RoleTags'
@@ -27,10 +31,27 @@ function getAggs(posts, user) {
 
 export default function UserDetail() {
   const router = useRouter()
-  const { user } = useProfile(router.query.id)
-  const { posts } = usePostsForUser(router.query.id)
+  const id = router.query.id
+  const { user } = useProfile(id)
+  const { posts } = usePostsForUser(id)
   const { asdm, asplayer } = getAggs(posts, user)
   const roleCheck = useRoleCheck('superadmin', user?.id)
+  const [loading, setLoading] = useState(false)
+  const { setAlert } = useAlert()
+
+  async function handleDelete() {
+    setLoading(true)
+    try {
+      const confirmation = await deleteUser(id)
+      if (confirmation) {
+        return router.replace('/users')
+      }
+    } catch (error) {
+      console.error(error)
+      setAlert(error.message)
+    }
+    setLoading(false)
+  }
 
   return (
     <div className="bg-white text-gray-700 relative pb-4">
@@ -47,19 +68,32 @@ export default function UserDetail() {
         ) : (
           <BackButton colors="bg-opacity-20 text-white bg-gray-50 hover:bg-opacity-50" />
         )}
+        <div className="flex-grow"></div>
         {roleCheck && (
-          <Link href={`/settings?id=${user?.id}`}>
-            <a>
-              <Button
-                small
-                hasIcon="left"
-                color="w-auto text-white"
-                background="bg-red-700 hover:bg-red-600 hover:shadow-lg">
-                <EditIcon width={20} height={20} />
-                <span>Editar</span>
-              </Button>
-            </a>
-          </Link>
+          <>
+            <Button
+              small
+              hasIcon="left"
+              disabled={loading}
+              color="w-auto text-white"
+              onClick={handleDelete}
+              background="mr-4 bg-red-700 hover:bg-red-600 hover:shadow-lg">
+              <DeleteIcon width={20} height={20} />
+              <span>Borrar</span>
+            </Button>
+            <Link href={`/settings?id=${user?.id}`}>
+              <a>
+                <Button
+                  small
+                  hasIcon="left"
+                  color="w-auto text-white"
+                  background="bg-red-700 hover:bg-red-600 hover:shadow-lg">
+                  <EditIcon width={20} height={20} />
+                  <span>Editar</span>
+                </Button>
+              </a>
+            </Link>
+          </>
         )}
       </header>
       <div className="mx-4">
