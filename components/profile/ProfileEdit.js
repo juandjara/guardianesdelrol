@@ -64,7 +64,7 @@ export default function ProfileEdit() {
         <div className="mb-1 w-full flex items-center justify-between">
           <Label name="name" text="Nombre" />
           <p className="text-xs text-gray-500">
-            {form?.displayName.length || 0} / {NAME_MAXLENGTH}
+            {form?.name.length || 0} / {NAME_MAXLENGTH}
           </p>
         </div>
         <input
@@ -73,8 +73,8 @@ export default function ProfileEdit() {
           className="w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
           placeholder="Escribe tu nombre"
           maxLength={NAME_MAXLENGTH}
-          value={form?.displayName || ''}
-          onChange={ev => update('displayName', ev.target.value)}
+          value={form?.name || ''}
+          onChange={ev => update('name', ev.target.value)}
           required
         />
       </div>

@@ -55,7 +55,7 @@ export default function UserMenu() {
                 static
                 className="absolute right-2 w-48 rounded-md shadow-lg py-2 bg-white ring-1 ring-black ring-opacity-5">
                 <div className="mb-2 pt-1 pb-3 px-4 text-gray-900 border-b border-1 border-gray-300">
-                  <p className="mb-1 text-sm font-semibold truncate">{user.displayName}</p>
+                  <p className="mb-1 text-sm font-semibold truncate">{user.name}</p>
                   <p className="space-x-1 font-semibold">
                     <RoleTags user={user} />
                   </p>

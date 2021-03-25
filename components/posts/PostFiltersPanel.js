@@ -13,7 +13,7 @@ import BackIcon from '../icons/BackIcon'
 const SORT_OPTIONS = [
   { label: 'Fecha', value: null },
   { label: 'Nombre', value: 'name' },
-  { label: 'Narrador', value: 'narrator->display_name' }
+  { label: 'Narrador', value: 'narrator->name' }
 ]
 const SORT_TYPES = [
   { label: 'De mayor a menor', value: null },

@@ -1,13 +1,11 @@
 CREATE OR REPLACE FUNCTION narrator(posts)
 RETURNS jsonb AS $$
-    select
-        jsonb_build_object(
-            'id', u.id,
-            'display_name', u.display_name,
-            'email', u.email,
-            'avatar', u.avatar,
-            'anon', (p.narrator_id is null)
-        )
+    select jsonb_build_object(
+        'id', u.id,
+        'name', u.name,
+        'email', u.email,
+        'avatar', u.avatar
+    )
     from posts p
     left join users u on u.id = p.narrator_id
     where p.id = $1.id
@@ -18,13 +16,11 @@ RETURNS jsonb[] AS $$
 
 select COALESCE(array_agg(q.jsonb_build_object), ARRAY[]::jsonb[]) 
 from (
-    select
-    jsonb_build_object(
-        'id', u.id::text,
+    select jsonb_build_object(
+        'id', u.id,
+        'name', u.name,
         'email', u.email,
-        'display_name', u.display_name,
-        'avatar', u.avatar,
-        'anon', false
+        'avatar', u.avatar
     )
     from posts p
     join players up on up.post_id = p.id

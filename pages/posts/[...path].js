@@ -210,7 +210,7 @@ export default function PostDetails() {
                 <Avatar user={post?.narrator} size={32} />
               </a>
             </Link>
-            <span className="text-sm">{post?.narrator?.display_name}</span>
+            <span className="text-sm">{post?.narrator?.name}</span>
           </div>
         </div>
         <div

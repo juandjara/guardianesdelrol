@@ -5,7 +5,7 @@ export default async function createGuest(req, res) {
   const name = req.body.name
   const { data, error } = await supabase
     .from('users')
-    .insert([{ id: uuid(), display_name: name, email: 'guest' }])
+    .insert([{ id: uuid(), name, email: 'guest' }])
     .single()
 
   if (error) {

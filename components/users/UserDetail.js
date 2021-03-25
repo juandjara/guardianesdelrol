@@ -104,7 +104,7 @@ export default function UserDetail() {
           </div>
           <div className="mt-2 md:ml-2">
             <p className="space-x-1 font-semibold text-lg">
-              <span>{user ? user.displayName : <Skeleton />} </span>
+              <span>{user ? user.name : <Skeleton />} </span>
               <RoleTags user={user} />
             </p>
             <p className="mt-1 text-sm text-gray-600">{user ? user.bio : <Skeleton />}</p>

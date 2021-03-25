@@ -37,7 +37,7 @@ export default function Avatar({
   }
 
   if (!user?.avatar) {
-    const name = user.display_name || user.displayName
+    const name = user.name
     const initials = getInitials(name)
     return (
       <div className={CN} style={style}>

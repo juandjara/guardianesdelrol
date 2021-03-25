@@ -10,7 +10,7 @@ export default function Dashboard() {
   const { user } = useProfile()
   const { posts } = usePostsForUser()
 
-  const name = (user?.displayName || '').split(' ')[0]
+  const name = (user?.name || '').split(' ')[0]
   let numasdm = 0
   let numasplayer = 0
   for (const post of posts) {

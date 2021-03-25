@@ -28,16 +28,6 @@ const inputStyles =
   'w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500'
 const TextEditor = dynamic(() => import('@/components/TextEditor'), { ssr: false })
 
-async function fetchUsersForSelect(query) {
-  const { rows } = await fetchUsers(query)
-  return {
-    rows: rows.map(r => ({
-      ...r,
-      name: r.displayName
-    }))
-  }
-}
-
 function AddUserInput({ onAdd }) {
   const { setAlert } = useAlert()
   const isMountedRef = useIsMounted()
@@ -75,7 +65,7 @@ function AddUserInput({ onAdd }) {
             className="w-64"
             value={newUser}
             onChange={setNewUser}
-            fetcher={fetchUsersForSelect}
+            fetcher={fetchUsers}
             noDataMessage="Ningún usuario para esta búsqueda"
           />
           <Button

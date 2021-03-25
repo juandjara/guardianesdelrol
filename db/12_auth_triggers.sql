@@ -3,7 +3,7 @@
 CREATE OR REPLACE function public.handle_new_user() 
 returns trigger as $$
 begin
-  insert into public.users (id, email, display_name, role)
+  insert into public.users (id, email, name, role)
   values (
     NEW.id,
     md5(NEW.email),

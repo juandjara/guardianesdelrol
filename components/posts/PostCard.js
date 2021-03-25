@@ -77,7 +77,7 @@ export default function PostCard({ post }) {
           <Avatar user={post?.narrator} size={42} />
           {post ? (
             <div className="flex-grow pr-1">
-              <p className="text-base mb-1">{post.narrator?.display_name}</p>
+              <p className="text-base mb-1">{post.narrator?.name}</p>
               <p className="text-sm text-gray-400">
                 <span className="flex items-start space-x-2 mb-1">
                   <UserGroupIcon className="flex-shrink-0" height={20} width={20} />

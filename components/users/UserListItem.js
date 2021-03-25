@@ -52,7 +52,7 @@ export default function UserListItem({ showAccessColumn, user, selected }) {
         <div className="truncate flex-auto space-y-1">
           <Link href={`/users/${user?.id || ''}`}>
             <a ref={linkRef} className="space-x-1 font-semibold text-gray-700 focus:outline-none">
-              <span>{user ? user.displayName || 'Aventurero sin nombre' : <Skeleton />} </span>
+              <span>{user ? user.name || 'Aventurero sin nombre' : <Skeleton />} </span>
               <RoleTags user={user} />
             </a>
           </Link>
