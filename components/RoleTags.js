@@ -9,7 +9,7 @@ export default function RoleTags({ user }) {
   if (role === 'superadmin') {
     tags.push(
       <Tag color="green" key="dev">
-        dev
+        admin+
       </Tag>
     )
   }

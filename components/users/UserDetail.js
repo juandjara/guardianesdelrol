@@ -2,6 +2,7 @@ import { deleteUser } from '@/lib/auth/authService'
 import useProfile from '@/lib/auth/useProfile'
 import useRoleCheck from '@/lib/auth/useRoleCheck'
 import usePostsForUser from '@/lib/posts/usePostsForUsers'
+import { useQueryParams } from '@/lib/useQueryParams'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
@@ -9,8 +10,7 @@ import Skeleton from 'react-loading-skeleton'
 import { useAlert } from '../AlertContext'
 import Avatar from '../Avatar'
 import BackButton from '../BackButton'
-import Button, { buttonFocusStyle } from '../Button'
-import CloseIcon from '../icons/CloseIcon'
+import Button from '../Button'
 import DeleteIcon from '../icons/DeleteIcon'
 import EditIcon from '../icons/EditIcon'
 import PostListItem from '../posts/PostListItem'
@@ -29,11 +29,12 @@ function getAggs(posts, user) {
   return { asdm, asplayer }
 }
 
-export default function UserDetail() {
+export default function UserDetail({ className = '' }) {
   const router = useRouter()
-  const id = router.query.id
+  const { params } = useQueryParams()
+  const id = params.id
   const { user } = useProfile(id)
-  const { posts } = usePostsForUser(id)
+  const { posts, loading: loadingPosts } = usePostsForUser(id)
   const { asdm, asplayer } = getAggs(posts, user)
   const roleCheck = useRoleCheck('superadmin', user?.id)
   const [loading, setLoading] = useState(false)
@@ -54,20 +55,9 @@ export default function UserDetail() {
   }
 
   return (
-    <div className="bg-white text-gray-700 relative pb-4">
+    <div className={`bg-white text-gray-700 rounded-lg relative pb-4 ${className}`}>
       <header className="flex items-center justify-between m-2 absolute top-0 left-0 right-0">
-        {roleCheck ? (
-          <Link href="/users">
-            <button
-              title="Cerrar"
-              aria-label="Cerrar"
-              className={`p-2 rounded-full bg-opacity-20 text-white bg-gray-50 hover:bg-opacity-50 ${buttonFocusStyle}`}>
-              <CloseIcon height={20} width={20} />
-            </button>
-          </Link>
-        ) : (
-          <BackButton colors="bg-opacity-20 text-white bg-gray-50 hover:bg-opacity-50" />
-        )}
+        <BackButton colors="bg-opacity-20 text-white bg-gray-50 hover:bg-opacity-50" />
         <div className="flex-grow"></div>
         {roleCheck && (
           <>
@@ -97,7 +87,7 @@ export default function UserDetail() {
         )}
       </header>
       <div className="mx-4">
-        <div className="-mx-4 h-36 w-auto pattern-bg"></div>
+        <div className="-mx-4 h-36 w-auto pattern-bg rounded-t-lg"></div>
         <div className="relative md:flex items-center">
           <div className="-mt-12">
             <Avatar border="border-gray-100" size={92} user={user} />
@@ -110,28 +100,36 @@ export default function UserDetail() {
             <p className="mt-1 text-sm text-gray-600">{user ? user.bio : <Skeleton />}</p>
           </div>
         </div>
-        <div className="mt-8">
-          <p className="text-base text-gray-400 mb-4 mr-2">
-            <span className="text-2xl text-gray-700 font-medium mr-1">{asdm.length}</span>
-            {asdm.length === 1 ? 'partida narrada' : 'partidas narradas'}
-          </p>
-          <ul className="space-y-4">
-            {asdm.map(post => (
-              <PostListItem key={post.id} post={post} />
-            ))}
-          </ul>
-        </div>
-        <div className="mt-8">
-          <p className="text-base text-gray-400 mb-4 mr-2">
-            <span className="text-2xl text-gray-700 font-medium mr-1">{asplayer.length}</span>
-            {asplayer.length === 1 ? 'partida jugada' : 'partidas jugadas'}
-          </p>
-          <ul className="space-y-4">
-            {asplayer.map(post => (
-              <PostListItem key={post.id} post={post} />
-            ))}
-          </ul>
-        </div>
+        {loadingPosts ? (
+          <div className="mt-8">
+            <p className="text-base text-gray-400">Cargando partidas ...</p>
+          </div>
+        ) : (
+          <>
+            <div className="mt-8">
+              <p className="text-base text-gray-400 mb-4 mr-2">
+                <span className="text-2xl text-gray-700 font-medium mr-1">{asdm.length}</span>
+                {asdm.length === 1 ? 'partida narrada' : 'partidas narradas'}
+              </p>
+              <ul className="space-y-4">
+                {asdm.map(post => (
+                  <PostListItem key={post.id} post={post} />
+                ))}
+              </ul>
+            </div>
+            <div className="mt-8">
+              <p className="text-base text-gray-400 mb-4 mr-2">
+                <span className="text-2xl text-gray-700 font-medium mr-1">{asplayer.length}</span>
+                {asplayer.length === 1 ? 'partida jugada' : 'partidas jugadas'}
+              </p>
+              <ul className="space-y-4">
+                {asplayer.map(post => (
+                  <PostListItem key={post.id} post={post} />
+                ))}
+              </ul>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

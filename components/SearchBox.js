@@ -67,6 +67,7 @@ export default function SearchBox({ route }) {
   }
 
   function clearSearch() {
+    setSearch('')
     applySearch(null)
   }
 
@@ -105,19 +106,17 @@ export default function SearchBox({ route }) {
           placeholder="Busca y pulsa enter"
           className="w-full md:w-64 bg-red-900 h-8 pl-9 pr-9 text-base placeholder-gray-200 placeholder-opacity-50 border-transparent rounded-md focus:outline-none focus:ring-1 focus:ring-red-700 focus:border-red-700"
         />
-        {search && (
-          <Button
-            small
-            hasIcon="only"
-            type="button"
-            className="absolute right-0"
-            border="border-none"
-            color="text-white opacity-50 hover:opacity-100"
-            background="bg-transparent"
-            onClick={clearSearch}>
-            <CloseIcon width={20} height={20} />
-          </Button>
-        )}
+        <Button
+          small
+          hasIcon="only"
+          type="button"
+          className="absolute right-0"
+          border="border-none"
+          color="text-white opacity-50 hover:opacity-100"
+          background="bg-transparent"
+          onClick={clearSearch}>
+          <CloseIcon width={20} height={20} />
+        </Button>
         <input type="submit" hidden />
         {recentSearches.length ? (
           <div className="absolute w-full top-full rounded-md bg-red-900">

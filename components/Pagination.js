@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import Button from './Button'
 import Select from './Select'
 
-export default function Pagination({ count, page, rpp, onChange }) {
+export default function Pagination({ className = '', count, page, rpp, onChange }) {
   const lastPage = Math.floor(count / rpp)
   const selectedPage = useMemo(() => ({ label: page + 1, value: page }), [page])
   const pageOptions = useMemo(
@@ -38,7 +38,7 @@ export default function Pagination({ count, page, rpp, onChange }) {
   }
 
   return (
-    <div className="ml-auto flex items-center justify-end mt-8">
+    <div className={`ml-auto flex items-center justify-end mt-8 ${className}`}>
       <Button
         small
         hasIcon="only"

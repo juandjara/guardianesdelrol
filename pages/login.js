@@ -84,6 +84,7 @@ export default function Login() {
         <form
           onSubmit={handleSubmit}
           className="flex flex-col text-left max-w-md md:px-6 px-4 py-4">
+          <div className="flex-auto"></div>
           <h1 className="text-lg mb-6">Iniciar sesi&oacute;n</h1>
           <div>
             <Label name="email" text="E-mail" />
@@ -137,7 +138,7 @@ export default function Login() {
             </Button>
             <GoogleLoginButton />
           </div>
-          <p className="flex-auto mt-4 text-sm space-x-1">
+          <p className="mt-4 text-sm space-x-1">
             <span>¿Nuevo en la plataforma?</span>
             <span role="img" aria-label="dedo apuntando">
               👉
@@ -146,6 +147,7 @@ export default function Login() {
               <a className="text-blue-500">Crear cuenta</a>
             </Link>
           </p>
+          <div className="flex-auto"></div>
           <p className="mt-6 mb-2 text-xs">
             <em>
               * Un enlace único es un enlace que se envia a tu dirección de correo para que puedas
