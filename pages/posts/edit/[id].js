@@ -28,16 +28,55 @@ const inputStyles =
   'w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500'
 const TextEditor = dynamic(() => import('@/components/TextEditor'), { ssr: false })
 
+function PlayerListInput({ form, handleAddPlayer, handleRemovePlayer }) {
+  const [selected, setSelected] = useState(null)
+
+  function handleSelect(user) {
+    if (user.id === selected?.id) {
+      setSelected(null)
+    } else {
+      setSelected(user)
+    }
+  }
+
+  function handleRemove() {
+    handleRemovePlayer(selected)
+    setSelected(null)
+  }
+
+  return (
+    <div className="max-w-lg relative">
+      <div className="flex space-x-2 items-baseline">
+        <Label text="Jugadores" />
+        <span className="text-gray-500 text-base">
+          {form?.players.length || 0} / {form.seats}
+        </span>
+      </div>
+      <AddUserInput onAdd={handleAddPlayer} />
+      <AvatarList
+        selected={selected?.id}
+        onSelect={handleSelect}
+        users={form?.players}
+        action={
+          selected && (
+            <Button small className="mb-2 ml-2" onClick={handleRemove}>
+              Eliminar
+            </Button>
+          )
+        }
+      />
+    </div>
+  )
+}
+
 function AddUserInput({ onAdd }) {
   const { setAlert } = useAlert()
   const isMountedRef = useIsMounted()
   const [newUser, setNewUser] = useState(null)
-  const [open, setOpen] = useState(false)
 
   function handleClick() {
     onAdd(newUser)
     setNewUser(null)
-    setOpen(false)
   }
 
   async function handleNewUser() {
@@ -47,7 +86,6 @@ function AddUserInput({ onAdd }) {
       const res = await axios.post('/api/createGuest', { name })
       if (isMountedRef.current) {
         onAdd(res.data)
-        setOpen(false)
       }
     } catch (err) {
       console.error(err)
@@ -56,61 +94,60 @@ function AddUserInput({ onAdd }) {
   }
 
   return (
-    <>
-      {open ? (
-        <div className="flex items-center">
-          <Autocomplete
-            id="new_player"
-            placeholder="Buscar usuarios..."
-            className="w-64"
-            value={newUser}
-            onChange={setNewUser}
-            fetcher={fetchUsers}
-            noDataMessage="Ningún usuario para esta búsqueda"
-          />
-          <Button
-            small
-            disabled={!newUser}
-            onClick={handleClick}
-            type="button"
-            hasIcon="left"
-            background="bg-gray-100"
-            color="text-gray-700"
-            title="Añadir nuevo jugador"
-            border="border-gray-200 border-2 hover:border-gray-300"
-            className="ml-2 pl-2">
-            <svg
-              width={24}
-              height={24}
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-              />
-            </svg>
-            <span>Añadir</span>
-          </Button>
-        </div>
-      ) : (
-        <button
+    <div className="mb-4">
+      <div className="flex items-center">
+        <Autocomplete
+          id="new_player"
+          placeholder="Buscar jugadores..."
+          className="flex-auto"
+          value={newUser}
+          onChange={setNewUser}
+          fetcher={fetchUsers}
+          noDataMessage="Ningún usuario para esta búsqueda"
+        />
+        <Button
+          small
+          disabled={!newUser}
+          onClick={handleClick}
           type="button"
-          onClick={() => setOpen(true)}
-          className="block mt-1 hover:underline text-indigo-500 text-sm">
-          Añadir usuario
-        </button>
-      )}
+          hasIcon="left"
+          background="bg-gray-100"
+          color="text-gray-700"
+          title="Añadir nuevo jugador"
+          border="border-gray-200 border-2 hover:border-gray-300"
+          className="ml-2 pl-2">
+          <svg
+            width={24}
+            height={24}
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+            />
+          </svg>
+          <span>Añadir</span>
+        </Button>
+      </div>
       <button
         type="button"
         onClick={handleNewUser}
-        className="block mt-1 hover:underline text-blue-500 text-sm">
-        Crear usuario invitado
+        className="absolute -top-1 right-0 block mt-1 hover:underline text-blue-500 text-sm">
+        Crear jugador invitado
       </button>
-    </>
+    </div>
+  )
+}
+
+function Footnote({ className = '', children, ...props }) {
+  return (
+    <p className={`${className} text-xs text-gray-500 mt-1 ml-1`} {...props}>
+      {children}
+    </p>
   )
 }
 
@@ -133,6 +170,7 @@ export default function PostEdit() {
   const formValid = form.name && form.date && form.game
 
   useEffect(() => {
+    setPlaceURLOpen(!!post?.place_link)
     setForm(postToForm(post))
     dispatch({ type: 'RESET', payload: defaultImageState(post) })
   }, [post])
@@ -144,7 +182,8 @@ export default function PostEdit() {
   function handleAddPlayer(user) {
     setForm(form => ({
       ...form,
-      players: form.players.concat(user)
+      players: form.players.concat(user),
+      seats: Math.max(form.players.length + 1, form.seats)
     }))
   }
 
@@ -241,12 +280,12 @@ export default function PostEdit() {
           <ImageInput state={imageState} dispatch={dispatch} />
         </div>
         <div className="max-w-lg">
-          <Label name="name" text={required('Nombre')} />
+          <Label name="name" text={required('Título')} />
           <input
             id="name"
             type="text"
             className={inputStyles}
-            placeholder="Nombre"
+            placeholder="Título de la partida"
             value={form.name}
             onChange={ev => update('name', ev.target.value)}
             required
@@ -300,7 +339,7 @@ export default function PostEdit() {
               type="button"
               onClick={() => setPlaceURLOpen(!placeURLOpen)}
               className="hover:underline text-indigo-500 text-sm">
-              {placeURLOpen ? 'Ocultar enlace' : 'Mostrar enlace'}
+              {placeURLOpen ? 'Ocultar enlace' : 'Añadir enlace'}
             </button>
           </div>
           <input
@@ -319,14 +358,19 @@ export default function PostEdit() {
             leave="origin-top transition transform duration-200 ease-out"
             leaveFrom="scale-y-100 opacity-100"
             leaveTo="scale-y-50 opacity-0">
-            <input
-              id="place_link"
-              type="url"
-              className={`mt-1 ${inputStyles}`}
-              placeholder="Añadir enlace aquí"
-              value={form.place_link}
-              onChange={ev => update('place_link', ev.target.value)}
-            />
+            <div>
+              <input
+                id="place_link"
+                type="url"
+                className={`mt-1 ${inputStyles}`}
+                placeholder="Enlace"
+                value={form.place_link}
+                onChange={ev => update('place_link', ev.target.value)}
+              />
+              <Footnote>
+                Aquí puedes añadir un enlace a discord, google maps, roll20, o cualquier cosa
+              </Footnote>
+            </div>
           </Transition>
         </div>
         <div className="max-w-lg">
@@ -341,6 +385,7 @@ export default function PostEdit() {
             noOptionsMessage={() => 'Ningún evento para esta búsqueda'}
             placeholder="Selecciona un evento"
           />
+          <Footnote>Opcional</Footnote>
         </div>
         <div className="max-w-lg">
           <Label text="Etiquetas" />
@@ -349,26 +394,25 @@ export default function PostEdit() {
             onChange={ev => update('tags', ev)}
             placeholder="Introduce etiquetas separadas por comas"
           />
+          <Footnote>Opcional</Footnote>
         </div>
-        <div>
-          <div className="mb-4 flex space-x-2 items-baseline">
-            <Label name="seats" margin="" text="Jugadores" />
-            <span className="flex-shrink-0">{form?.players.length || 0} /</span>
-            <div className="w-20" title="Plazas totales">
-              <input
-                id="seats"
-                type="text"
-                className={inputStyles}
-                placeholder=""
-                value={form.seats}
-                onChange={ev => update('seats', ev.target.value)}
-                required
-              />
-            </div>
-          </div>
-          <AvatarList onItemClick={handleRemovePlayer} users={form?.players} />
-          {form?.players.length < form.seats && <AddUserInput onAdd={handleAddPlayer} />}
+        <div className="max-w-lg">
+          <Label name="seats" text="Plazas totales" />
+          <input
+            id="seats"
+            type="text"
+            className={inputStyles}
+            placeholder=""
+            value={form.seats}
+            onChange={ev => update('seats', ev.target.value)}
+            required
+          />
         </div>
+        <PlayerListInput
+          form={form}
+          handleAddPlayer={handleAddPlayer}
+          handleRemovePlayer={handleRemovePlayer}
+        />
         <div className="pt-4 h-full editor-wrapper">
           <Label name="" text="Descripción" />
           <TextEditor

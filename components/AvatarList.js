@@ -1,28 +1,24 @@
 import Avatar from '@/components/Avatar'
 import Link from 'next/link'
 import Button from './Button'
-import CloseIcon from './icons/CloseIcon'
 
-function AvatarListItem({ onClick, user, count }) {
+function AvatarListItem({ selected, onSelect, user, count }) {
   return (
     <li key={user.id} className="group relative -ml-2 mb-2">
       <div className="relative group">
-        {onClick ? (
-          <>
-            <Button
-              onClick={onClick}
-              type="button"
-              border="border-none"
-              background="bg-red-500 bg-opacity-20"
-              color="text-white"
-              title="Eliminar jugaador"
-              className="group-hover:opacity-100 opacity-0 absolute inset-0 w-full z-10 rounded-full"
-              hasIcon="only"
-              small>
-              <CloseIcon width={24} height={24} />
-            </Button>
+        {onSelect ? (
+          <Button
+            onClick={() => onSelect(user)}
+            type="button"
+            border={selected ? 'border-blue-500 border-2' : 'border-none'}
+            background="bg-transparent"
+            color="text-white"
+            title="Eliminar jugaador"
+            className="rounded-full px-0 py-0"
+            hasIcon="only"
+            small>
             <Avatar border="border-gray-200" user={user} size={46} />
-          </>
+          </Button>
         ) : (
           <Link href={`/users/${user?.id}`}>
             <a>
@@ -46,7 +42,14 @@ function AvatarListItem({ onClick, user, count }) {
   )
 }
 
-export default function AvatarList({ onItemClick, className = '', users = [], count, action }) {
+export default function AvatarList({
+  selected,
+  onSelect,
+  className = '',
+  users = [],
+  count,
+  action
+}) {
   return (
     <ul className={`flex flex-wrap items-center ml-2 ${className}`}>
       {users.map(u => (
@@ -54,7 +57,8 @@ export default function AvatarList({ onItemClick, className = '', users = [], co
           key={u.id}
           user={u}
           count={count}
-          onClick={onItemClick && (() => onItemClick(u))}
+          selected={selected === u.id}
+          onSelect={onSelect}
         />
       ))}
       {action}
