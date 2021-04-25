@@ -20,8 +20,8 @@ function TransitionMenuIcon({ as: Component, show }) {
 const links = [
   { role: 'superadmin', href: '/users', text: 'Usuarios' },
   { href: '/posts', text: 'Partidas' },
-  { href: '/catalog', text: 'Juegos' },
-  { href: '/events', text: 'Eventos' }
+  { href: '/catalog', text: 'Juegos' }
+  // { href: '/events', text: 'Eventos' }
 ]
 
 export default function Nav() {
