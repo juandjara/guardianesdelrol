@@ -8,7 +8,7 @@ import Select from 'react-select'
 import Title from '@/components/Title'
 import { fetchGames } from '@/lib/games/useGames'
 import usePostDetail from '@/lib/posts/usePostDetail'
-import useSections from '@/lib/useSections'
+import useSections, { createSection } from '@/lib/useSections'
 import { defaultImageState, imageReducer } from '@/lib/images/imageReducer'
 import uploadImage from '@/lib/images/uploadImage'
 import dynamic from 'next/dynamic'
@@ -164,7 +164,7 @@ export default function PostEdit() {
   const [form, setForm] = useState(() => postToForm(post))
   const [imageState, dispatch] = useReducer(imageReducer, defaultImageState(post))
 
-  const { sections } = useSections()
+  const { sections, mutate: mutateSections } = useSections()
   const sectionOptions = sections.map(s => ({ value: s.id, label: s.name }))
   const [placeURLOpen, setPlaceURLOpen] = useState(false)
   const formValid = form.name && form.date && form.game
@@ -265,6 +265,20 @@ export default function PostEdit() {
     }
   }
 
+  async function handleNewSection() {
+    const name = window.prompt('Introduzca el nombre del nuevo evento')
+    if (!name) return
+    try {
+      await createSection(name)
+      if (isMountedRef.current) {
+        mutateSections()
+      }
+    } catch (err) {
+      console.error(err)
+      setAlert(err.message)
+    }
+  }
+
   return (
     <main className="flex-auto py-3 mx-auto max-w-3xl w-full">
       <Title title={title} />
@@ -293,7 +307,7 @@ export default function PostEdit() {
         </div>
         <div className="max-w-lg">
           <div className="mb-1 flex items-center justify-between">
-            <Label margin="" name="game" text={required('Juego')} />
+            <Label margin={false} name="game" text={required('Juego')} />
             <button
               type="button"
               onClick={handleNewGame}
@@ -334,7 +348,7 @@ export default function PostEdit() {
         </div>
         <div className="max-w-lg">
           <div className="mb-1 flex items-center justify-between">
-            <Label margin="" name="place" text="Lugar" />
+            <Label margin={false} name="place" text="Lugar" />
             <button
               type="button"
               onClick={() => setPlaceURLOpen(!placeURLOpen)}
@@ -374,7 +388,15 @@ export default function PostEdit() {
           </Transition>
         </div>
         <div className="max-w-lg">
-          <Label name="section" text="Evento" />
+          <div className="mb-1 flex items-center justify-between">
+            <Label margin={false} name="section" text="Evento" />
+            <button
+              type="button"
+              onClick={handleNewSection}
+              className="hover:underline text-blue-500 text-sm">
+              Crear evento nuevo
+            </button>
+          </div>
           <Select
             name="section"
             isClearable
