@@ -4,6 +4,7 @@ import CloseIcon from './icons/CloseIcon'
 import { Menu, Transition } from '@headlessui/react'
 import NavLink from './NavLink'
 import useProfile from '@/lib/auth/useProfile'
+import { useRef } from 'react'
 
 function TransitionMenuIcon({ as: Component, show }) {
   return (
@@ -25,6 +26,7 @@ const links = [
 ]
 
 export default function Nav() {
+  const menuToggleRef = useRef()
   const { user } = useProfile()
   const filteredLinks = links.filter(link => {
     if (!link.role) {
@@ -32,6 +34,13 @@ export default function Nav() {
     }
     return user ? user.role === link.role : false
   })
+
+  function handleClick() {
+    if (menuToggleRef.current) {
+      menuToggleRef.current.click()
+    }
+  }
+
   return (
     <>
       <div className="hidden md:flex flex-1 mx-1 space-x-1">
@@ -45,7 +54,9 @@ export default function Nav() {
         <Menu>
           {({ open }) => (
             <>
-              <Menu.Button className={`relative m-2 w-10 h-10 rounded-lg ${buttonFocusStyle}`}>
+              <Menu.Button
+                ref={menuToggleRef}
+                className={`relative m-2 w-10 h-10 rounded-lg ${buttonFocusStyle}`}>
                 <span className="sr-only">Mobile nav menu</span>
                 <TransitionMenuIcon as={CloseIcon} show={open} />
                 <TransitionMenuIcon as={MenuIcon} show={!open} />
@@ -64,7 +75,7 @@ export default function Nav() {
                   {filteredLinks.map(l => (
                     <Menu.Item key={l.href}>
                       {({ active }) => (
-                        <NavLink active={active} key={l.href} href={l.href}>
+                        <NavLink onClick={handleClick} active={active} key={l.href} href={l.href}>
                           {l.text}
                         </NavLink>
                       )}

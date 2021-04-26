@@ -8,7 +8,8 @@ export default function NavLink({
   active = false,
   children,
   as,
-  className = ''
+  className = '',
+  onClick
 }) {
   const { asPath } = useRouter()
 
@@ -21,7 +22,10 @@ export default function NavLink({
 
   return (
     <Link href={href} as={as}>
-      <a className={`${style} ${activeStyle} ${className}`}>{children}</a>
+      {/* eslint-disable-next-line */}
+      <a onClick={onClick} className={`${style} ${activeStyle} ${className}`}>
+        {children}
+      </a>
     </Link>
   )
 }
