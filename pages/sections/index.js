@@ -15,7 +15,7 @@ function ListHeader({ count }) {
         <span>Eventos</span>
       </h1>
       <div className="flex-grow"></div>
-      <Link href="/events/edit/new">
+      <Link href="/sections/edit/new">
         <a className="hover:no-underline">
           <Button
             small
