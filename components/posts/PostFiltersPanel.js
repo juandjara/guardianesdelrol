@@ -84,6 +84,7 @@ export default function PostFiltersPanel() {
   )
 
   function apply() {
+    setOpen(false)
     router.push({
       pathname: router.pathname,
       query: {
@@ -101,6 +102,7 @@ export default function PostFiltersPanel() {
   }
 
   function clear() {
+    setOpen(false)
     const query = { ...router.query, page: 0 }
     delete query.s
     delete query.t

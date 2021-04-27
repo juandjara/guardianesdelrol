@@ -73,6 +73,7 @@ export default function UserFiltersPanel() {
   }
 
   function apply() {
+    setOpen(false)
     router.push({
       pathname: router.pathname,
       query: {
@@ -87,6 +88,7 @@ export default function UserFiltersPanel() {
   }
 
   function clear() {
+    setOpen(false)
     const query = { ...router.query, page: 0 }
     delete query.rpp
     delete query.sk
