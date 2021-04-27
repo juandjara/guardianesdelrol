@@ -269,9 +269,10 @@ export default function PostEdit() {
     const name = window.prompt('Introduzca el nombre del nuevo evento')
     if (!name) return
     try {
-      await createSection(name)
+      const section = await createSection(name)
       if (isMountedRef.current) {
         mutateSections()
+        update('section', { label: section.name, value: section.id })
       }
     } catch (err) {
       console.error(err)
