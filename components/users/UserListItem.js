@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 import Avatar from '../Avatar'
 import RoleTags from '../RoleTags'
-import { useQueryParams } from '@/lib/useQueryParams'
 
 function formatDate(n) {
   if (!n) {
@@ -18,7 +17,6 @@ function formatDate(n) {
 export default function UserListItem({ showAccessColumn, user, selected }) {
   const liRef = useRef()
   const linkRef = useRef()
-  const { query } = useQueryParams()
 
   useEffect(() => {
     if (selected && liRef.current) {
@@ -52,7 +50,7 @@ export default function UserListItem({ showAccessColumn, user, selected }) {
           border={selected ? 'border-red-500' : 'border-red-500 border-opacity-25'}
         />
         <div className="truncate flex-auto space-y-1">
-          <Link href={`/users/${user?.id || ''}?${query}`}>
+          <Link href={`/users/${user?.id || ''}`}>
             <a ref={linkRef} className="space-x-1 font-semibold text-gray-700 focus:outline-none">
               <span>{user ? user.name || 'Aventurero sin nombre' : <Skeleton />} </span>
               <RoleTags user={user} />
