@@ -5,7 +5,9 @@ CREATE TABLE games (
   name text not null,
   slug text generated always as (slugify(name)) stored,
   description text,
-  tags text[] DEFAULT '{}'::text[] NOT NULL
+  tags text[] DEFAULT '{}'::text[] NOT NULL,
+  image varchar,
+  image_position number
 );
 
 CREATE EXTENSION IF NOT EXISTS moddatetime SCHEMA extensions;
