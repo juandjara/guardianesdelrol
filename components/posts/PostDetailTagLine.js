@@ -38,9 +38,11 @@ export default function PostDetailTagLine({ post }) {
       {tag}
     </Tag>
   ))
-  const redTag = post.section ? (
+  const redTag = post.section?.id ? (
     <Tag color="red">
-      <Link href={`/posts?s=${post.section.id}`}>{post.section.name}</Link>
+      <Link href={`/posts?s=${post.section.id}`}>
+        {post.section.name || `Evento ID${post.section?.id}`}
+      </Link>
     </Tag>
   ) : null
 
