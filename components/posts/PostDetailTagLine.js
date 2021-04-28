@@ -57,7 +57,7 @@ export default function PostDetailTagLine({ post }) {
       </span>
       {blueTags}
       {redTag}
-      <span className="flex-grow-0 md:flex-grow"></span>
+      <span className="hidden md:inline md:flex-grow"></span>
       <PlaceLink post={post} />
     </div>
   )
