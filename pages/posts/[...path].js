@@ -2,7 +2,6 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Button from '@/components/Button'
 import usePostDetail from '@/lib/posts/usePostDetail'
-// import useAuthGuard from '@/lib/auth/useAuthGuard'
 import Link from 'next/link'
 import Skeleton from 'react-loading-skeleton'
 import Avatar from '@/components/Avatar'
@@ -17,6 +16,7 @@ import Title from '@/components/Title'
 import ImageKit from '@/components/ImageKit'
 import { addPlayer, removePlayer } from '@/lib/posts/postActions'
 import useRoleCheck from '@/lib/auth/useRoleCheck'
+import useAuthGuard from '@/lib/auth/useAuthGuard'
 
 function ActionButton({ margin, post, onAdd, onDelete, loading }) {
   const session = useSession()
@@ -84,6 +84,7 @@ function ActionButton({ margin, post, onAdd, onDelete, loading }) {
 }
 
 export default function PostDetails() {
+  useAuthGuard()
   const router = useRouter()
   const [id, slug] = router.query.path || []
 
