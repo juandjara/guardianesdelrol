@@ -41,14 +41,15 @@ function ImageDialog({ url, position, onClose, onConfirm }) {
       <div className="mt-6 mb-3">
         <p className="text-sm text-gray-700 font-medium">Recorte</p>
         <div className="md:flex flex-wrap items-center md:space-x-6">
-          <Slider
-            min={0}
-            max={100}
-            step={1}
-            className="flex-grow cursor-pointer"
-            value={customPosition}
-            onChange={setCustomPosition}
-          />
+          <div className="flex-grow cursor-pointer my-4">
+            <Slider
+              min={0}
+              max={100}
+              step={1}
+              value={customPosition}
+              onChange={setCustomPosition}
+            />
+          </div>
           <div className="space-x-2">
             <input
               className="inline w-24 rounded-md"
