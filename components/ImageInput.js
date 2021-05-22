@@ -151,7 +151,7 @@ function ImageEditor({ url, filename, position, setPosition, onRemove = () => {}
             <CloseIcon width={20} height={20} />
           </Button>
         </div>
-        <p className="truncate p-3 pt-12 absolute bottom-0 right-0 left-0 text-white font-medium bg-gradient-to-b from-transparent to-red-900">
+        <p className="truncate p-3 md:pt-12 absolute bottom-0 right-0 left-0 text-white font-medium bg-gradient-to-b from-transparent to-red-900">
           {filename}
         </p>
       </div>
