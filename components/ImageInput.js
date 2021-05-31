@@ -218,9 +218,9 @@ function ImageUploader({ onFileChange }) {
           <p className="pl-1">or drag and drop</p>
         </div>
         <p className="text-xs text-gray-500 pb-1">PNG, JPG, GIF up to 10MB</p>
-        <Button type="button" small>
+        {/* <Button type="button" small>
           <p className="m-0 text-xs">Select from posts gallery</p>
-        </Button>
+        </Button> */}
       </div>
     </div>
   )
