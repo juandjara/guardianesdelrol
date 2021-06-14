@@ -225,7 +225,7 @@ export default function PostFiltersPanel() {
           </div>
         </section>
         <Select
-          label="Seccion"
+          label="Evento"
           noSelectionLabel="Todas"
           className="w-64"
           options={sectionOptions}
