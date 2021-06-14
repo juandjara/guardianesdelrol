@@ -226,7 +226,7 @@ export default function PostFiltersPanel() {
         </section>
         <Select
           label="Evento"
-          noSelectionLabel="Todas"
+          noSelectionLabel="Todos"
           className="w-64"
           options={sectionOptions}
           selected={selectedSection}
