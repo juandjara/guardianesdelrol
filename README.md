@@ -1,5 +1,31 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Setting Up Credentials
+
+This project uses the following free services:
+
+* [ImageKit](https://imagekit.io/)
+* [Supabase](https://supabase.com/)
+
+You will need to register an account in both of these services and create an `.env.local` file with the credentials for them.
+
+You can see an example of the file in the `.env.example` file. You can copy this file to a `.env.local` and write your credentials there.
+
+```
+# Supabase Admin Key, to be used only by API endpoints
+SUPABASE_ADMIN_KEY=
+
+# Supabase URL and public Key, to be used by the client
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_KEY=
+
+# ImageKit URL, to be used by the client
+NEXT_PUBLIC_IMAGEKIT_URL=
+
+# ImageKit Private Key, To be used only by API endpoints
+IMAGEKIT_PRIVATE_KEY=
+```
+
 ## Getting Started
 
 First, run the development server:
