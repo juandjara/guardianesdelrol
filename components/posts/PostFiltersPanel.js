@@ -24,6 +24,7 @@ function initialFilterState(params) {
   return {
     section: Number(params.s),
     onlyFreeSeats: !!params.ofs,
+    includeDrafts: !!params.id,
     startDate: params.sd,
     endDate: params.ed,
     rpp: params.rpp || DEFAULT_RPP,
@@ -41,6 +42,7 @@ export default function PostFiltersPanel() {
     params.t ||
       params.s ||
       params.ofs ||
+      params.id ||
       params.sd ||
       params.ed ||
       Number(params.rpp || DEFAULT_RPP) !== DEFAULT_RPP ||
@@ -49,7 +51,16 @@ export default function PostFiltersPanel() {
   )
 
   const [filters, setFilters] = useState(() => initialFilterState(params))
-  const { section, onlyFreeSeats, startDate, endDate, rpp, sortKey, sortType } = filters
+  const {
+    section,
+    onlyFreeSeats,
+    includeDrafts,
+    startDate,
+    endDate,
+    rpp,
+    sortKey,
+    sortType
+  } = filters
 
   const selectedSortKey = SORT_OPTIONS.find(s => s.value === sortKey)
   const selectedSortType = SORT_TYPES.find(s => s.value === sortType)
@@ -92,6 +103,7 @@ export default function PostFiltersPanel() {
         page: 0,
         s: section || undefined,
         ofs: onlyFreeSeats ? '1' : undefined,
+        id: includeDrafts ? '1' : undefined,
         sd: startDate || undefined,
         ed: endDate || undefined,
         rpp,
@@ -107,6 +119,7 @@ export default function PostFiltersPanel() {
     delete query.s
     delete query.t
     delete query.ofs
+    delete query.id
     delete query.sd
     delete query.ed
     delete query.rpp
@@ -269,6 +282,17 @@ export default function PostFiltersPanel() {
               onChange={ev => update('onlyFreeSeats', ev.target.checked)}
             />
             <span>Solo partidas con plazas libres</span>
+          </label>
+        </section>
+        <section className="pt-2">
+          <label className="inline-flex space-x-1 items-center">
+            <input
+              type="checkbox"
+              className="rounded-sm text-red-500 border-red-300"
+              checked={includeDrafts}
+              onChange={ev => update('includeDrafts', ev.target.checked)}
+            />
+            <span>Incluir borradores</span>
           </label>
         </section>
       </div>

@@ -294,6 +294,22 @@ export default function PostEdit() {
           <Label text="Imagen" />
           <ImageInput state={imageState} dispatch={dispatch} />
         </div>
+        <div>
+          <label className="inline-flex space-x-2 items-center">
+            <input
+              type="checkbox"
+              className="rounded-sm text-red-500 border-red-500"
+              checked={form.is_draft}
+              onChange={ev => update('is_draft', ev.target.checked)}
+            />
+            <span>
+              <span>Borrador</span>
+              <small className="ml-1 text-gray-500">
+                (esta partida solo estará visible desde el panel <em>mis partidas</em>)
+              </small>
+            </span>
+          </label>
+        </div>
         <div className="max-w-lg">
           <Label name="name" text={required('Título')} />
           <input
