@@ -23,9 +23,10 @@ import { Transition } from '@headlessui/react'
 import { upsertGame } from '@/lib/games/gameActions'
 import useIsMounted from '@/lib/useIsMounted'
 import axios from 'axios'
+import CloseIcon from '@/components/icons/CloseIcon'
 
 const inputStyles =
-  'w-full h-10 px-3 text-base placeholder-gray-500 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500'
+  'w-full h-10 px-3 text-base placeholder-gray-500 placeholder-opacity-50 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500'
 const TextEditor = dynamic(() => import('@/components/TextEditor'), { ssr: false })
 
 function PlayerListInput({ form, handleAddPlayer, handleRemovePlayer }) {
@@ -168,6 +169,7 @@ export default function PostEdit() {
   const sectionOptions = sections.map(s => ({ value: s.id, label: s.name }))
   const [placeURLOpen, setPlaceURLOpen] = useState(false)
   const formValid = form.name && form.date && form.game
+  const hasMultipleDates = !!form.dates_with_labels.length
 
   useEffect(() => {
     setPlaceURLOpen(!!post?.place_link)
@@ -280,6 +282,58 @@ export default function PostEdit() {
     }
   }
 
+  function toggleMultipleDates() {
+    if (hasMultipleDates) {
+      update('dates_with_labels', [])
+    } else {
+      update('dates_with_labels', [{ date: form.date, time: form.time, label: '' }])
+    }
+  }
+
+  function updateDateValue(index, value) {
+    const newDates = form.dates_with_labels.map((d, i) => {
+      if (i === index) {
+        d.date = value
+      }
+      return d
+    })
+    update('dates_with_labels', newDates)
+  }
+
+  function updateDateTime(index, time) {
+    const newDates = form.dates_with_labels.map((d, i) => {
+      if (i === index) {
+        d.time = time
+      }
+      return d
+    })
+    update('dates_with_labels', newDates)
+  }
+
+  function updateDateLabel(index, label) {
+    const newDates = form.dates_with_labels.map((d, i) => {
+      if (i === index) {
+        d.label = label
+      }
+      return d
+    })
+    update('dates_with_labels', newDates)
+  }
+
+  function addNewDate() {
+    update(
+      'dates_with_labels',
+      form.dates_with_labels.concat({ date: null, time: null, label: '' })
+    )
+  }
+
+  function removeDate(date) {
+    update(
+      'dates_with_labels',
+      form.dates_with_labels.filter(f => f !== date)
+    )
+  }
+
   return (
     <main className="flex-auto py-3 mx-auto max-w-3xl w-full">
       <Title title={title} />
@@ -341,28 +395,106 @@ export default function PostEdit() {
           />
         </div>
         <div className="max-w-lg">
-          <Label name="date" text={required('Fecha')} />
-          <input
-            id="date"
-            type="date"
-            className={inputStyles}
-            placeholder="DD/MM/AAAA"
-            value={form.date}
-            onChange={ev => update('date', ev.target.value)}
-            required
-          />
+          <div className="mb-1 flex items-center justify-between">
+            <Label name="date" text={required(hasMultipleDates ? 'Fechas' : 'Fecha')} />
+            <button
+              type="button"
+              className="hover:underline text-blue-500 text-sm"
+              onClick={toggleMultipleDates}>
+              {hasMultipleDates ? 'Usar fecha simple' : 'Usar multiples fechas'}
+            </button>
+          </div>
+          {hasMultipleDates ? (
+            <>
+              <ul className="space-y-2">
+                {form.dates_with_labels.map((d, i) => (
+                  <li key={i} className="flex items-center justify-between space-x-2">
+                    <input
+                      id={`date_${i}`}
+                      type="date"
+                      className={inputStyles}
+                      placeholder="DD/MM/AAAA"
+                      value={d.date}
+                      onChange={ev => updateDateValue(i, ev.target.value)}
+                      required
+                    />
+                    <input
+                      id={`time_${i}`}
+                      type="text"
+                      className={inputStyles}
+                      placeholder="HH:mm"
+                      value={d.time}
+                      onChange={ev => updateDateTime(i, ev.target.value)}
+                    />
+                    <input
+                      id={`date_label_${i}`}
+                      type="text"
+                      className={inputStyles}
+                      placeholder="Descripción"
+                      value={d.label}
+                      onChange={ev => updateDateLabel(i, ev.target.value)}
+                      required
+                    />
+                    <Button
+                      small
+                      hasIcon="only"
+                      type="button"
+                      className=""
+                      border="border-none"
+                      color="text-gray-500"
+                      background="bg-transparent"
+                      onClick={() => removeDate(d)}>
+                      <CloseIcon width={20} height={20} />
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+              <button
+                type="button"
+                className="mt-2 p-2 rounded-md flex items-center space-x-1 hover:underline text-blue-500 text-sm"
+                onClick={addNewDate}>
+                <svg
+                  width={20}
+                  height={20}
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                  />
+                </svg>
+                <span>Añadir fecha</span>
+              </button>
+            </>
+          ) : (
+            <input
+              id="date"
+              type="date"
+              className={inputStyles}
+              placeholder="DD/MM/AAAA"
+              value={form.date}
+              onChange={ev => update('date', ev.target.value)}
+              required
+            />
+          )}
         </div>
-        <div className="max-w-lg">
-          <Label name="time" text="Hora" />
-          <input
-            id="time"
-            type="text"
-            className={inputStyles}
-            placeholder="HH:mm"
-            value={form.time}
-            onChange={ev => update('time', ev.target.value)}
-          />
-        </div>
+        {hasMultipleDates ? null : (
+          <div className="max-w-lg">
+            <Label name="time" text="Hora" />
+            <input
+              id="time"
+              type="text"
+              className={inputStyles}
+              placeholder="HH:mm"
+              value={form.time}
+              onChange={ev => update('time', ev.target.value)}
+            />
+          </div>
+        )}
         <div className="max-w-lg">
           <div className="mb-1 flex items-center justify-between">
             <Label margin={false} name="place" text="Lugar" />

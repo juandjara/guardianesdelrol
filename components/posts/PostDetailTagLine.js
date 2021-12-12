@@ -28,6 +28,12 @@ function PlaceLink({ post }) {
   )
 }
 
+function formatDateTime({ date, time, label }) {
+  const dateStr = new Date(date).toLocaleDateString('es', { dateStyle: 'medium' })
+  const dateTime = `${dateStr} ${time || ''}`
+  return label ? `${dateTime} - ${label}` : dateTime
+}
+
 export default function PostDetailTagLine({ post }) {
   if (!post) {
     return <Skeleton />
@@ -46,15 +52,20 @@ export default function PostDetailTagLine({ post }) {
     </Tag>
   ) : null
 
-  const date = new Date(post.date).toLocaleDateString('es', { dateStyle: 'medium' })
-  const datetime = `${date} ${post.time || ''}`
+  const dateTime = post.dates_with_labels.length
+    ? post.dates_with_labels
+    : [{ date: post.date, time: post.time }]
 
   return (
     <div className="flex flex-wrap items-center font-semibold space-x-2 mr-1 mb-1 -ml-2 md:-ml-0">
-      <span className="my-1 ml-2 md:ml-0 mr-1 w-full md:w-auto flex items-center text-sm text-gray-500 font-medium">
-        <CalendarIcon className="mr-1 text-gray-400" width={16} height={16} />
-        {datetime}
-      </span>
+      {dateTime.map((d, i) => (
+        <span
+          key={i}
+          className="my-1 ml-2 md:ml-0 mr-1 w-full md:w-auto flex items-center text-sm text-gray-500 font-medium">
+          <CalendarIcon className="mr-1 text-gray-400" width={16} height={16} />
+          {formatDateTime(d)}
+        </span>
+      ))}
       {blueTags}
       {redTag}
       <span className="hidden md:inline md:flex-grow"></span>
