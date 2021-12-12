@@ -496,7 +496,9 @@ CREATE TABLE public.posts (
     game integer,
     narrator_id uuid,
     "time" character varying,
-    image_position character varying
+    image_position character varying,
+    is_draft boolean DEFAULT false NOT NULL,
+    dates_with_labels jsonb[] DEFAULT '{}'::jsonb[] NOT NULL
 );
 
 
