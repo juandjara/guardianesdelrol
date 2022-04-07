@@ -24,6 +24,7 @@ import { upsertGame } from '@/lib/games/gameActions'
 import useIsMounted from '@/lib/useIsMounted'
 import axios from 'axios'
 import CloseIcon from '@/components/icons/CloseIcon'
+import { useQueryParams } from '@/lib/useQueryParams'
 
 const inputStyles =
   'w-full h-10 px-3 text-base placeholder-gray-500 placeholder-opacity-50 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500'
@@ -155,6 +156,7 @@ function Footnote({ className = '', children, ...props }) {
 export default function PostEdit() {
   const router = useRouter()
   const id = router.query.id === 'new' ? null : router.query.id
+  const { params } = useQueryParams()
   const { data: post } = usePostDetail(id)
   const title = id ? `Editar partida` : 'Nueva partida'
   const updateEditor = useCallback(value => update('description', value), [])
@@ -170,6 +172,15 @@ export default function PostEdit() {
   const [placeURLOpen, setPlaceURLOpen] = useState(false)
   const formValid = form.name && form.date && form.game
   const hasMultipleDates = !!form.dates_with_labels.length
+
+  useEffect(() => {
+    if (params.initialSection && !form.section && sectionOptions.length) {
+      update(
+        'section',
+        sectionOptions.find(s => String(s.value) === params.initialSection)
+      )
+    }
+  }, [params.initialSection, form.section, sectionOptions])
 
   useEffect(() => {
     setPlaceURLOpen(!!post?.place_link)

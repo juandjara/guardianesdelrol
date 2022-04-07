@@ -67,7 +67,7 @@ export default function SectionDetail() {
             className="text-base mt-2 ql-editor p-0"
             dangerouslySetInnerHTML={{ __html: section?.description }}></div>
         </header>
-        <Link href="/posts/edit/new">
+        <Link href={`/posts/edit/new?initialSection=${section?.id}`}>
           <a className="mx-4 hover:no-underline">
             <Button
               small
