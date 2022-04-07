@@ -10,6 +10,7 @@ import ImageKit from '@/components/ImageKit'
 import PostListItem from '@/components/posts/PostListItem'
 import useSections from '@/lib/useSections'
 import { useQueryParams } from '@/lib/useQueryParams'
+import AddIcon from '@/components/icons/AddIcon'
 
 export default function SectionDetail() {
   useAuthGuard()
@@ -66,6 +67,20 @@ export default function SectionDetail() {
             className="text-base mt-2 ql-editor p-0"
             dangerouslySetInnerHTML={{ __html: section?.description }}></div>
         </header>
+        <Link href="/posts/edit/new">
+          <a className="mx-4 hover:no-underline">
+            <Button
+              small
+              hasIcon="left"
+              className="my-1"
+              background="bg-red-500 hover:bg-red-400 hover:bg-opacity-100"
+              color="text-white"
+              border="border-none">
+              <AddIcon className="-ml-1" width={20} height={20} />
+              <span>Crear partida</span>
+            </Button>
+          </a>
+        </Link>
         <div className="space-y-6 p-4 pb-0">
           <div>
             <p className="text-base text-gray-400 mb-4 mr-2">
