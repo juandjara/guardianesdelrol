@@ -4,6 +4,9 @@ import makeAnimated from 'react-select/animated'
 
 const components = { ...makeAnimated(), DropdownIndicator: null }
 
+const ENTER_KEYCODE = 13
+const COMMA_KEYCODE = 188
+
 export default function TagsInput({ placeholder, value = [], onChange }) {
   const [inputValue, setInputValue] = useState('')
 
@@ -13,9 +16,9 @@ export default function TagsInput({ placeholder, value = [], onChange }) {
 
   function handleKeyDown(ev) {
     if (!inputValue) return
-    switch (ev.key) {
-      case 'Enter':
-      case ',':
+    switch (ev.keyCode) {
+      case ENTER_KEYCODE:
+      case COMMA_KEYCODE:
         ev.stopPropagation()
         ev.preventDefault()
         onChange([...value, { label: inputValue, value: inputValue }])
