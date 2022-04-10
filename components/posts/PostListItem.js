@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Avatar from '@/components/Avatar'
+import { formatDateTime } from './PostDetailTagLine'
 
 export default function PostListItem({ post }) {
   const numplayers = post.players?.length || 0
@@ -21,7 +22,11 @@ export default function PostListItem({ post }) {
         <Link href={`/posts/${post.id}/${post.slug}`}>
           <a className="text-sm text-gray-700">{post.name}</a>
         </Link>
-        <p className="text-sm text-gray-400">{numplayers} jugadores</p>
+        <div className="flex space-x-2">
+          <p className="text-sm text-gray-400">{numplayers} jugadores</p>
+          <span className="text-sm text-gray-400"> - </span>
+          <p className="text-sm text-gray-400">{formatDateTime(post)}</p>
+        </div>
       </div>
     </li>
   )

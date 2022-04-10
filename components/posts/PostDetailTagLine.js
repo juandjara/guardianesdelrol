@@ -28,7 +28,7 @@ function PlaceLink({ post }) {
   )
 }
 
-function formatDateTime({ date, time, label }) {
+export function formatDateTime({ date, time, label }) {
   const dateStr = new Date(date).toLocaleDateString('es', { dateStyle: 'medium' })
   const dateTime = `${dateStr} ${time || ''}`
   return label ? `${dateTime} - ${label}` : dateTime
