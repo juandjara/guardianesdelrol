@@ -26,6 +26,17 @@ export default function TagsInput({ placeholder, value = [], onChange }) {
     }
   }
 
+  function handleBlur(ev) {
+    const newTags = ev.target.value
+      .split(',')
+      .filter(Boolean)
+      .map(t => ({
+        value: t.trim(),
+        label: t.trim()
+      }))
+    onChange([...value, ...newTags])
+  }
+
   return (
     <CreatableSelect
       className="react-select"
@@ -35,6 +46,7 @@ export default function TagsInput({ placeholder, value = [], onChange }) {
       menuIsOpen={false}
       placeholder={placeholder}
       onInputChange={setInputValue}
+      onBlur={handleBlur}
       onKeyDown={handleKeyDown}
       onChange={handleChange}
       inputValue={inputValue}
